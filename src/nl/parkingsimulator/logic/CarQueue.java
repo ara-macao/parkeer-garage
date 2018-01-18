@@ -1,8 +1,9 @@
-package parksim;
+package nl.parkingsimulator.logic;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class CarQueue {
+public class CarQueue extends AbstractModel {
     private Queue<Car> queue = new LinkedList<>();
 
     public boolean addCar(Car car) {

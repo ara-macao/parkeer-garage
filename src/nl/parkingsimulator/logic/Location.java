@@ -1,4 +1,4 @@
-package parksim;
+package nl.parkingsimulator.logic;
 
 public class Location {
 
