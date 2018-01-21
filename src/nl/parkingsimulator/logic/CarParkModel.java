@@ -48,8 +48,6 @@ public class CarParkModel extends AbstractModel implements Runnable{
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
-        
-        notifyViews();
     }
     
     public void startSimulation(){
@@ -275,7 +273,6 @@ private void advanceTime(){
     	handleEntrance();
         
         tickCars();
-
     }
 
     public void tickCars() {

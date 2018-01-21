@@ -17,7 +17,7 @@ public class MVCMain {
         controller=new Controller(model);
         carParkView=new CarParkView(model);
 
-        screen=new JFrame("Model View Controller/Dynamic Model with thread");
+        screen=new JFrame("Parkeer garage");
         screen.setSize(1000, 500);
         screen.setResizable(false);
         screen.setLayout(null);
