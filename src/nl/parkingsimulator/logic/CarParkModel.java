@@ -309,8 +309,7 @@ private void advanceTime(){
         for (int i = 0; i < 10000; i++) {
             tick();
         }
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

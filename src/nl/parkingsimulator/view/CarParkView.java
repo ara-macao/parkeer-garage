@@ -10,8 +10,6 @@ import nl.parkingsimulator.logic.CarParkModel;
 import nl.parkingsimulator.logic.Location;
 
 public class CarParkView extends AbstractView {
-        private boolean run;
-        
         private Dimension size;
         private Image carParkImage;    
     
@@ -21,7 +19,6 @@ public class CarParkView extends AbstractView {
         public CarParkView(AbstractModel model) {
             super(model);
             size = new Dimension(0, 0);
-            run = true;
         }
     
         /**
