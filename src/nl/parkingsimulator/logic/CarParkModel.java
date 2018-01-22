@@ -70,7 +70,18 @@ public class CarParkModel extends AbstractModel implements Runnable{
     public int getNumberOfOpenSpots(){
     	return numberOfOpenSpots;
     }
-    
+
+    public int getDay(){
+        return  day;
+    }
+    public int getHour(){
+        return hour;
+    }
+    public int getMinute(){
+        return minute;
+    }
+
+
     public Car getCarAt(Location location) {
         if (!locationIsValid(location)) {
             return null;
