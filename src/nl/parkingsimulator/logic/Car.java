@@ -2,7 +2,7 @@ package nl.parkingsimulator.logic;
 
 import java.awt.*;
 
-public abstract class Car extends AbstractModel {
+public abstract class Car {
 
     private Location location;
     private int minutesLeft;
