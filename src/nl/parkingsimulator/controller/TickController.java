@@ -4,6 +4,7 @@ import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*; // temporaly
 
 public class TickController extends AbstractController implements ActionListener {
@@ -13,16 +14,18 @@ public class TickController extends AbstractController implements ActionListener
 
     public TickController(AbstractModel model) {
         super(model);
-        setSize(90, 130);
+        setSize(100, 200);
+        setBackground(Color.green);
 
         tickAmountField = new JTextField();
-        runButton = new JButton();
+        runButton = new JButton("Run");
 
 
         runButton.addActionListener(this);
         this.setLayout(null);
         tickAmountField.setBounds(10, 10, 70, 30);
         runButton.setBounds(10, 50, 70, 30);
+
 
         setVisible(true);
     }
