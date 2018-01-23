@@ -38,6 +38,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private Thread simThread = null;
     private boolean running = false;
     private boolean pause = false;
+    private int currectTick = 0;
 
     public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.numberOfFloors = numberOfFloors;
@@ -70,7 +71,21 @@ public class CarParkModel extends AbstractModel implements Runnable{
         }
     }
 
-    public void setAmountOfTicks(int ticks){amountOfTicks = ticks;}
+    public void setAmountOfTicks(int ticks){
+        amountOfTicks = ticks;
+    }
+
+    public int getAmountOfTicks(){
+        return amountOfTicks;
+    }
+
+    public int getTickProgress(){
+        return currectTick;
+    }
+
+    public void setTickPause(int tickPause){
+        this.tickPause = tickPause;
+    }
 
     public int getNumberOfFloors() {
         return numberOfFloors;
@@ -372,11 +387,13 @@ private void advanceTime(){
     @Override
     public void run() {
         running = true;
+        currectTick = 0;
 
         for (int i = 0; i < amountOfTicks; i++) {
             if(!running)
                 return;
 
+            currectTick++;
             tick();
             totalTicks++;
         }

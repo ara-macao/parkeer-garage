@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
@@ -24,10 +25,6 @@ public class PieChartView extends AbstractView {
         super(model);
     }
     
-    public void Button (){
-        JButton btnChangeView = new JButton("Change View");
-        btnChangeView.setBounds(60, 400, 220, 30);
-    }
     /**
      * Calculation of the Pie chart dimensions.
      */
@@ -51,12 +48,12 @@ public class PieChartView extends AbstractView {
     @Override
     public void paintComponent(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 200, 200);
+        g.fillRect(0, 0, 500, 500);
         
         g.setColor(Color.BLUE);
-        g.fillArc(10, 10, 180, 180, 0, 0);
-        g.setColor(Color.LIGHT_GRAY);
         g.fillArc(10, 10, 180, 180, 0, 360);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillArc(10, 10, 180, 180, 0, 5);
     }
 
     @Override

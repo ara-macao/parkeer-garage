@@ -3,15 +3,24 @@ package nl.parkingsimulator.view;
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class TimeView extends AbstractView {
+
+    JProgressBar progressBar;
 
     /**
      * Constructor for objects of class CarPark
      */
     public TimeView(AbstractModel model) {
         super(model);
+        setSize(getPreferredSize());
+        setLayout(null);
+        progressBar = new JProgressBar();
+        progressBar.setBounds(0,30, 300, 20);
+        progressBar.setMinimum(0);
+        add(progressBar);
     }
 
     @Override
@@ -19,6 +28,12 @@ public class TimeView extends AbstractView {
 
         // Update the view (repaint)
         //g.drawString("abc", 25, 25);
+        CarParkModel model = (CarParkModel) getModel();
+
+        if(model!= null){
+            progressBar.setMaximum(model.getAmountOfTicks());
+            progressBar.setValue(model.getTickProgress());
+        }
 
         super.updateView();
     }
