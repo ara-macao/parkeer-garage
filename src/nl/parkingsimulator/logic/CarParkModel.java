@@ -10,12 +10,10 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private int numberOfRows;
     private int numberOfPlaces;
     private int numberOfOpenSpots;
-    private Car[][][] cars;
-    
+    private Car[][][] cars;   
     
     private static final String AD_HOC = "1";
     private static final String PASS = "2";
-
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -27,6 +25,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private int minute = 0;
 
     private int tickPause = 100;
+    private int amountOfTicks = 1000;
 
     int weekDayArrivals= 100; // average number of arriving cars per hour
     int weekendArrivals = 200; // average number of arriving cars per hour
@@ -41,7 +40,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
-        this.numberOfOpenSpots =numberOfFloors*numberOfRows*numberOfPlaces;
+        this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
         entranceCarQueue = new CarQueue();
@@ -54,7 +53,9 @@ public class CarParkModel extends AbstractModel implements Runnable{
         // start simulation thread
         new Thread(this).start();
     }
-    
+
+    public void setAmountOfTicks(int ticks){amountOfTicks = ticks;}
+
     public int getNumberOfFloors() {
         return numberOfFloors;
     }
@@ -69,6 +70,10 @@ public class CarParkModel extends AbstractModel implements Runnable{
 
     public int getNumberOfOpenSpots(){
     	return numberOfOpenSpots;
+    }
+    
+    public int getNumberOfSpots() {
+        return numberOfFloors * numberOfRows * numberOfPlaces;
     }
 
     public int getDay(){
@@ -348,7 +353,7 @@ private void advanceTime(){
     public void run() {
         run = true;
         
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < amountOfTicks; i++) {
             tick();
         }
     }

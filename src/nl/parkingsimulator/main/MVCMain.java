@@ -11,7 +11,7 @@ public class MVCMain {
     private AbstractModel model;
     private JFrame screen;
     private AbstractView carParkView;
-    private AbstractController controller;
+    private AbstractController tickController;
     private AbstractView timeView;
     private AbstractView graphlineView;
 
@@ -20,7 +20,7 @@ public class MVCMain {
     public MVCMain() {
         
         model = new CarParkModel(3, 6, 30);
-        controller=new Controller(model);
+        tickController=new TickController(model);
 
         carParkView=new CarParkView(model);
         textView=new TextView(model);
@@ -28,22 +28,21 @@ public class MVCMain {
         graphlineView = new GraphlineView(model);
 
         screen=new JFrame("Parkeer garage");
-        screen.setSize(1000, 500);
+        screen.setSize(1200, 800);
         screen.setResizable(false);
         screen.setLayout(null);
 
-        addNewView(screen, carParkView, 0, 50, 1000, 400);
-        addNewView(screen, textView, 100, 0, 300, 100);
-        addNewView(screen, timeView, 400, 0, 200, 50);
-        addNewView(screen, graphlineView, 600, 0, 100, 50);
+        addNewElement(carParkView, 0, 50, 1000, 400);
+        addNewElement(textView, 100, 0, 300, 100);
+        addNewElement(timeView, 400, 0, 200, 50);
+        addNewElement(graphlineView, 10, 460, 1000, 300);
+        addNewElement(tickController, 440, 10, 90, 130);
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
         graphlineView.setOpaque(false);
 
-        screen.getContentPane().add(controller);
 
-        controller.setBounds(0, 210, 450, 50);
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
 
@@ -67,7 +66,7 @@ public class MVCMain {
     }
 
 
-    public void addNewView(JFrame screen, AbstractView view, int x, int y, int width, int height){
+    public void addNewElement(JPanel view, int x, int y, int width, int height){
         screen.getContentPane().add(view);
         view.setBounds(x,y,width, height);
     }
