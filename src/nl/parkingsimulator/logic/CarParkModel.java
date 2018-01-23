@@ -81,6 +81,40 @@ public class CarParkModel extends AbstractModel implements Runnable{
         return minute;
     }
 
+    public String getDayName(){
+
+        String dayName = "";
+
+        switch (day){
+            case 0:
+                dayName = "Maandag";
+                break;
+            case 1:
+                dayName = "Dinsdag";
+                break;
+            case 2:
+                dayName = "Woensdag";
+                break;
+            case 3:
+                dayName = "Donderdag";
+                break;
+            case 4:
+                dayName = "Vrijdag";
+                break;
+            case 5:
+                dayName = "Zaterdag";
+                break;
+            case 6:
+                dayName = "Zondag";
+                break;
+            default:
+                dayName = "Error occured";
+                break;
+        }
+
+        return dayName;
+    }
+
 
     public Car getCarAt(Location location) {
         if (!locationIsValid(location)) {

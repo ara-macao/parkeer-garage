@@ -34,8 +34,12 @@ public class MVCMain {
 
         addNewView(screen, carParkView, 0, 50, 1000, 400);
         addNewView(screen, textView, 100, 0, 300, 100);
+<<<<<<< HEAD
         addNewView(screen, timeView, 400, 0, 100, 50);
         addNewView(screen, graphlineView, 600, 0, 100, 50);
+=======
+        addNewView(screen, timeView, 400, 0, 200, 50);
+>>>>>>> d4adba4e1943108d2e308826f76283686868bf0a
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into

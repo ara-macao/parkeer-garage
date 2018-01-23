@@ -35,26 +35,27 @@ public class TimeView extends AbstractView {
         CarParkModel model = (CarParkModel) getModel();
 
         if(model != null){
-            String tijd = "";
+            String time = "";
 
-            String dag = "Dag:" + model.getDay();
+            String dag = model.getDayName();
 
             int hour = model.getHour();
             int minute = model.getMinute();
+            int max = 10;
 
-            if(hour < 10)
-                tijd += "0" + hour;
-            else
-                tijd += hour;
+            time += getDoubleTime(hour, max);
+            time += ":";
+            time += getDoubleTime(minute, max);
 
-            tijd += ":";
+            g.drawString(dag + " - " + time, 25, 25);
+        }
+    }
 
-            if(minute < 10)
-                tijd += "0" + minute;
-            else
-                tijd += minute;
-
-            g.drawString(dag + " - " + tijd, 25, 25);
+    private String getDoubleTime(int number, int max){
+        if(number < max){
+            return "0" + number;
+        }else{
+            return Integer.toString(number);
         }
     }
 }
