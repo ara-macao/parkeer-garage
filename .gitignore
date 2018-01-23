@@ -4,6 +4,8 @@ nbproject/*
 
 build/*
 
+build.xml
+
 out/*
 
 *.iml
