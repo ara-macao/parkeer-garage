@@ -14,13 +14,14 @@ public class MVCMain {
     private AbstractController tickController;
     private AbstractView timeView;
     private AbstractView graphlineView;
-
+    private AbstractController pieChartController;
     private TextView textView;
 
     public MVCMain() {
         
         model = new CarParkModel(3, 6, 30);
         tickController=new TickController(model);
+        pieChartController=new PieChartController(model);
 
         carParkView=new CarParkView(model);
         textView=new TextView(model);
@@ -55,13 +56,17 @@ public class MVCMain {
          */
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Taart Diagram");
+        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setBackground(Color.white);
-        frame.setSize(300, 200);
+        frame.setSize(200, 350);
 
         PieChartView panel;
         panel = new PieChartView(model);
         frame.add(panel);
+        frame.add(pieChartController);
+        panel.setBounds(0, 0, 200, 200);
+        pieChartController.setBounds(0, 200, 200, 100);
         frame.setVisible(true);
     }
 
