@@ -28,14 +28,14 @@ public class MVCMain {
         graphlineView = new GraphlineView(model);
 
         screen=new JFrame("Parkeer garage");
-        screen.setSize(1000, 500);
+        screen.setSize(1200, 800);
         screen.setResizable(false);
         screen.setLayout(null);
 
         addNewElement(carParkView, 0, 50, 1000, 400);
         addNewElement(textView, 100, 0, 300, 100);
         addNewElement(timeView, 400, 0, 200, 50);
-        addNewElement(graphlineView, 600, 0, 100, 50);
+        addNewElement(graphlineView, 10, 460, 1000, 300);
         addNewElement(tickController, 440, 10, 90, 130);
 
         timeView.setOpaque(false);

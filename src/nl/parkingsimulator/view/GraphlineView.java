@@ -33,12 +33,13 @@ public class GraphlineView extends AbstractView {
     @Override
     public void paintComponent(Graphics g) {
         Dimension dim = this.getSize();
-        g.setColor(Color.GRAY);
+        g.setColor(Color.CYAN);
         g.fillRect(0, 0, dim.width, dim.height); // Background.
         
+        g.setColor(Color.BLACK);
         g.drawString(" TEST " + dim.width, 25, 25);
         
-        createGraphHolder(g);
+        createGraphHolder(g, dim);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class GraphlineView extends AbstractView {
         super.updateView();
     }
     
-    private void createGraphHolder(Graphics g) {
-        
+    private void createGraphHolder(Graphics g, Dimension dim) {
+        g.drawString("0", 0, dim.height); // 0 in the left under corner.
     }
 }
