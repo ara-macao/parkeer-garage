@@ -48,6 +48,21 @@ public class MVCMain {
 
         //CarParkModel carModel = (CarParkModel)model;
         //carModel.startSimulation();
+
+        /**
+         * Window with the PieChartView
+         * Spawns window 
+         */
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame("Taart Diagram");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setBackground(Color.white);
+        frame.setSize(300, 200);
+
+        PieChartView panel;
+        panel = new PieChartView(model);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
 
