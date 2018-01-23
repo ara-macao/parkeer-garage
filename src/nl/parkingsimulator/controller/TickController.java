@@ -14,17 +14,20 @@ public class TickController extends AbstractController implements ActionListener
 
     public TickController(AbstractModel model) {
         super(model);
-        setSize(100, 200);
+        setSize(140, 300);
         setBackground(Color.green);
 
         tickAmountField = new JTextField();
         runButton = new JButton("Run");
-
-
         runButton.addActionListener(this);
+
         this.setLayout(null);
-        tickAmountField.setBounds(10, 10, 70, 30);
-        runButton.setBounds(10, 50, 70, 30);
+
+        add(tickAmountField);
+        add(runButton);
+
+        tickAmountField.setBounds(10, 10, 120, 30);
+        runButton.setBounds(10, 50, 120, 30);
 
 
         setVisible(true);
@@ -37,8 +40,11 @@ public class TickController extends AbstractController implements ActionListener
 
             if(parkModel != null){
                 int tickAmount = parseIntValue(tickAmountField);
-                parkModel.setAmountOfTicks(tickAmount);
-                parkModel.startSimulation();
+
+                if(tickAmount > 0){
+                    parkModel.setAmountOfTicks(tickAmount);
+                    parkModel.startSimulation();
+                }
             }
 
         } catch (Exception ex) {

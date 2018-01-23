@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class CarParkModel extends AbstractModel implements Runnable{
 
-    private boolean run;
-    
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
@@ -36,6 +34,10 @@ public class CarParkModel extends AbstractModel implements Runnable{
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
+    private Thread simThread = null;
+    private boolean running = false;
+    private boolean pause = false;
+
     public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
@@ -47,11 +49,24 @@ public class CarParkModel extends AbstractModel implements Runnable{
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
+        simThread = new Thread(this);
     }
     
     public void startSimulation(){
-        // start simulation thread
-        new Thread(this).start();
+        // check if the thread is running
+        if(simThread.isAlive()){
+            System.out.println("Already running!");
+            //running = false;
+        }else{
+            simThread = new Thread(this);
+            simThread.start();
+        }
+    }
+
+    public void stopSimulation(){
+        if(simThread.isAlive()) {
+            running = false;
+        }
     }
 
     public void setAmountOfTicks(int ticks){amountOfTicks = ticks;}
@@ -351,10 +366,15 @@ private void advanceTime(){
 
     @Override
     public void run() {
-        run = true;
-        
+        running = true;
+
         for (int i = 0; i < amountOfTicks; i++) {
+            if(!running)
+                return;
+
             tick();
         }
+
+        running = false;
     }
 }
