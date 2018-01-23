@@ -69,7 +69,13 @@ public class CarParkModel extends AbstractModel implements Runnable{
         }
     }
 
-    public void setAmountOfTicks(int ticks){amountOfTicks = ticks;}
+    public void setAmountOfTicks(int ticks){
+        amountOfTicks = ticks;
+    }
+
+    public void setTickPause(int tickPause){
+        this.tickPause = tickPause;
+    }
 
     public int getNumberOfFloors() {
         return numberOfFloors;
