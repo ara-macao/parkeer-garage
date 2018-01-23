@@ -18,7 +18,9 @@ public class MVCMain {
     private TextView textView;
 
     public MVCMain() {
-        
+
+        new MVCScreen();
+
         model = new CarParkModel(3, 6, 30);
         tickController=new TickController(model);
         pieChartController=new PieChartController(model);
