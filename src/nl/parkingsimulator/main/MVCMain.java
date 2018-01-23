@@ -33,10 +33,10 @@ public class MVCMain {
         screen.setLayout(null);
 
         addNewElement(carParkView, 0, 50, 1000, 400);
-        addNewElement(textView, 100, 0, 300, 100);
+        addNewElement(textView, 50, 0, 300, 100);
         addNewElement(timeView, 400, 0, 200, 50);
-        addNewElement(graphlineView, 10, 460, 1000, 300);
-        addNewElement(tickController, 440, 10, 90, 130);
+        addNewElement(graphlineView, 10, 460, 600, 300);
+        addNewElement(tickController, 650, 460, 140, 300);
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
@@ -46,8 +46,23 @@ public class MVCMain {
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
 
-        CarParkModel carModel = (CarParkModel)model;
-        carModel.startSimulation();
+        //CarParkModel carModel = (CarParkModel)model;
+        //carModel.startSimulation();
+
+        /**
+         * Window with the PieChartView
+         * Spawns window 
+         */
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame("Taart Diagram");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setBackground(Color.white);
+        frame.setSize(300, 200);
+
+        PieChartView panel;
+        panel = new PieChartView(model);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
 
