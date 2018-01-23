@@ -15,14 +15,12 @@ public class TimeView extends AbstractView {
      */
     public TimeView(AbstractModel model) {
         super(model);
-
         setSize(getPreferredSize());
+        setLayout(null);
         progressBar = new JProgressBar();
-        progressBar.setBounds(0,80, 300, 20);
+        progressBar.setBounds(0,30, 300, 20);
         progressBar.setMinimum(0);
         add(progressBar);
-
-
     }
 
     @Override
