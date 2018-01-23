@@ -15,12 +15,19 @@ import nl.parkingsimulator.logic.CarParkModel;
  * @author Thom
  */
 public class GraphlineView extends AbstractView { 
+    private int numberOfOpenSpots;
+    private int numberOfSpots;
+    private int currentMinute;
 
     /**
      * Constructor for objects of class CarPark
      */
     public GraphlineView(AbstractModel model) {
         super(model);
+
+        numberOfOpenSpots = 0;
+        numberOfSpots = 0;
+        currentMinute = 0;
     }
 
     /**
@@ -46,17 +53,19 @@ public class GraphlineView extends AbstractView {
     public void updateView() {
         CarParkModel model = (CarParkModel)getModel();
          
-        int numberOfOpenSpots = model.getNumberOfOpenSpots();
-        int numberOfSpots = model.getNumberOfSpots();
+        numberOfOpenSpots = model.getNumberOfOpenSpots();
+        numberOfSpots = model.getNumberOfSpots();
+        currentMinute = model.getMinute();
         
-        System.out.println(numberOfOpenSpots + " " + numberOfSpots);
+        //System.out.println(numberOfOpenSpots + " " + numberOfSpots);
         
-
         // Update the view (repaint)
         super.updateView();
     }
     
     private void createGraphHolder(Graphics g, Dimension dim) {
         g.drawString("0", 0, dim.height); // 0 in the left under corner.
+        g.drawString(String.valueOf(numberOfSpots), 0, 10); // Number of total spots in the left upper corner. 10 for font height.
+        //g.drawString(String.valueOf(currentMinute), dim.width - g.getFontMetrics().stringWidth(String.valueOf(currentMinute)), dim.height);
     }
 }
