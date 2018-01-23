@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/view/CarParkView.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/Car.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/runner/MVCRunner.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/controller/AbstractController.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/ParkingPassCar.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/Location.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/view/AbstractView.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/AdHocCar.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/CarParkModel.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/AbstractModel.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/controller/Controller.java</file>
-            <file>file:/D:/Projects%202017/Mvc%20start/src/nl/parkingsimulator/logic/CarQueue.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
