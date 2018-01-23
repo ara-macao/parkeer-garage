@@ -10,12 +10,10 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private int numberOfRows;
     private int numberOfPlaces;
     private int numberOfOpenSpots;
-    private Car[][][] cars;
-    
+    private Car[][][] cars;   
     
     private static final String AD_HOC = "1";
     private static final String PASS = "2";
-
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -42,7 +40,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
-        this.numberOfOpenSpots =numberOfFloors*numberOfRows*numberOfPlaces;
+        this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
         entranceCarQueue = new CarQueue();
@@ -72,6 +70,10 @@ public class CarParkModel extends AbstractModel implements Runnable{
 
     public int getNumberOfOpenSpots(){
     	return numberOfOpenSpots;
+    }
+    
+    public int getNumberOfSpots() {
+        return numberOfFloors * numberOfRows * numberOfPlaces;
     }
 
     public int getDay(){

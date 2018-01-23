@@ -37,18 +37,25 @@ public class GraphlineView extends AbstractView {
         g.fillRect(0, 0, dim.width, dim.height); // Background.
         
         g.drawString(" TEST " + dim.width, 25, 25);
-
+        
+        createGraphHolder(g);
     }
 
     @Override
     public void updateView() {
-         CarParkModel model = (CarParkModel)getModel();
+        CarParkModel model = (CarParkModel)getModel();
+         
+        int numberOfOpenSpots = model.getNumberOfOpenSpots();
+        int numberOfSpots = model.getNumberOfSpots();
+        
+        System.out.println(numberOfOpenSpots + " " + numberOfSpots);
+        
 
         // Update the view (repaint)
         super.updateView();
     }
     
-    private void createGraphHolder() {
+    private void createGraphHolder(Graphics g) {
         
     }
 }
