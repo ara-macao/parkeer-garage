@@ -13,7 +13,7 @@ import nl.parkingsimulator.logic.CarParkModel;
 
 /**
  * PieChartView - This chart shows the amount of regular users and parking subscribers.
- * @author GraphX
+ * @author Robin de Man
  */
 
 public class PieChartView extends AbstractView { 
@@ -31,6 +31,7 @@ public class PieChartView extends AbstractView {
     public void PieChartCalc(){
         //dummytext
     }
+    
     /**
      * Overridden. Tell the GUI manager how big we would like to be.
      * @return 
@@ -54,14 +55,6 @@ public class PieChartView extends AbstractView {
         g.fillArc(10, 10, 180, 180, 0, 360);
         g.setColor(Color.LIGHT_GRAY);
         g.fillArc(10, 10, 180, 180, 0, 5);
-    }
-
-    @Override
-    public void updateView() {
-        //CarParkModel model = (CarParkModel)getModel();
-        // Update the view (repaint)
-        //super.updateView();
-
     }
 }
 
