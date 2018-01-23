@@ -23,10 +23,12 @@ public class TickController extends AbstractController implements ActionListener
         setBackground(Color.green);
 
         tickAmountField = new JTextField();
+        tickAmountField.setText("10080");  // 10080 = week,    1440 = dag
         runButton = new JButton("Run");
         runButton.addActionListener(this);
 
         tickPauseField = new JTextField();
+        tickPauseField.setText("100");
         tickPauseButton = new JButton("Set tick pause");
         tickPauseButton.addActionListener(this);
 

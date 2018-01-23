@@ -11,10 +11,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import nl.parkingsimulator.logic.AbstractModel;
+import nl.parkingsimulator.logic.CarParkModel;
 
 /**
  * PieChartController is used to swap the values for the pie chart.
- * @author GraphX
+ * @author Robin de Man
  */
 public class PieChartController extends AbstractController implements ActionListener {
     private JButton ChangeViewButton;
@@ -37,7 +38,10 @@ public class PieChartController extends AbstractController implements ActionList
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == ChangeViewButton){
+            
+        }
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

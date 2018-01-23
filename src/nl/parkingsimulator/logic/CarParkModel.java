@@ -24,6 +24,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
 
     private int tickPause = 100;
     private int amountOfTicks = 1000;
+    private int totalTicks = 0;
 
     int weekDayArrivals= 100; // average number of arriving cars per hour
     int weekendArrivals = 200; // average number of arriving cars per hour
@@ -107,13 +108,17 @@ public class CarParkModel extends AbstractModel implements Runnable{
     }
 
     public int getDay(){
-        return  day;
+        return day;
     }
     public int getHour(){
         return hour;
     }
     public int getMinute(){
         return minute;
+    }
+    
+    public int getTotalTicks() {
+        return totalTicks;
     }
 
     public String getDayName(){
@@ -390,6 +395,7 @@ private void advanceTime(){
 
             currectTick++;
             tick();
+            totalTicks++;
         }
 
         running = false;
