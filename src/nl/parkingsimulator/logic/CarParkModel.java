@@ -90,6 +90,14 @@ public class CarParkModel extends AbstractModel implements Runnable{
         this.tickPause = tickPause;
     }
 
+    public synchronized void setPauseState(boolean state){
+        pause = state;
+
+        if(!pause){
+            notify();
+        }
+    }
+
     public int getNumberOfFloors() {
         return numberOfFloors;
     }
@@ -436,6 +444,16 @@ private void advanceTime(){
         for (int i = 0; i < amountOfTicks; i++) {
             if(!running)
                 return;
+
+            synchronized (this){
+                try {
+                    while(pause){
+                        wait();
+                    }
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
 
             currectTick++;
             tick();
