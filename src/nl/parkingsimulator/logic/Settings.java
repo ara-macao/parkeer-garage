@@ -24,6 +24,33 @@ public class Settings {
     private String screenName = "Parkeer Simulator";
 
     // Default position and size values for the screens.
+<<<<<<< HEAD
+    public final Point pieChartPosition = new Point(0, 0);
+    public final Dimension pieChartDimensions = new Dimension(200, 350);
+    public final String pieChartName = "Taart Grafiek";
+    
+    public final Point tickControllerPosition = new Point(1200, 0);
+    public final Dimension tickControllerDimensions = new Dimension(300, 300);
+    public final String tickControllerName = "Start";
+    
+    public final Point graphLinePosition = new Point(10, 460);
+    public final Dimension graphLineDimensions = new Dimension(700, 500);
+    public final String graphLineName = "Grafiek";
+
+    public final Point reservationsPosition = new Point(1200, 310);
+    public final Dimension reservationsDimensions = new Dimension(300, 200);
+    public final String reservationsName = "Reserveringen";
+    
+    public final Point carParkViewPosition = new Point(0, 50);
+    public final Dimension carParkViewDimensions = new Dimension(1000, 400);
+    
+    public final Point textViewPosition = new Point(50, 0);
+    public final Dimension textViewDimensions = new Dimension(300, 100);
+    
+    public final Point timeViewPosition = new Point(400, 0);
+    public final Dimension timeViewDimensions = new Dimension(200, 50);
+    
+=======
     private Point pieChartPosition = new Point(0, 0);
     private Dimension pieChartDimensions = new Dimension(200, 350);
     private String pieChartName = "Taart Grafiek";
@@ -44,6 +71,7 @@ public class Settings {
 
     private Point timeViewPosition = new Point(400, 0);
     private Dimension timeViewDimensions = new Dimension(200, 50);
+>>>>>>> 5bb52ea97dc59e9f62dbc7e9e2072b915a393a12
     
     // Getters for CarParkModel.
     public int getParkingFloors() { return parkingFloors; }
