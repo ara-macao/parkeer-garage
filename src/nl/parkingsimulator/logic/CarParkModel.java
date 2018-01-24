@@ -328,7 +328,9 @@ private void advanceTime(){
                     Location location = new Location(floor, row, place);
                     Car car = getCarAt(location);
                     if (car != null) {
-                        revenueNotPayed += 1;
+                        if(car.getHasToPay()){
+                            revenueNotPayed += 1;
+                        }
                     }
                 }
             }
