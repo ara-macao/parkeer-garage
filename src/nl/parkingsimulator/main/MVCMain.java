@@ -28,7 +28,7 @@ public class MVCMain {
 
         settings = new Settings();
 
-        model = new CarParkModel(settings.getParkingFloors(), settings.getParkingRows(), settings.getParkingPlacesPerRow(), settings);
+        model = new CarParkModel(settings);
         tickController = new TickController(model);
         pieChartController = new PieChartController(model);
 
