@@ -45,7 +45,7 @@ public class Settings {
      *  Default position and size values for the screens.
      */
     private Point pieChartPosition = new Point(0, 0);
-    private Dimension pieChartDimensions = new Dimension(250, 350);
+    private Dimension pieChartDimensions = new Dimension(200, 275);
     private String pieChartName = "Taart Grafiek";
 
     private Point tickControllerPosition = new Point(1200, 0);

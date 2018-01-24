@@ -79,9 +79,14 @@ public class MVCMain {
         panel.setBounds(0, 0, 200, 200);
         pieChartController.setBounds(0, 200, 200, 100);
         frame.setVisible(true); */
-        
+
         Frame pieChartFrame = windowBuilder(settings.getPieChartName(), Color.red, settings.getPieChartDimensions(), settings.getPieChartPosition());
+        PieChartView panel;
+        panel = new PieChartView(model);
+        panel.setBounds(0, 0, 200, 200);
+        pieChartFrame.add(panel);
         pieChartFrame.add(pieChartController);
+        pieChartController.setBounds(0, 200, 200, 40);
 
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), Color.red, settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);

@@ -21,17 +21,17 @@ public class PieChartController extends AbstractController implements ActionList
     
     public PieChartController(AbstractModel model) {    
         super(model);
-        setSize(140, 300);
+        setSize(200, 30);
+
         //setBackground(Color.green);
 
         ChangeViewButton = new JButton("Change View");
         ChangeViewButton.addActionListener(this);
 
-        this.setLayout(null);
-
+        setLayout(null);
         add(ChangeViewButton);
 
-        ChangeViewButton.setBounds(140, 150, 120, 30);
+        ChangeViewButton.setBounds(40, 0, 120, 30);
 
         setVisible(true);
     }
