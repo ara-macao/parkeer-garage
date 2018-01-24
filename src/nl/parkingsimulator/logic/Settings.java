@@ -37,38 +37,39 @@ public class Settings {
     /**
      *  Settings of the main screen.
      */
-    private Dimension screenDimension = new Dimension(1200, 800);
+    private Dimension screenDimension = new Dimension(880, 550);
     private boolean screenIsResizable = false;
     private String screenName = "Parkeer Simulator";
 
     /**
      *  Default position and size values for the screens.
      */
-    private Point pieChartPosition = new Point(1500, 0);
-    private Dimension pieChartDimensions = new Dimension(200, 275);
-    private String pieChartName = "Taart Grafiek";
 
-    private Point tickControllerPosition = new Point(1200, 0);
-    private Dimension tickControllerDimensions = new Dimension(300, 300);
+    private Point carParkViewPosition = new Point(50, 50); // positions all elements
+    private Dimension carParkViewDimensions = new Dimension(screenDimension.width, screenDimension.height);
+
+    private Point tickControllerPosition = new Point(carParkViewPosition.x+carParkViewDimensions.width, carParkViewPosition.y);
+    private Dimension tickControllerDimensions = new Dimension(300, 200);
     private String tickControllerName = "Start";
 
-    private Point graphLinePosition = new Point(10, 460);
-    private Dimension graphLineDimensions = new Dimension(700, 500);
-    private String graphLineName = "Grafiek";
-
-    private Point reservationsPosition = new Point(1200, 305);
+    private Point reservationsPosition = new Point(carParkViewPosition.x+carParkViewDimensions.width, carParkViewPosition.y + getTickControllerDimensions().height);
     private Dimension reservationsDimensions = new Dimension(300, 300);
     private String reservationsName = "Resarveringen";
 
-    private Point carParkViewPosition = new Point(0, 50);
-    private Dimension carParkViewDimensions = new Dimension(1000, 400);
+    private Point graphLinePosition = new Point(carParkViewPosition.x, carParkViewPosition.y + carParkViewDimensions.height);
+    private Dimension graphLineDimensions = new Dimension(700, 500);
+    private String graphLineName = "Grafiek";
 
     private Point textViewPosition = new Point(50, 0);
     private Dimension textViewDimensions = new Dimension(300, 100);
 
     private Point timeViewPosition = new Point(400, 0);
     private Dimension timeViewDimensions = new Dimension(200, 50);
-    
+
+    private Point pieChartPosition = new Point(carParkViewPosition.x+graphLineDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
+    private Dimension pieChartDimensions = new Dimension(200, 275);
+    private String pieChartName = "Taart Grafiek";
+
     /**
      *  Getters for CarParkModel.
      */
