@@ -20,31 +20,31 @@ public class MVCMain {
     private AbstractController pieChartController;
     private TextView textView;
     
-    private Settings s;
+    private Settings settings;
 
     public MVCMain() {
 
         new MVCScreen(); // Testing screen
 
-        s = new Settings();
+        settings = new Settings();
 
-        model = new CarParkModel(s.parkingFloors, s.parkingRows, s.parkingPlacesPerRow);
+        model = new CarParkModel(settings);
         tickController = new TickController(model);
         pieChartController = new PieChartController(model);
 
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
-        graphLineView = new GraphlineView(model, s.graphLineDimensions);
+        graphLineView = new GraphlineView(model, settings.graphLineDimensions);
 
-        screen = new JFrame(s.screenName);
-        screen.setSize(s.screenDimension);
-        screen.setResizable(s.screenIsResizable);
+        screen = new JFrame(settings.screenName);
+        screen.setSize(settings.screenDimension);
+        screen.setResizable(settings.screenIsResizable);
         screen.setLayout(null);
 
-        addNewElement(carParkView, s.carParkViewPosition.x, s.carParkViewPosition.y, s.carParkViewDimensions.width, s.carParkViewDimensions.height);
-        addNewElement(textView, s.textViewPosition.x, s.textViewPosition.y, s.textViewDimensions.width, s.textViewDimensions.height);
-        addNewElement(timeView, s.timeViewPosition.x, s.timeViewPosition.y, s.timeViewDimensions.width, s.timeViewDimensions.height);
+        addNewElement(carParkView, settings.carParkViewPosition.x, settings.carParkViewPosition.y, settings.carParkViewDimensions.width, settings.carParkViewDimensions.height);
+        addNewElement(textView, settings.textViewPosition.x, settings.textViewPosition.y, settings.textViewDimensions.width, settings.textViewDimensions.height);
+        addNewElement(timeView, settings.timeViewPosition.x, settings.timeViewPosition.y, settings.timeViewDimensions.width, settings.timeViewDimensions.height);
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
@@ -78,13 +78,13 @@ public class MVCMain {
         pieChartController.setBounds(0, 200, 200, 100);
         frame.setVisible(true);
         
-        //Frame pieChartFrame = windowBuilder(s.pieChartName, Color.red, s.pieChartDimensions, s.pieChartPosition);
+        //Frame pieChartFrame = windowBuilder(settings.pieChartName, Color.red, settings.pieChartDimensions, settings.pieChartPosition);
         //pieChartFrame.add(pieChartController);
 
-        JFrame controllerFrame = windowBuilder(s.tickControllerName, Color.red, s.tickControllerDimensions, s.tickControllerPosition);
+        JFrame controllerFrame = windowBuilder(settings.tickControllerName, Color.red, settings.tickControllerDimensions, settings.tickControllerPosition);
         controllerFrame.add(tickController);
         
-        JFrame graphLineFrame = windowBuilder(s.graphLineName, Color.red, s.graphLineDimensions , s.graphLinePosition);
+        JFrame graphLineFrame = windowBuilder(settings.graphLineName, Color.red, settings.graphLineDimensions , settings.graphLinePosition);
         graphLineFrame.add(graphLineView);
     }
 

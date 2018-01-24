@@ -14,9 +14,9 @@ import java.awt.Point;
  */
 public class Settings {
     // These three values are needed to calculate the size of the parking lot.
-    public final int parkingFloors = 3;
-    public final int parkingRows = 6;
-    public final int parkingPlacesPerRow = 30;
+    private int parkingFloors = 3;
+    private int parkingRows = 6;
+    private int parkingPlacesPerRow = 30;
     
     // Settings of the main screen.
     public final Dimension screenDimension = new Dimension(1200, 800);
@@ -44,5 +44,10 @@ public class Settings {
     
     public final Point timeViewPosition = new Point(400, 0);
     public final Dimension timeViewDimensions = new Dimension(200, 50);
+    
+    
+    public int getParkingFloors() { return parkingFloors; }
+    public int getParkingRows() { return parkingRows; }
+    public int getParkingPlacesPerRow() { return parkingPlacesPerRow; }
 }
 

@@ -42,15 +42,21 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private Thread simThread = null;
     private boolean running = false;
     private boolean pause = false;
-    private int currectTick = 0;
+    private int currentTick = 0;
+    private Settings settings;
 
-    int dayRevenue = 0;
-    int revenueNotPayed = 0;
 
-    public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
-        this.numberOfFloors = numberOfFloors;
-        this.numberOfRows = numberOfRows;
-        this.numberOfPlaces = numberOfPlaces;
+    private double hourPrice = 1.2;
+    private double dayRevenue = 0;
+    private double revenueNotPayed = 0;
+
+    public CarParkModel(Settings settings) {
+        this.settings = settings;
+
+        this.numberOfFloors = settings.getParkingFloors();
+        this.numberOfRows = settings.getParkingRows();
+        this.numberOfPlaces = settings.getParkingPlacesPerRow();
+        
         this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
@@ -87,7 +93,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
     }
 
     public int getTickProgress(){
-        return currectTick;
+        return currentTick;
     }
 
     public void setTickPause(int tickPause){
@@ -235,7 +241,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
         return null;
     }
     
-private void advanceTime(){
+private void advanceTime() {
         // Advance the time by one minute.
         minute++;
         while (minute > 59) {
@@ -312,15 +318,18 @@ private void advanceTime(){
     	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
             Car car = paymentCarQueue.removeCar();
             // TODO Handle payment.
-            addRevenue(1);
-
+            addRevenue(car);
             carLeavesSpot(car);
             i++;
     	}
     }
 
-    private void addRevenue(int amount){
-        dayRevenue += amount;
+    private void addRevenue(Car car){
+        dayRevenue += calculatePrice(car);
+    }
+
+    private double calculatePrice(Car car){
+        return (double)(car.getTotalMinuteParket()) * (hourPrice /60);
     }
 
     private void calculateRevenueNotPayed(){
@@ -333,7 +342,7 @@ private void advanceTime(){
                     Car car = getCarAt(location);
                     if (car != null) {
                         if(car.getHasToPay()){
-                            revenueNotPayed += 1;
+                            revenueNotPayed += calculatePrice(car);
                         }
                     }
                 }
@@ -424,11 +433,11 @@ private void advanceTime(){
         dayRevenue = 0;
     }
 
-    public int getRevenue(){
+    public double getRevenue(){
         return dayRevenue;
     }
 
-    public int getRevenueNotPayed(){
+    public double getRevenueNotPayed(){
         return revenueNotPayed;
     }
 
@@ -445,7 +454,7 @@ private void advanceTime(){
     @Override
     public void run() {
         running = true;
-        currectTick = 0;
+        currentTick = 0;
 
         for (int i = 0; i < amountOfTicks; i++) {
             if(!running)
@@ -461,7 +470,7 @@ private void advanceTime(){
                 }
             }
 
-            currectTick++;
+            currentTick++;
             tick();
             totalTicks++;
         }

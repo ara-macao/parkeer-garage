@@ -1,11 +1,7 @@
-.idea/*
+# Ignore everything...
+*
 
-nbproject/*
-
-build/*
-
-build.xml
-
-out/*
-
-*.iml
+# Except...
+!/.gitignore
+!/src/*
+!/LICENSE
