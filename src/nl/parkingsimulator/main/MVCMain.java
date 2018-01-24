@@ -63,6 +63,7 @@ public class MVCMain {
         
         // TODO implement PieChartView just like controller frame and graphlineFrame
         
+        /**
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Taart Diagram");
         frame.setLayout(null);
@@ -76,10 +77,10 @@ public class MVCMain {
         frame.add(pieChartController);
         panel.setBounds(0, 0, 200, 200);
         pieChartController.setBounds(0, 200, 200, 100);
-        frame.setVisible(true);
+        frame.setVisible(true); */
         
-        //Frame pieChartFrame = windowBuilder(settings.pieChartName, Color.red, settings.pieChartDimensions, settings.pieChartPosition);
-        //pieChartFrame.add(pieChartController);
+        Frame pieChartFrame = windowBuilder(settings.getPieChartName(), Color.red, settings.getPieChartDimensions(), settings.getPieChartPosition());
+        pieChartFrame.add(pieChartController);
 
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), Color.red, settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
@@ -97,7 +98,7 @@ public class MVCMain {
     /**
      * Creates a frame to be used for the viewers and controllers
      * @param title the title for the frame
-     * @param backgroundColor the backgroundcolor for the frame
+     * @param backgroundColor the background color for the frame
      * @param dimension the dimension of the frame
      * @param location the location of the frame i the screen
      * @return the frame that has been made

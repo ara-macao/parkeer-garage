@@ -12,8 +12,8 @@ import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
 /**
- * PieChartView - This chart shows the amount of regular users and parking subscribers.
- * @author GraphX
+ * PieChartView - This chart shows a pie chart of the current spots in use.
+ * @author Robin de Man
  */
 
 public class PieChartView extends AbstractView { ;
@@ -23,6 +23,8 @@ public class PieChartView extends AbstractView { ;
     private int takenSpots;
     private double percOpenSpots;
     private double percTakenSpots;
+    private int degrees;
+    private int startPosition;
     /**
      * Constructor for objects of class CarPark
      * @param model
@@ -35,15 +37,14 @@ public class PieChartView extends AbstractView { ;
      * Calculation of the Pie chart slices.
      */
     public void PieChartCalc(){
-
         CarParkModel model = (CarParkModel)getModel();
         model.getNumberOfSpots();
         if(model != null){
-            openSpots = model.getNumberOfSpots();
-            totalSpots = model.getNumberOfPlaces();
+            openSpots = model.getNumberOfOpenSpots();
+            totalSpots = model.getNumberOfSpots();
             takenSpots = totalSpots - openSpots;
-            percOpenSpots = ((openSpots * 100.0f) / totalSpots) * 3.6;
-            percTakenSpots = ((takenSpots * 100.0f) / totalSpots) * 3.6;
+            percOpenSpots = (openSpots * 100.0f) / totalSpots;
+            percTakenSpots = (takenSpots * 100.0f) / totalSpots;
         }
     }
     
@@ -63,13 +64,20 @@ public class PieChartView extends AbstractView { ;
      */
     @Override
     public void paintComponent(Graphics g) {
+        PieChartCalc();
+        //set background colour
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 500, 500);
-        
-        g.setColor(Color.BLUE);
-        g.fillArc(10, 10, 180, 180, 0, (int) percOpenSpots);
+        //Draw the first slice
+        startPosition = -1;
         g.setColor(Color.LIGHT_GRAY);
-        g.fillArc(10, 10, 180, 180, 0, (int) percTakenSpots);
+        degrees =(int)(percOpenSpots * 360/100);
+        g.fillArc(10, 10, 180, 180, startPosition, degrees);
+        startPosition = degrees;
+        //Draw the second slice
+        g.setColor(Color.RED);
+        degrees = (int)(percTakenSpots * 360/100);
+        g.fillArc(10, 10, 180, 180, startPosition, degrees);
     }
 
     @Override
@@ -77,7 +85,6 @@ public class PieChartView extends AbstractView { ;
         CarParkModel model = (CarParkModel)getModel();
         //Update the view (repaint)
         super.updateView();
-        System.out.println("updateview wordt aangeroepen.");
     }
 }
 

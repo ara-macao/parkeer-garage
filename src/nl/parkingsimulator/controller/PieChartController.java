@@ -31,7 +31,7 @@ public class PieChartController extends AbstractController implements ActionList
 
         add(ChangeViewButton);
 
-        ChangeViewButton.setBounds(10, 50, 120, 30);
+        ChangeViewButton.setBounds(140, 150, 120, 30);
 
         setVisible(true);
     }
