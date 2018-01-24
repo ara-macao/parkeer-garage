@@ -55,7 +55,8 @@ public class MVCMain {
         screen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
 
-        //CarParkModel carModel = (CarParkModel)model;
+        CarParkModel carModel = (CarParkModel)model;
+        carModel.notifyViews();
         //carModel.startSimulation();
 
         /*
