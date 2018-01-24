@@ -14,7 +14,7 @@ import java.awt.Point;
  */
 public class Settings {
     // These three values are needed to calculate the size of the parking lot.
-    public final int parkingFloors = 3;
+    public static int parkingFloors = 3;
     public final int parkingRows = 6;
     public final int parkingPlacesPerRow = 30;
     

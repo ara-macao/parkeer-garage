@@ -38,12 +38,13 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private Thread simThread = null;
     private boolean running = false;
     private boolean pause = false;
-    private int currectTick = 0;
+    private int currentTick = 0;
+    private Settings settings;
 
     int dayRevenue = 0;
     int revenueNotPayed = 0;
 
-    public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
+    public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, Settings settings) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
@@ -55,6 +56,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simThread = new Thread(this);
+        this.settings = settings;
     }
     
     public void startSimulation(){
@@ -83,7 +85,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
     }
 
     public int getTickProgress(){
-        return currectTick;
+        return currentTick;
     }
 
     public void setTickPause(int tickPause){
@@ -441,7 +443,7 @@ private void advanceTime(){
     @Override
     public void run() {
         running = true;
-        currectTick = 0;
+        currentTick = 0;
 
         for (int i = 0; i < amountOfTicks; i++) {
             if(!running)
@@ -457,7 +459,7 @@ private void advanceTime(){
                 }
             }
 
-            currectTick++;
+            currentTick++;
             tick();
             totalTicks++;
         }
