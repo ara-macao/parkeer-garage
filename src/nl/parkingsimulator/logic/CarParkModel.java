@@ -18,11 +18,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
     
     private int tickPause;
     private int amountOfTicks;
-    
-    private int weekDayArrivals; // average number of arriving cars per hour
-    private int weekendArrivals; // average number of arriving cars per hour
-    private int weekDayPassArrivals; // average number of arriving cars per hour
-    private int weekendPassArrivals; // average number of arriving cars per hour
 
     private int enterSpeed; // number of cars that can enter per minute
     private int paymentSpeed; // number of cars that can pay per minute
@@ -66,12 +61,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         this.numberOfPlaces = settings.getParkingPlacesPerRow();
         
         this.tickPause = settings.getTickPause();
-        this.amountOfTicks = settings.getAmountOfTicks();
-        
-        this.weekDayArrivals = settings.getWeekDayArrivals();
-        this.weekendArrivals = settings.getWeekendArrivals();
-        this.weekDayPassArrivals = settings.getWeekDayPassArrivals();
-        this.weekendPassArrivals = settings.getWeekendPassArrivals();
+        this.amountOfTicks = settings.getAmountOfTicks(); 
 
         this.enterSpeed = settings.getEnterSpeed();
         this.paymentSpeed = settings.getPaymentSpeed();
@@ -298,9 +288,9 @@ private void advanceTime() {
     }
     
     private void carsArriving(){
-    	int numberOfCars=getNumberOfCars(weekDayArrivals, weekendArrivals);
+    	int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
         addArrivingCars(numberOfCars, AD_HOC);    	
-    	numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
+    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals());
         addArrivingCars(numberOfCars, PASS);    	
     }
 
@@ -468,6 +458,10 @@ private void advanceTime() {
 
     public double getRevenueNotPayed(){
         return revenueNotPayed;
+    }
+    
+    public Settings getSettings() {
+    	return settings;
     }
 
     private boolean locationIsValid(Location location) {

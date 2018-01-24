@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
@@ -24,29 +25,21 @@ import nl.parkingsimulator.logic.CarParkModel;
  */
 public class SettingsController extends AbstractController implements ActionListener, ChangeListener {
 
-    private JTextField tickAmountField;
-    private JButton runButton;
-
-    private ButtonGroup buttonGroup;
-    private JRadioButton minuteRadio;
-    private JRadioButton hourRadio;
-    private JRadioButton dayRadio;
-    private JRadioButton weekRadio;
-
-
-    private JTextField tickPauseField;
-    private JButton tickPauseButton;
-
-    private JButton pauseButton;
-    private JButton resumeButton;
-
-    JSlider tickRateSlider;
-    private int miniumTick = 1;
-    private int maxiumTick = 200;
-    private int defaultTick = 100;
+    private JTextField weekDayArrivalsField;
+    private JTextField weekendArrivalsField;
+    private JTextField weekDayPassArrivalsField;
+    private JTextField weekendPassArrivalsField;
+    
+    private JLabel weekDayArrivalsLabel;
+    private JLabel weekendArrivalsLabel;
+    private JLabel weekDayPassArrivalsLabel;
+    private JLabel weekendPassArrivalsLabel;
+    
+    private JButton updateButton;
 
     /**
      * Constructor for objects of class CarPark
+     * 
      * @param model The model where to data comes from
      */
     public SettingsController(AbstractModel model, Dimension dimensions) {
@@ -54,85 +47,58 @@ public class SettingsController extends AbstractController implements ActionList
         setSize(dimensions);
         setBackground(Color.yellow);
 
-
-        tickAmountField = new JTextField();
-        tickAmountField.setText("1");  // 10080 = week,    1440 = dag
-        runButton = new JButton("Run");
-        runButton.addActionListener(this);
-        runButton.setToolTipText("Click to start the simulation.");
-
-
-        minuteRadio = new JRadioButton("Minutes", false);
-        hourRadio = new JRadioButton("Hours", false);
-        dayRadio = new JRadioButton("Days", false);
-        weekRadio = new JRadioButton("Weeks", true);
-
-        buttonGroup = new ButtonGroup();
-        buttonGroup.add(minuteRadio);
-        buttonGroup.add(hourRadio);
-        buttonGroup.add(dayRadio);
-        buttonGroup.add(weekRadio);
-
-        resumeButton = new JButton("Resume");
-        resumeButton.setToolTipText("Resume the simulation");
-        pauseButton = new JButton("Pause");
-        pauseButton.setToolTipText("Pauses the simulation");
-
-        tickPauseField = new JTextField();
-        tickPauseField.setText("100");
-        tickPauseButton = new JButton("Set tick pause");
-        tickPauseButton.setToolTipText("Sets the pause duration between every tick.");
-        tickPauseButton.addActionListener(this);
-
-        tickRateSlider = new JSlider(JSlider.HORIZONTAL,miniumTick, maxiumTick, defaultTick);
-        tickRateSlider.addChangeListener(this);
-
-        resumeButton.addActionListener(this);
-        pauseButton.addActionListener(this);
+        weekDayArrivalsField = new JTextField();
+        weekDayArrivalsField.setText("100");
+        
+        weekendArrivalsField = new JTextField();
+        weekendArrivalsField.setText("200");
+        
+        weekDayPassArrivalsField = new JTextField();
+        weekDayPassArrivalsField.setText("50");
+        
+        weekendPassArrivalsField = new JTextField();
+        weekendPassArrivalsField.setText("5");
+        
+        weekDayArrivalsLabel = new JLabel("Doordeweekse bezoekers");
+        weekendArrivalsLabel = new JLabel("Weekend bezoekers");
+        weekDayPassArrivalsLabel = new JLabel("Pashouders door de weeks");
+        weekendPassArrivalsLabel = new JLabel("Pashouders weekend");
+        
+        updateButton = new JButton("Update");
+        updateButton.addActionListener(this);
+        updateButton.setToolTipText("klik om de waardes door te voeren.");
 
         this.setLayout(null);
 
-        add(tickAmountField);
-        add(runButton);
-        add(tickPauseField);
-        add(tickPauseButton);
-        add(tickRateSlider);
-        add(resumeButton);
-        add(pauseButton);
-        add(minuteRadio);
-        add(hourRadio);
-        add(dayRadio);
-        add(weekRadio);
+        add(weekDayArrivalsField);
+        add(weekendArrivalsField);
+        add(weekDayPassArrivalsField);
+        add(weekendPassArrivalsField);
+        
+        add(weekDayArrivalsLabel);
+        add(weekendArrivalsLabel);
+        add(weekDayPassArrivalsLabel);
+        add(weekendPassArrivalsLabel);
+        
+        add(updateButton);
 
         int xPos = 10;
         int yPos = 10;
-        int offset = 5;
+        int offset = 10;
 
-        tickAmountField.setBounds(xPos, yPos, 120, 30);
-
-        minuteRadio.setBounds(xPos + tickAmountField.getWidth() + (offset), yPos, 120, 30);
-        hourRadio.setBounds(xPos + tickAmountField.getWidth() + minuteRadio.getWidth() + (offset * 2), yPos, 120, 30);
-        dayRadio.setBounds(xPos  + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + (offset * 3), yPos, 120, 30);
-        weekRadio.setBounds(xPos  + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + (offset * 4), yPos, 120, 30);
-        runButton.setBounds(xPos+ minuteRadio.getWidth() + dayRadio.getWidth()  + hourRadio.getWidth() + dayRadio.getWidth() + weekRadio.getWidth() + (offset * 5), yPos, 120, 30);
-
-        yPos += offset + runButton.getHeight();
-
-        tickPauseField.setBounds(xPos, yPos, 120, 30);
-        tickPauseButton.setBounds(xPos + tickPauseField.getWidth() + offset, yPos, 120, 30);
-        yPos += offset + tickPauseButton.getHeight();
-        tickRateSlider.setBounds(xPos, yPos, 120, 30);
-
-        yPos += offset + tickPauseButton.getHeight();
-        resumeButton.setBounds(xPos, yPos, 120, 30);
-        pauseButton.setBounds(xPos + resumeButton.getWidth() + offset, yPos, 120, 30);
+        weekDayArrivalsField.setBounds(xPos, yPos, 120, 30);
+        weekendArrivalsField.setBounds(xPos, yPos + 1 * (30 + offset), 120, 30);
+        weekDayPassArrivalsField.setBounds(xPos, yPos + 2 * (30 + offset), 120, 30);
+        weekendPassArrivalsField.setBounds(xPos, yPos + 3 * (30 + offset), 120, 30);
+          
+		weekDayArrivalsLabel.setBounds(xPos + offset + 120, yPos, 200, 30);
+		weekendArrivalsLabel.setBounds(xPos + offset + 120, yPos + 1 * (30 + offset), 200, 30);
+		weekDayPassArrivalsLabel.setBounds(xPos + offset + 120, yPos + 2 * (30 + offset), 200, 30);
+		weekendPassArrivalsLabel.setBounds(xPos + offset + 120, yPos + 3 * (30 + offset), 200, 30);
+        
+        updateButton.setBounds(xPos, yPos + 4 * (30 + offset), 120, 30);
 
         setVisible(true);
-    }
-
-    private void SetElement(JPanel panel, int x, int y, int width, int height){
-        add(panel);
-        panel.setBounds(x, y, width, height);
     }
 
     /**
@@ -141,104 +107,23 @@ public class SettingsController extends AbstractController implements ActionList
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        CarParkModel parkModel = (CarParkModel)model;
-
-        if(parkModel != null){
-            if(e.getSource() == runButton){
-                runSimulation(parkModel);
-            }
-
-            if(e.getSource() == tickPauseButton){
-                try {
-                    int tickAmount = parseIntValue(tickPauseField);
-                    setTickPause(parkModel,tickAmount);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            if(e.getSource() == resumeButton){
-                parkModel.setPauseState(false);
-            }
-
-            if(e.getSource() == pauseButton){
-                parkModel.setPauseState(true);
-            }
-        }
-
-
-
-    }
-
-    /**
-     * Handles the changes from the slider
-     * @param e The event that has been fired
-     */
-    @Override
-    public void stateChanged(ChangeEvent e){
-        CarParkModel parkModel = (CarParkModel)model;
-
-        if(e.getSource() == tickRateSlider){
-            setTickPause(parkModel, tickRateSlider.getValue());
+    	CarParkModel parkModel = (CarParkModel)model;
+    	
+    	/**
+    	 * Update the values in settings.
+    	 */
+    	if(e.getSource() == updateButton) {    		
+    		parkModel.getSettings().setWeekDayArrivals(parseIntValue(weekDayArrivalsField));
+    		parkModel.getSettings().setWeekendArrivals(parseIntValue(weekendArrivalsField));
+			parkModel.getSettings().setWeekDayPassArrivals(parseIntValue(weekDayPassArrivalsField));
+			parkModel.getSettings().setWeekendPassArrivals(parseIntValue(weekendPassArrivalsField));
         }
     }
-
-    /**
-     * Starts the simulator of the given model
-     * @param parkModel The model we use for the simulation
-     */
-    private void runSimulation(CarParkModel parkModel){
-        try {
-            int tickAmount = parseIntValue(tickAmountField);
-
-            if(minuteRadio.isSelected()){
-                // we can let the value as is
-            }
-
-            if(hourRadio.isSelected()){
-               // 10080 = week,    1440 = dag
-                // 1440 dag
-                // 60 uur
-                //
-                tickAmount *= 60;
-            }
-
-            if(dayRadio.isSelected()){
-                tickAmount *= 1440;
-            }
-
-            if(weekRadio.isSelected()){
-                tickAmount *= 10080;
-            }
-
-
-            if(tickAmount > 0){
-                parkModel.setAmountOfTicks(tickAmount);
-                parkModel.startSimulation();
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * pause the simulator
-     * @param parkModel The model we want to pause
-     */
-    private void setTickPause(CarParkModel parkModel, int tickRate){
-        if(tickRate > 0){
-            if(tickRate >= maxiumTick)
-                tickRate = maxiumTick;
-
-            System.out.println("Huh" + tickRate);
-            parkModel.setTickPause(tickRate);
-
-            tickRateSlider.setValue(tickRate);
-            tickPauseField.setText(Integer.toString(tickRate));
-        }
-    }
+    
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO Auto-generated method stub
+	}
 
     /**
      * Parses the value of an inputfield to an int
@@ -247,5 +132,4 @@ public class SettingsController extends AbstractController implements ActionList
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());
     }
-
 }

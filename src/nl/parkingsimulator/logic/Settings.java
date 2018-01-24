@@ -132,5 +132,13 @@ public class Settings {
 
     public Point getTimeViewPosition() { return timeViewPosition; }
     public Dimension getTimeViewDimensions() { return timeViewDimensions; }
+    
+    /**
+     * Setters for CarParkModel settings.
+     */
+    public void setWeekDayArrivals(int weekDayArrivals) { this.weekDayArrivals = weekDayArrivals; } // average number of arriving cars per hour
+    public void setWeekendArrivals(int weekendArrivals) { this.weekendArrivals = weekendArrivals; } // average number of arriving cars per hour
+    public void setWeekDayPassArrivals(int weekDayPassArrivals) { this.weekDayPassArrivals = weekDayPassArrivals; } // average number of arriving cars per hour
+    public void setWeekendPassArrivals(int weekendPassArrivals) { this.weekendPassArrivals = weekendPassArrivals; } // average number of arriving cars per hour
 }
 
