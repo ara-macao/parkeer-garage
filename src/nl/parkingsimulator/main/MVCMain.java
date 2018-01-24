@@ -41,7 +41,8 @@ public class MVCMain {
         addNewElement(textView, 50, 0, 300, 100);
         addNewElement(timeView, 400, 0, 200, 50);
         addNewElement(graphlineView, 10, 460, 600, 300);
-        addNewElement(tickController, 650, 460, 140, 300);
+        //addNewElement(tickController, 650, 460, 140, 300);
+
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
@@ -74,9 +75,11 @@ public class MVCMain {
         frame.setVisible(true);
 
 
-        int xPos = screen.getLocation().x + 1200; // 1200 = mainview width so it will placed at the right
-        JFrame newFrame = windowBuilder("Title", Color.red, new Dimension(200, 500), new Point(xPos, 100));
-        newFrame.add(textView);
+        int xPosController = screen.getLocation().x + 1200; // mainview width so it will placed at the right
+        int yPosController = screen.getLocation().y;
+        JFrame controllerFrame = windowBuilder("Title", Color.red, new Dimension(200, 500), new Point(xPosController, yPosController));
+        controllerFrame.add(tickController);
+
 
     }
 
