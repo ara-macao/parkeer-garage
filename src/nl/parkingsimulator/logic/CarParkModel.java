@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class CarParkModel extends AbstractModel implements Runnable{
 
+    public static void numberOfOpenSpots() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
@@ -46,12 +50,13 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private double dayRevenue = 0;
     private double revenueNotPayed = 0;
 
-    public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, Settings settings) {
+    public CarParkModel(Settings settings) {
         this.settings = settings;
 
-        this.numberOfFloors = numberOfFloors;
-        this.numberOfRows = numberOfRows;
-        this.numberOfPlaces = numberOfPlaces;
+        this.numberOfFloors = settings.getParkingFloors();
+        this.numberOfRows = settings.getParkingRows();
+        this.numberOfPlaces = settings.getParkingPlacesPerRow();
+        
         this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
@@ -236,7 +241,7 @@ public class CarParkModel extends AbstractModel implements Runnable{
         return null;
     }
     
-private void advanceTime(){
+private void advanceTime() {
         // Advance the time by one minute.
         minute++;
         while (minute > 59) {
