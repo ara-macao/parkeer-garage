@@ -56,6 +56,10 @@ public class Settings {
     private Dimension graphLineDimensions = new Dimension(700, 500);
     private String graphLineName = "Grafiek";
 
+    private Point reservationsPosition = new Point(1200, 305);
+    private Dimension reservationsDimensions = new Dimension(300, 300);
+    private String reservationsName = "Resarveringen";
+
     private Point carParkViewPosition = new Point(0, 50);
     private Dimension carParkViewDimensions = new Dimension(1000, 400);
 
@@ -105,6 +109,10 @@ public class Settings {
     public Point getGraphLinePosition() { return graphLinePosition; };
     public Dimension getGraphLineDimensions() { return graphLineDimensions; };
     public String getGraphLineName() { return graphLineName; };
+
+    public String getReservationsName() { return reservationsName; };
+    public Dimension getReservationsDimensions() { return reservationsDimensions; };
+    public Point getReservationsPosition() { return reservationsPosition; };
 
     public Point getCarParkViewPosition() { return carParkViewPosition; };
     public Dimension getCarParkViewDimensions() { return carParkViewDimensions; };
