@@ -47,9 +47,15 @@ public class TextView extends AbstractView {
 
         CarParkModel model = (CarParkModel) getModel();
         if(model != null){
-            g.drawString("Opbrengst vandaag: " + model.getRevenue(), 25, 25);
-            g.drawString("Niet betaald: " + model.getRevenueNotPayed(), 25, 40);
+            String totalRevenue = formatMoney(model.getRevenue());
+            g.drawString("Opbrengst vandaag: " + totalRevenue, 25, 25);
+            String revenueNotPayed = formatMoney(model.getRevenueNotPayed());
+            g.drawString("Niet betaald: " + revenueNotPayed, 25, 40);
         }
+    }
+
+    private String formatMoney(double money){
+        return String.format("%.2f", money);
     }
 }
 

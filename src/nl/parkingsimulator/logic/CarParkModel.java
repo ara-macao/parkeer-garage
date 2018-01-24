@@ -41,10 +41,14 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private int currentTick = 0;
     private Settings settings;
 
+
+    private double hourPrice = 1.2;
     private double dayRevenue = 0;
     private double revenueNotPayed = 0;
 
     public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, Settings settings) {
+        this.settings = settings;
+
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
@@ -56,7 +60,6 @@ public class CarParkModel extends AbstractModel implements Runnable{
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simThread = new Thread(this);
-        this.settings = settings;
     }
     
     public void startSimulation(){
@@ -310,15 +313,18 @@ private void advanceTime(){
     	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
             Car car = paymentCarQueue.removeCar();
             // TODO Handle payment.
-            addRevenue(1);
-
+            addRevenue(car);
             carLeavesSpot(car);
             i++;
     	}
     }
 
-    private void addRevenue(int amount){
-        dayRevenue += amount;
+    private void addRevenue(Car car){
+        dayRevenue += calculatePrice(car);
+    }
+
+    private double calculatePrice(Car car){
+        return (double)(car.getTotalMinuteParket()) * (hourPrice /60);
     }
 
     private void calculateRevenueNotPayed(){
@@ -331,7 +337,7 @@ private void advanceTime(){
                     Car car = getCarAt(location);
                     if (car != null) {
                         if(car.getHasToPay()){
-                            revenueNotPayed += 1;
+                            revenueNotPayed += calculatePrice(car);
                         }
                     }
                 }
