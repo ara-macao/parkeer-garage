@@ -2,15 +2,32 @@ package nl.parkingsimulator.logic;
 
 import java.util.Random;
 
-public class CarParkModel extends AbstractModel implements Runnable{
+public class CarParkModel extends AbstractModel implements Runnable {
 
     public static void numberOfOpenSpots() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*
+     * The values of these variables are declared in the settings class.
+     */
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
+    
+    private int tickPause;
+    private int amountOfTicks;
+    
+    private int weekDayArrivals; // average number of arriving cars per hour
+    private int weekendArrivals; // average number of arriving cars per hour
+    private int weekDayPassArrivals; // average number of arriving cars per hour
+    private int weekendPassArrivals; // average number of arriving cars per hour
+
+    private int enterSpeed; // number of cars that can enter per minute
+    private int paymentSpeed; // number of cars that can pay per minute
+    private int exitSpeed; // number of cars that can leave per minute
+    
+    
     private int numberOfOpenSpots;
     private Car[][][] cars;   
     
@@ -25,26 +42,14 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private int day = 0;
     private int hour = 0;
     private int minute = 0;
-
-    private int tickPause = 100;
-    private int amountOfTicks = 1000;
+    
     private int totalTicks = 0;
-
-    int weekDayArrivals= 100; // average number of arriving cars per hour
-    int weekendArrivals = 200; // average number of arriving cars per hour
-    int weekDayPassArrivals= 50; // average number of arriving cars per hour
-    int weekendPassArrivals = 5; // average number of arriving cars per hour
-
-    int enterSpeed = 3; // number of cars that can enter per minute
-    int paymentSpeed = 7; // number of cars that can pay per minute
-    int exitSpeed = 5; // number of cars that can leave per minute
 
     private Thread simThread = null;
     private boolean running = false;
     private boolean pause = false;
     private int currentTick = 0;
     private Settings settings;
-
 
     private double hourPrice = 1.2;
     private double dayRevenue = 0;
@@ -56,6 +61,19 @@ public class CarParkModel extends AbstractModel implements Runnable{
         this.numberOfFloors = settings.getParkingFloors();
         this.numberOfRows = settings.getParkingRows();
         this.numberOfPlaces = settings.getParkingPlacesPerRow();
+        
+        this.tickPause = settings.getTickPause();
+        this.amountOfTicks = settings.getAmountOfTicks();
+        
+        this.weekDayArrivals = settings.getWeekDayArrivals();
+        this.weekendArrivals = settings.getWeekendArrivals();
+        this.weekDayPassArrivals = settings.getWeekDayPassArrivals();
+        this.weekendPassArrivals = settings.getWeekendPassArrivals();
+
+        this.enterSpeed = settings.getEnterSpeed();
+        this.paymentSpeed = settings.getPaymentSpeed();
+        this.exitSpeed = settings.getExitSpeed();
+        
         
         this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
