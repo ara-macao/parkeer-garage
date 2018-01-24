@@ -38,11 +38,12 @@ public class PieChartView extends AbstractView { ;
      */
     public void PieChartCalc(){
         CarParkModel model = (CarParkModel)getModel();
-        model.getNumberOfSpots();
         if(model != null){
+            //request all data needed
             openSpots = model.getNumberOfOpenSpots();
             totalSpots = model.getNumberOfSpots();
             takenSpots = totalSpots - openSpots;
+            //create percentages for pie chart slices
             percOpenSpots = (openSpots * 100.0f) / totalSpots;
             percTakenSpots = (takenSpots * 100.0f) / totalSpots;
         }
@@ -60,7 +61,7 @@ public class PieChartView extends AbstractView { ;
     /**
      * Overridden. The car park view component needs to be redisplayed. Copy the
      * internal image to screen.
-     * @param g
+     * @param g the graphic object
      */
     @Override
     public void paintComponent(Graphics g) {
