@@ -4,6 +4,8 @@ import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*; // temporaly
 
@@ -11,7 +13,7 @@ import java.awt.event.*; // temporaly
  *
  * @author Jeroen Westers
  */
-public class TickController extends AbstractController implements ActionListener {
+public class TickController extends AbstractController implements ActionListener, ChangeListener {
 
     private JTextField tickAmountField;
     private JButton runButton;
@@ -19,6 +21,10 @@ public class TickController extends AbstractController implements ActionListener
     private JTextField tickPauseField;
     private JButton tickPauseButton;
 
+    JSlider tickRateSlider;
+    private int miniumTick = 1;
+    private int maxiumTick = 200;
+    private int defaultTick = 100;
 
     /**
      * Constructor for objects of class CarPark
@@ -26,7 +32,7 @@ public class TickController extends AbstractController implements ActionListener
      */
     public TickController(AbstractModel model) {
         super(model);
-        setSize(150, 200);
+        setSize(350, 200);
         setBackground(Color.green);
 
         tickAmountField = new JTextField();
@@ -39,17 +45,30 @@ public class TickController extends AbstractController implements ActionListener
         tickPauseButton = new JButton("Set tick pause");
         tickPauseButton.addActionListener(this);
 
+        tickRateSlider = new JSlider(JSlider.HORIZONTAL,miniumTick, maxiumTick, defaultTick);
+        tickRateSlider.addChangeListener(this);
+
         this.setLayout(null);
 
         add(tickAmountField);
         add(runButton);
         add(tickPauseField);
         add(tickPauseButton);
+        add(tickRateSlider);
 
-        tickAmountField.setBounds(10, 10, 120, 30);
-        runButton.setBounds(10, 50, 120, 30);
-        tickPauseField.setBounds(10, 90, 120, 30);
-        tickPauseButton.setBounds(10, 130, 120, 30);
+        int xPos = 10;
+        int yPos = 10;
+        int offset = 5;
+
+        tickAmountField.setBounds(xPos, yPos, 120, 30);
+
+        runButton.setBounds(xPos + tickAmountField.getWidth() + offset, yPos, 120, 30);
+        yPos += offset + runButton.getHeight();
+
+        tickPauseField.setBounds(xPos, yPos, 120, 30);
+        tickPauseButton.setBounds(xPos + tickPauseField.getWidth() + offset, yPos, 120, 30);
+        yPos += offset + tickPauseButton.getHeight();
+        tickRateSlider.setBounds(xPos, yPos, 120, 30);
         setVisible(true);
     }
 
@@ -67,12 +86,27 @@ public class TickController extends AbstractController implements ActionListener
             }
 
             if(e.getSource() == tickPauseButton){
-                setTickPause(parkModel);
+                try {
+                    int tickAmount = parseIntValue(tickPauseField);
+                    setTickPause(parkModel,tickAmount);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
 
 
 
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e){
+        CarParkModel parkModel = (CarParkModel)model;
+
+        if(e.getSource() == tickRateSlider){
+            setTickPause(parkModel, tickRateSlider.getValue());
+        }
     }
 
     /**
@@ -97,16 +131,16 @@ public class TickController extends AbstractController implements ActionListener
      * pause the simulator
      * @param parkModel The model we want to pause
      */
-    private void setTickPause(CarParkModel parkModel){
-        try {
-            int tickPause = parseIntValue(tickPauseField);
+    private void setTickPause(CarParkModel parkModel, int tickRate){
+        if(tickRate > 0){
+            if(tickRate >= maxiumTick)
+                tickRate = maxiumTick;
 
-            if(tickPause > 0){
-                parkModel.setTickPause(tickPause);
-            }
+            System.out.println("Huh" + tickRate);
+            parkModel.setTickPause(tickRate);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            tickRateSlider.setValue(tickRate);
+            tickPauseField.setText(Integer.toString(tickRate));
         }
     }
 
