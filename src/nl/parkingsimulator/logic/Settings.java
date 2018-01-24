@@ -64,7 +64,7 @@ public class Settings {
     private Dimension textViewDimensions = new Dimension(300, 100);
 
     private Point timeViewPosition = new Point(400, 0);
-    private Dimension timeViewDimensions = new Dimension(200, 50);
+    private Dimension timeViewDimensions = new Dimension(300, 50);
 
     private Point pieChartPosition = new Point(carParkViewPosition.x+graphLineDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
     private Dimension pieChartDimensions = new Dimension(200, 275);
