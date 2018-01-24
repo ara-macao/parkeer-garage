@@ -18,6 +18,16 @@ public class TickController extends AbstractController implements ActionListener
     private JTextField tickAmountField;
     private JButton runButton;
 
+    private ButtonGroup buttonGroup;
+    private JRadioButton minuteRadio;
+    private JRadioButton hourRadio;
+    private JRadioButton dayRadio;
+    private JRadioButton weekRadio;
+
+//    private JLabel minuteLabel;
+//    private JRadioButton week;
+
+
     private JTextField tickPauseField;
     private JButton tickPauseButton;
 
@@ -35,13 +45,26 @@ public class TickController extends AbstractController implements ActionListener
      */
     public TickController(AbstractModel model) {
         super(model);
-        setSize(350, 200);
+        setSize(750, 200);
         setBackground(Color.green);
 
+
         tickAmountField = new JTextField();
-        tickAmountField.setText("10080");  // 10080 = week,    1440 = dag
+        tickAmountField.setText("1");  // 10080 = week,    1440 = dag
         runButton = new JButton("Run");
         runButton.addActionListener(this);
+
+
+        minuteRadio = new JRadioButton("Minutes", false);
+        hourRadio = new JRadioButton("Hours", false);
+        dayRadio = new JRadioButton("Days", false);
+        weekRadio = new JRadioButton("Weeks", true);
+
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(minuteRadio);
+        buttonGroup.add(hourRadio);
+        buttonGroup.add(dayRadio);
+        buttonGroup.add(weekRadio);
 
         resumeButton = new JButton("Resume");
         pauseButton = new JButton("Pause");
@@ -66,6 +89,10 @@ public class TickController extends AbstractController implements ActionListener
         add(tickRateSlider);
         add(resumeButton);
         add(pauseButton);
+        add(minuteRadio);
+        add(hourRadio);
+        add(dayRadio);
+        add(weekRadio);
 
         int xPos = 10;
         int yPos = 10;
@@ -73,7 +100,12 @@ public class TickController extends AbstractController implements ActionListener
 
         tickAmountField.setBounds(xPos, yPos, 120, 30);
 
-        runButton.setBounds(xPos + tickAmountField.getWidth() + offset, yPos, 120, 30);
+        minuteRadio.setBounds(xPos + tickAmountField.getWidth() + (offset), yPos, 120, 30);
+        hourRadio.setBounds(xPos + tickAmountField.getWidth() + minuteRadio.getWidth() + (offset * 2), yPos, 120, 30);
+        dayRadio.setBounds(xPos  + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + (offset * 3), yPos, 120, 30);
+        weekRadio.setBounds(xPos  + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + (offset * 4), yPos, 120, 30);
+        runButton.setBounds(xPos+ minuteRadio.getWidth() + dayRadio.getWidth()  + hourRadio.getWidth() + dayRadio.getWidth() + weekRadio.getWidth() + (offset * 5), yPos, 120, 30);
+
         yPos += offset + runButton.getHeight();
 
         tickPauseField.setBounds(xPos, yPos, 120, 30);
@@ -86,6 +118,11 @@ public class TickController extends AbstractController implements ActionListener
         pauseButton.setBounds(xPos + resumeButton.getWidth() + offset, yPos, 120, 30);
 
         setVisible(true);
+    }
+
+    private void SetElement(JPanel panel, int x, int y, int width, int height){
+        add(panel);
+        panel.setBounds(x, y, width, height);
     }
 
     /**
@@ -140,6 +177,27 @@ public class TickController extends AbstractController implements ActionListener
     private void runSimulation(CarParkModel parkModel){
         try {
             int tickAmount = parseIntValue(tickAmountField);
+
+            if(minuteRadio.isSelected()){
+                // we can let the value as is
+            }
+
+            if(hourRadio.isSelected()){
+               // 10080 = week,    1440 = dag
+                // 1440 dag
+                // 60 uur
+                //
+                tickAmount *= 60;
+            }
+
+            if(dayRadio.isSelected()){
+                tickAmount *= 1440;
+            }
+
+            if(weekRadio.isSelected()){
+                tickAmount *= 10080;
+            }
+
 
             if(tickAmount > 0){
                 parkModel.setAmountOfTicks(tickAmount);
