@@ -19,9 +19,13 @@ public class MVCMain {
     private AbstractController pieChartController;
     private TextView textView;
 
+    private Settings settings;
+
     public MVCMain() {
 
-        new MVCScreen();
+        new MVCScreen(); // Testing screen
+
+        settings = new Settings();
 
         model = new CarParkModel(3, 6, 30);
         tickController = new TickController(model);
