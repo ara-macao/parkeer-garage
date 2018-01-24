@@ -21,6 +21,9 @@ public class TickController extends AbstractController implements ActionListener
     private JTextField tickPauseField;
     private JButton tickPauseButton;
 
+    private JButton pauseButton;
+    private JButton resumeButton;
+
     JSlider tickRateSlider;
     private int miniumTick = 1;
     private int maxiumTick = 200;
@@ -40,6 +43,9 @@ public class TickController extends AbstractController implements ActionListener
         runButton = new JButton("Run");
         runButton.addActionListener(this);
 
+        resumeButton = new JButton("Resume");
+        pauseButton = new JButton("Pause");
+
         tickPauseField = new JTextField();
         tickPauseField.setText("100");
         tickPauseButton = new JButton("Set tick pause");
@@ -48,6 +54,9 @@ public class TickController extends AbstractController implements ActionListener
         tickRateSlider = new JSlider(JSlider.HORIZONTAL,miniumTick, maxiumTick, defaultTick);
         tickRateSlider.addChangeListener(this);
 
+        resumeButton.addActionListener(this);
+        pauseButton.addActionListener(this);
+
         this.setLayout(null);
 
         add(tickAmountField);
@@ -55,6 +64,8 @@ public class TickController extends AbstractController implements ActionListener
         add(tickPauseField);
         add(tickPauseButton);
         add(tickRateSlider);
+        add(resumeButton);
+        add(pauseButton);
 
         int xPos = 10;
         int yPos = 10;
@@ -69,6 +80,11 @@ public class TickController extends AbstractController implements ActionListener
         tickPauseButton.setBounds(xPos + tickPauseField.getWidth() + offset, yPos, 120, 30);
         yPos += offset + tickPauseButton.getHeight();
         tickRateSlider.setBounds(xPos, yPos, 120, 30);
+
+        yPos += offset + tickPauseButton.getHeight();
+        resumeButton.setBounds(xPos, yPos, 120, 30);
+        pauseButton.setBounds(xPos + resumeButton.getWidth() + offset, yPos, 120, 30);
+
         setVisible(true);
     }
 
@@ -93,6 +109,14 @@ public class TickController extends AbstractController implements ActionListener
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+            }
+
+            if(e.getSource() == resumeButton){
+                parkModel.setPauseState(false);
+            }
+
+            if(e.getSource() == pauseButton){
+                parkModel.setPauseState(true);
             }
         }
 

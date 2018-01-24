@@ -90,6 +90,14 @@ public class CarParkModel extends AbstractModel implements Runnable{
         this.tickPause = tickPause;
     }
 
+    public synchronized void setPauseState(boolean state){
+        pause = state;
+
+        if(!pause){
+            notify();
+        }
+    }
+
     public int getNumberOfFloors() {
         return numberOfFloors;
     }
@@ -320,7 +328,9 @@ private void advanceTime(){
                     Location location = new Location(floor, row, place);
                     Car car = getCarAt(location);
                     if (car != null) {
-                        revenueNotPayed += 1;
+                        if(car.getHasToPay()){
+                            revenueNotPayed += 1;
+                        }
                     }
                 }
             }
@@ -436,6 +446,16 @@ private void advanceTime(){
         for (int i = 0; i < amountOfTicks; i++) {
             if(!running)
                 return;
+
+            synchronized (this){
+                try {
+                    while(pause){
+                        wait();
+                    }
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
 
             currectTick++;
             tick();
