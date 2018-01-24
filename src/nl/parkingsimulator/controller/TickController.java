@@ -53,6 +53,7 @@ public class TickController extends AbstractController implements ActionListener
         tickAmountField.setText("1");  // 10080 = week,    1440 = dag
         runButton = new JButton("Run");
         runButton.addActionListener(this);
+        runButton.setToolTipText("Click to start the simulation.");
 
 
         minuteRadio = new JRadioButton("Minutes", false);
@@ -67,11 +68,14 @@ public class TickController extends AbstractController implements ActionListener
         buttonGroup.add(weekRadio);
 
         resumeButton = new JButton("Resume");
+        resumeButton.setToolTipText("Resume the simulation");
         pauseButton = new JButton("Pause");
+        pauseButton.setToolTipText("Pauses the simulation");
 
         tickPauseField = new JTextField();
         tickPauseField.setText("100");
         tickPauseButton = new JButton("Set tick pause");
+        tickPauseButton.setToolTipText("Sets the pause duration between every tick.");
         tickPauseButton.addActionListener(this);
 
         tickRateSlider = new JSlider(JSlider.HORIZONTAL,miniumTick, maxiumTick, defaultTick);
@@ -161,6 +165,10 @@ public class TickController extends AbstractController implements ActionListener
 
     }
 
+    /**
+     * Handles the changes from the slider
+     * @param e The event that has been fired
+     */
     @Override
     public void stateChanged(ChangeEvent e){
         CarParkModel parkModel = (CarParkModel)model;
