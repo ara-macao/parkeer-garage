@@ -37,37 +37,41 @@ public class Settings {
     /**
      *  Settings of the main screen.
      */
-    private Dimension screenDimension = new Dimension(880, 550);
+    private Dimension screenDimension = new Dimension(880, 500);
     private boolean screenIsResizable = false;
     private String screenName = "Parkeer Simulator";
+    private boolean defaultLookAndFeel = true;
 
     /**
      *  Default position and size values for the screens.
      */
-
-    private Point carParkViewPosition = new Point(50, 50); // positions all elements
+    private Point carParkViewPosition = new Point(0, 50); // positions all elements
     private Dimension carParkViewDimensions = new Dimension(screenDimension.width, screenDimension.height);
 
-    private Point tickControllerPosition = new Point(carParkViewPosition.x+carParkViewDimensions.width, carParkViewPosition.y);
+    private Point tickControllerPosition = new Point(carParkViewPosition.x + carParkViewDimensions.width, carParkViewPosition.y);
     private Dimension tickControllerDimensions = new Dimension(750, 200);
     private String tickControllerName = "Start";
 
-    private Point reservationsPosition = new Point(carParkViewPosition.x+carParkViewDimensions.width, carParkViewPosition.y + getTickControllerDimensions().height);
+    private Point reservationsPosition = new Point(carParkViewPosition.x + carParkViewDimensions.width, carParkViewPosition.y + getTickControllerDimensions().height);
     private Dimension reservationsDimensions = new Dimension(300, 300);
-    private String reservationsName = "Resarveringen";
+    private String reservationsName = "Reserveringen";
+    
+    private Point settingsControllerPosition = new Point(reservationsPosition.x + reservationsDimensions.width, reservationsPosition.y);
+    private Dimension settingsControllerDimensions = new Dimension(400, reservationsDimensions.height);
+    private String settingsControllerName = "Instellingen";
 
     private Point graphLinePosition = new Point(carParkViewPosition.x, carParkViewPosition.y + carParkViewDimensions.height);
-    private Dimension graphLineDimensions = new Dimension(700, 500);
+    private Dimension graphLineDimensions = new Dimension(800, 400);
     private String graphLineName = "Grafiek";
 
     private Point textViewPosition = new Point(50, 0);
-    private Dimension textViewDimensions = new Dimension(300, 100);
+    private Dimension textViewDimensions = new Dimension(300, 50);
 
     private Point timeViewPosition = new Point(400, 0);
     private Dimension timeViewDimensions = new Dimension(300, 50);
 
     private Point pieChartPosition = new Point(carParkViewPosition.x+graphLineDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
-    private Dimension pieChartDimensions = new Dimension(200, 275);
+    private Dimension pieChartDimensions = new Dimension(210, 275);
     private String pieChartName = "Taart Grafiek";
 
     /**
@@ -95,33 +99,38 @@ public class Settings {
     public Dimension getScreenDimension() { return screenDimension; }
     public boolean getScreenIsResizable() { return screenIsResizable; }
     public String getScreenName() { return screenName; }
+    public boolean getDefaultLookAndFeel() { return defaultLookAndFeel; }
     
     /**
      *  Getters for sub screens.
      */
-    public Point getPieChartPosition() { return pieChartPosition; };
-    public Dimension getPieChartDimensions() { return pieChartDimensions; };
-    public String getPieChartName() { return pieChartName; };
+    public Point getPieChartPosition() { return pieChartPosition; }
+    public Dimension getPieChartDimensions() { return pieChartDimensions; }
+    public String getPieChartName() { return pieChartName; }
 
-    public Point getTickControllerPosition() { return tickControllerPosition; };
-    public Dimension getTickControllerDimensions() { return tickControllerDimensions; };
-    public String getTickControllerName() { return tickControllerName; };
+    public Point getTickControllerPosition() { return tickControllerPosition; }
+    public Dimension getTickControllerDimensions() { return tickControllerDimensions; }
+    public String getTickControllerName() { return tickControllerName; }
 
-    public Point getGraphLinePosition() { return graphLinePosition; };
-    public Dimension getGraphLineDimensions() { return graphLineDimensions; };
-    public String getGraphLineName() { return graphLineName; };
+    public Point getGraphLinePosition() { return graphLinePosition; }
+    public Dimension getGraphLineDimensions() { return graphLineDimensions; }
+    public String getGraphLineName() { return graphLineName; }
 
-    public String getReservationsName() { return reservationsName; };
-    public Dimension getReservationsDimensions() { return reservationsDimensions; };
-    public Point getReservationsPosition() { return reservationsPosition; };
+    public String getReservationsName() { return reservationsName; }
+    public Dimension getReservationsDimensions() { return reservationsDimensions; }
+    public Point getReservationsPosition() { return reservationsPosition; }
+    
+    public Point getSettingsControllerPosition() { return settingsControllerPosition; }
+    public Dimension getSettingsControllerDimensions() { return settingsControllerDimensions; }
+    public String getSettingsControllerName() { return settingsControllerName; }
+    
+    public Point getCarParkViewPosition() { return carParkViewPosition; }
+    public Dimension getCarParkViewDimensions() { return carParkViewDimensions; }
 
-    public Point getCarParkViewPosition() { return carParkViewPosition; };
-    public Dimension getCarParkViewDimensions() { return carParkViewDimensions; };
+    public Point getTextViewPosition() { return textViewPosition; }
+    public Dimension getTextViewDimensions() { return textViewDimensions; }
 
-    public Point getTextViewPosition() { return textViewPosition; };
-    public Dimension getTextViewDimensions() { return textViewDimensions; };
-
-    public Point getTimeViewPosition() { return timeViewPosition; };
-    public Dimension getTimeViewDimensions() { return timeViewDimensions; };
+    public Point getTimeViewPosition() { return timeViewPosition; }
+    public Dimension getTimeViewDimensions() { return timeViewDimensions; }
 }
 
