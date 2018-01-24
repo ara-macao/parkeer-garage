@@ -86,21 +86,27 @@ public class GraphlineView extends AbstractView {
     }
     
     private void addGraphValues() {
-        horizontalGraphPosition = ((float)dimensions.width / 1440) * minuteSinceStart; // 10080 secs in a week. 1440 mins in a day.
-        verticalGraphposition = (numberOfSpots / dimensions.height) * numberOfOpenSpots;
+        horizontalGraphPosition = ((float)dimensions.width / 10080) * minuteSinceStart; // 10080 mins in a week. 1440 mins in a day.
+        verticalGraphposition = Math.round(((float)dimensions.height / numberOfSpots) * numberOfOpenSpots);
         
         if(horizontalGraphPosition > lastGraphPosition) {
             graphvalues.add(new Point(lastGraphPosition, verticalGraphposition));
             
-            System.out.println(graphvalues.get(lastGraphPosition));
+            //System.out.println(graphvalues.get(lastGraphPosition));
             lastGraphPosition++;
         }
     }
     
     private void createGraphLine(Graphics g) {
+        Point previousCoordinate = new Point(0, dimensions.height);
+                
         for(Iterator<Point> i = graphvalues.iterator(); i.hasNext();) {
             Point coordinate = i.next();
-            g.fillRect(coordinate.x, coordinate.y, 2, 2); 
+            
+            g.drawLine(previousCoordinate.x, previousCoordinate.y, coordinate.x, coordinate.y);
+            //g.fillRect(coordinate.x, coordinate.y, 2, 2); 
+            
+            previousCoordinate = coordinate;
         }
     }
     
