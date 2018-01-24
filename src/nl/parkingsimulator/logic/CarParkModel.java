@@ -1,5 +1,6 @@
 package nl.parkingsimulator.logic;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class CarParkModel extends AbstractModel implements Runnable{
@@ -49,6 +50,8 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private double hourPrice = 1.2;
     private double dayRevenue = 0;
     private double revenueNotPayed = 0;
+
+    private HashMap<Integer, Double> weekRevenue = new HashMap<Integer, Double>();
 
     public CarParkModel(Settings settings) {
         this.settings = settings;
@@ -250,8 +253,8 @@ private void advanceTime() {
         }
         while (hour > 23) {
             hour -= 24;
-            day++;
             newDay();
+            day++;
         }
         while (day > 6) {
             day -= 7;
@@ -430,7 +433,15 @@ private void advanceTime() {
     * Clears the revenue to calculate the new day
      */
     private void newDay(){
+        if(day == 0)
+            weekRevenue.clear();
+
+        weekRevenue.put(day, dayRevenue);
         dayRevenue = 0;
+    }
+
+    public  HashMap<Integer, Double> getWeekRevenue(){
+        return weekRevenue;
     }
 
     public double getRevenue(){
