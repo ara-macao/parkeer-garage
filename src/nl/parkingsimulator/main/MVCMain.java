@@ -24,11 +24,11 @@ public class MVCMain {
         new MVCScreen();
 
         model = new CarParkModel(3, 6, 30);
-        tickController=new TickController(model);
-        pieChartController=new PieChartController(model);
+        tickController = new TickController(model);
+        pieChartController = new PieChartController(model);
 
-        carParkView=new CarParkView(model);
-        textView=new TextView(model);
+        carParkView = new CarParkView(model);
+        textView = new TextView(model);
         timeView = new TimeView(model);
         graphlineView = new GraphlineView(model);
 
