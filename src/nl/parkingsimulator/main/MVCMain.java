@@ -35,12 +35,8 @@ public class MVCMain {
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
-<<<<<<< HEAD
-        graphLineView = new GraphlineView(model, settings.graphLineDimensions);
         reservationView = new ReservationView(model);
-=======
         graphLineView = new GraphlineView(model, settings.getGraphLineDimensions());
->>>>>>> 5bb52ea97dc59e9f62dbc7e9e2072b915a393a12
 
         screen = new JFrame(settings.getScreenName());
         screen.setSize(settings.getScreenDimension());
@@ -92,7 +88,7 @@ public class MVCMain {
         JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), Color.red, settings.getGraphLineDimensions() , settings.getGraphLinePosition());
         graphLineFrame.add(graphLineView);
 
-        JFrame reservationsFrame = windowBuilder(settings.reservationsName, Color.red, settings.reservationsDimensions, settings.reservationsPosition);
+        JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), Color.red, settings.getReservationsDimensions(), settings.getReservationsPosition());
         reservationsFrame.add(reservationView);
     }
 
