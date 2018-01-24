@@ -1,6 +1,8 @@
 package nl.parkingsimulator.main;
 
 import javax.swing.*;
+
+import javafx.stage.Screen;
 import nl.parkingsimulator.controller.*;
 import nl.parkingsimulator.logic.*;
 import nl.parkingsimulator.view.*;
@@ -70,11 +72,39 @@ public class MVCMain {
         panel.setBounds(0, 0, 200, 200);
         pieChartController.setBounds(0, 200, 200, 100);
         frame.setVisible(true);
+
+
+        int xPos = screen.getLocation().x + 1200; // 1200 = mainview width so it will placed at the right
+        JFrame newFrame = windowBuilder("Title", Color.red, new Dimension(200, 500), new Point(xPos, 100));
+        newFrame.add(textView);
+
     }
 
 
     public void addNewElement(JPanel view, int x, int y, int width, int height){
         screen.getContentPane().add(view);
         view.setBounds(x,y,width, height);
+    }
+
+    /**
+     * Creates a frame to be used for the viewers and controllers
+     * @param title the title for the frame
+     * @param backgroundColor the backgroundcolor for the frame
+     * @param dimension the dimension of the frame
+     * @param location the location of the frame i the screen
+     * @return the frame that has been made
+     */
+    public JFrame windowBuilder(String title, Color backgroundColor, Dimension dimension, Point location){
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame(title);
+        frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setBackground(backgroundColor);
+        frame.setSize(dimension);
+        frame.setVisible(true);
+
+        frame.setLocation(location);
+
+        return frame;
     }
 }
