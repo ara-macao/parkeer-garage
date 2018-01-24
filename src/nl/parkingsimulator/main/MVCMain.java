@@ -2,7 +2,6 @@ package nl.parkingsimulator.main;
 
 import javax.swing.*;
 
-import javafx.stage.Screen;
 import nl.parkingsimulator.controller.*;
 import nl.parkingsimulator.logic.*;
 import nl.parkingsimulator.view.*;
@@ -17,6 +16,7 @@ public class MVCMain {
     private AbstractController tickController;
     private AbstractView timeView;
     private AbstractView graphLineView;
+    ReservationView reservationView;
     private AbstractController pieChartController;
     private TextView textView;
     
@@ -36,6 +36,7 @@ public class MVCMain {
         textView = new TextView(model);
         timeView = new TimeView(model);
         graphLineView = new GraphlineView(model, settings.graphLineDimensions);
+        reservationView = new ReservationView(model);
 
         screen = new JFrame(settings.screenName);
         screen.setSize(settings.screenDimension);
@@ -50,15 +51,15 @@ public class MVCMain {
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
         graphLineView.setOpaque(false);
 
-        screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
+        screen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
 
         //CarParkModel carModel = (CarParkModel)model;
         //carModel.startSimulation();
 
-        /**
-         * Window with the PieChartView
-         * Spawns window 
+        /*
+          Window with the PieChartView
+          Spawns window
          */
         
         // TODO implement PieChartView just like controller frame and graphlineFrame
@@ -86,10 +87,13 @@ public class MVCMain {
         
         JFrame graphLineFrame = windowBuilder(settings.graphLineName, Color.red, settings.graphLineDimensions , settings.graphLinePosition);
         graphLineFrame.add(graphLineView);
+
+        JFrame reservationsFrame = windowBuilder(settings.reservationsName, Color.red, settings.reservationsDimensions, settings.reservationsPosition);
+        reservationsFrame.add(reservationView);
     }
 
 
-    public void addNewElement(JPanel view, int x, int y, int width, int height){
+    private void addNewElement(JPanel view, int x, int y, int width, int height){
         screen.getContentPane().add(view);
         view.setBounds(x,y,width, height);
     }
@@ -102,7 +106,7 @@ public class MVCMain {
      * @param location the location of the frame i the screen
      * @return the frame that has been made
      */
-    public JFrame windowBuilder(String title, Color backgroundColor, Dimension dimension, Point location) {
+    private JFrame windowBuilder(String title, Color backgroundColor, Dimension dimension, Point location) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame(title);
         frame.setLayout(null);

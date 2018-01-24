@@ -35,6 +35,10 @@ public class Settings {
     public final Point graphLinePosition = new Point(10, 460);
     public final Dimension graphLineDimensions = new Dimension(700, 500);
     public final String graphLineName = "Grafiek";
+
+    public final Point reservationsPosition = new Point(1200, 310);
+    public final Dimension reservationsDimensions = new Dimension(300, 200);
+    public final String reservationsName = "Reserveringen";
     
     public final Point carParkViewPosition = new Point(0, 50);
     public final Dimension carParkViewDimensions = new Dimension(1000, 400);
