@@ -41,8 +41,8 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private int currentTick = 0;
     private Settings settings;
 
-    int dayRevenue = 0;
-    int revenueNotPayed = 0;
+    private double dayRevenue = 0;
+    private double revenueNotPayed = 0;
 
     public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, Settings settings) {
         this.numberOfFloors = numberOfFloors;
@@ -422,11 +422,11 @@ private void advanceTime(){
         dayRevenue = 0;
     }
 
-    public int getRevenue(){
+    public double getRevenue(){
         return dayRevenue;
     }
 
-    public int getRevenueNotPayed(){
+    public double getRevenueNotPayed(){
         return revenueNotPayed;
     }
 
