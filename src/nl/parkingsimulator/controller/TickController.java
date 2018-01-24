@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*; // temporaly
 
+/**
+ *
+ * @author Jeroen Westers
+ */
 public class TickController extends AbstractController implements ActionListener {
 
     private JTextField tickAmountField;

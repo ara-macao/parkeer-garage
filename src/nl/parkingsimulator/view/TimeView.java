@@ -6,6 +6,10 @@ import nl.parkingsimulator.logic.CarParkModel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ *
+ * @author Jeroen Westers
+ */
 public class TimeView extends AbstractView {
 
     JProgressBar progressBar;

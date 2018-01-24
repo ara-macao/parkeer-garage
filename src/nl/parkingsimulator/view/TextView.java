@@ -5,6 +5,10 @@ import nl.parkingsimulator.logic.CarParkModel;
 
 import java.awt.*;
 
+/**
+ *
+ * @author Jeroen Westers
+ */
 public class TextView extends AbstractView {
 
     /**
@@ -30,6 +34,10 @@ public class TextView extends AbstractView {
         return new Dimension(400, 100);
     }
 
+    /**
+     * Overridden. Paints all the elements on the screen
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
 
