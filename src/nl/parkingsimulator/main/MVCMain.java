@@ -30,7 +30,7 @@ public class MVCMain {
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
-        graphlineView = new GraphlineView(model);
+        graphlineView = new GraphlineView(model, new Dimension(600, 300));
 
         screen=new JFrame("Parkeer garage");
         screen.setSize(1200, 800);
@@ -40,7 +40,7 @@ public class MVCMain {
         addNewElement(carParkView, 0, 50, 1000, 400);
         addNewElement(textView, 50, 0, 300, 100);
         addNewElement(timeView, 400, 0, 200, 50);
-        addNewElement(graphlineView, 10, 460, 600, 300);
+        //addNewElement(graphlineView, 10, 460, 600, 300);
         //addNewElement(tickController, 650, 460, 140, 300);
 
 
@@ -79,8 +79,9 @@ public class MVCMain {
         int yPosController = screen.getLocation().y;
         JFrame controllerFrame = windowBuilder("Start", Color.red, tickController.getSize(), new Point(xPosController, yPosController));
         controllerFrame.add(tickController);
-
-
+        
+        JFrame graphlineFrame = windowBuilder("Graph", Color.red, new Dimension(600, 300) , new Point(10, 460));
+        graphlineFrame.add(graphlineView);
     }
 
 

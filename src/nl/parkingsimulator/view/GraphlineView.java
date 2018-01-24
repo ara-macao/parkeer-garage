@@ -34,8 +34,10 @@ public class GraphlineView extends AbstractView {
     /**
      * Constructor for objects of class CarPark
      */
-    public GraphlineView(AbstractModel model) {
+    public GraphlineView(AbstractModel model, Dimension dimensions) {
         super(model);
+        setSize(dimensions);
+        this.dimensions = dimensions;
 
         numberOfOpenSpots = 0;
         numberOfSpots = 0;
@@ -46,8 +48,6 @@ public class GraphlineView extends AbstractView {
         lastGraphPosition = 0;
         
         graphvalues = new ArrayList<Point>();
-        
-        dimensions = new Dimension(0, 0);
     }
 
     /**
@@ -59,7 +59,7 @@ public class GraphlineView extends AbstractView {
 
     @Override
     public void paintComponent(Graphics g) {
-        dimensions = this.getSize();
+        //dimensions = this.getSize();
         g.setColor(Color.CYAN);
         g.fillRect(0, 0, dimensions.width, dimensions.height); // Background.
         
