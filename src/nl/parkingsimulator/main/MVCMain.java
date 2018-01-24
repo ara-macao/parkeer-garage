@@ -12,46 +12,43 @@ import java.awt.*;
 public class MVCMain {
     private AbstractModel model;
     private JFrame screen;
+    
     private AbstractView carParkView;
     private AbstractController tickController;
     private AbstractView timeView;
     private AbstractView graphlineView;
     private AbstractController pieChartController;
     private TextView textView;
-
-    private Settings settings;
+    
+    private Settings s;
 
     public MVCMain() {
 
         new MVCScreen(); // Testing screen
 
-        settings = new Settings();
+        s = new Settings();
 
-        model = new CarParkModel(3, 6, 30);
+        model = new CarParkModel(s.parkingFloors, s.parkingRows, s.parkingPlacesPerRow);
         tickController = new TickController(model);
         pieChartController = new PieChartController(model);
 
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
-        graphlineView = new GraphlineView(model, new Dimension(600, 300));
+        graphlineView = new GraphlineView(model, s.graphLineDimensions);
 
-        screen=new JFrame("Parkeer garage");
-        screen.setSize(1200, 800);
-        screen.setResizable(false);
+        screen = new JFrame(s.screenName);
+        screen.setSize(s.screenDimension);
+        screen.setResizable(s.screenIsResizable);
         screen.setLayout(null);
 
-        addNewElement(carParkView, 0, 50, 1000, 400);
-        addNewElement(textView, 50, 0, 300, 100);
-        addNewElement(timeView, 400, 0, 200, 50);
-        //addNewElement(graphlineView, 10, 460, 600, 300);
-        //addNewElement(tickController, 650, 460, 140, 300);
-
+        addNewElement(carParkView, s.carParkViewPosition.x, s.carParkViewPosition.y, s.carParkViewDimensions.width, s.carParkViewDimensions.height);
+        addNewElement(textView, s.textViewPosition.x, s.textViewPosition.y, s.textViewDimensions.width, s.textViewDimensions.height);
+        addNewElement(timeView, s.timeViewPosition.x, s.timeViewPosition.y, s.timeViewDimensions.width, s.timeViewDimensions.height);
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
         graphlineView.setOpaque(false);
-
 
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
@@ -77,14 +74,14 @@ public class MVCMain {
         panel.setBounds(0, 0, 200, 200);
         pieChartController.setBounds(0, 200, 200, 100);
         frame.setVisible(true);
+        
+        //Frame pieChartFrame = windowBuilder(s.pieChartName, Color.red, s.pieChartDimensions, s.pieChartPosition);
+        //pieChartFrame.add(pieChartController);
 
-
-        int xPosController = screen.getLocation().x + 1200; // mainview width so it will placed at the right
-        int yPosController = screen.getLocation().y;
-        JFrame controllerFrame = windowBuilder("Start", Color.red, tickController.getSize(), new Point(xPosController, yPosController));
+        JFrame controllerFrame = windowBuilder(s.tickControllerName, Color.red, s.tickControllerDimensions, s.tickControllerPosition);
         controllerFrame.add(tickController);
         
-        JFrame graphlineFrame = windowBuilder("Graph", Color.red, new Dimension(600, 300) , new Point(10, 460));
+        JFrame graphlineFrame = windowBuilder(s.graphLineName, Color.red, s.graphLineDimensions , s.graphLinePosition);
         graphlineFrame.add(graphlineView);
     }
 
@@ -102,7 +99,7 @@ public class MVCMain {
      * @param location the location of the frame i the screen
      * @return the frame that has been made
      */
-    public JFrame windowBuilder(String title, Color backgroundColor, Dimension dimension, Point location){
+    public JFrame windowBuilder(String title, Color backgroundColor, Dimension dimension, Point location) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame(title);
         frame.setLayout(null);

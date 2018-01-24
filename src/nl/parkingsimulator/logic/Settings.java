@@ -13,35 +13,36 @@ import java.awt.Point;
  * @author Thom
  */
 public class Settings {
-    
     // These three values are needed to calculate the size of the parking lot.
-    private int parkingFloors;
-    private int parkingRows;
-    private int parkingPlacesPerRows;
+    public final int parkingFloors = 3;
+    public final int parkingRows = 6;
+    public final int parkingPlacesPerRow = 30;
     
     // Settings of the main screen.
-    private Dimension screenDimension;
-    private boolean screenIsResizable;
-    private String screenName;
+    public final Dimension screenDimension = new Dimension(1200, 800);
+    public final boolean screenIsResizable = false;
+    public final String screenName = "Parkeer Simulator";
 
     // Default position and size values for the screens.
-    private Point pieChartPosition;
-    private Dimension pieChartDimensions;
+    public final Point pieChartPosition = new Point(0, 0);
+    public final Dimension pieChartDimensions = new Dimension(200, 350);
+    public final String pieChartName = "Taart Grafiek";
     
-    private Point tickControllerPosition;
-    private Dimension tickControllerDimensions;
+    public final Point tickControllerPosition = new Point(1200, 0);
+    public final Dimension tickControllerDimensions = new Dimension(300, 300);
+    public final String tickControllerName = "Start";
     
-    private Point graphLinePosition;
-    private Dimension graphLineDimensions;
+    public final Point graphLinePosition = new Point(10, 460);
+    public final Dimension graphLineDimensions = new Dimension(700, 500);
+    public final String graphLineName = "Grafiek";
     
-    private Point carParkViewPosition;
-    private Dimension carParkViewDimensions;
+    public final Point carParkViewPosition = new Point(0, 50);
+    public final Dimension carParkViewDimensions = new Dimension(1000, 400);
     
-    private Point textViewPosition;
-    private Dimension textViewDimensions;
+    public final Point textViewPosition = new Point(50, 0);
+    public final Dimension textViewDimensions = new Dimension(300, 100);
     
-    private Point timeViewPosition;
-    private Dimension timeViewDimensions;
-
+    public final Point timeViewPosition = new Point(400, 0);
+    public final Dimension timeViewDimensions = new Dimension(200, 50);
 }
 
