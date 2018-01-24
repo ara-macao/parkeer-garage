@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class CarParkModel extends AbstractModel implements Runnable{
 
+    public static void numberOfOpenSpots() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;

@@ -16,7 +16,13 @@ import nl.parkingsimulator.logic.CarParkModel;
  * @author GraphX
  */
 
-public class PieChartView extends AbstractView { 
+public class PieChartView extends AbstractView { ;
+    
+    private int openSpots;
+    private int totalSpots;
+    private int takenSpots;
+    private double percOpenSpots;
+    private double percTakenSpots;
     /**
      * Constructor for objects of class CarPark
      * @param model
@@ -26,11 +32,21 @@ public class PieChartView extends AbstractView {
     }
     
     /**
-     * Calculation of the Pie chart dimensions.
+     * Calculation of the Pie chart slices.
      */
     public void PieChartCalc(){
-        //dummytext
+
+        CarParkModel model = (CarParkModel)getModel();
+        model.getNumberOfSpots();
+        if(model != null){
+            openSpots = model.getNumberOfSpots();
+            totalSpots = model.getNumberOfPlaces();
+            takenSpots = totalSpots - openSpots;
+            percOpenSpots = ((openSpots * 100.0f) / totalSpots) * 3.6;
+            percTakenSpots = ((takenSpots * 100.0f) / totalSpots) * 3.6;
+        }
     }
+    
     /**
      * Overridden. Tell the GUI manager how big we would like to be.
      * @return 
@@ -51,17 +67,17 @@ public class PieChartView extends AbstractView {
         g.fillRect(0, 0, 500, 500);
         
         g.setColor(Color.BLUE);
-        g.fillArc(10, 10, 180, 180, 0, 360);
+        g.fillArc(10, 10, 180, 180, 0, (int) percOpenSpots);
         g.setColor(Color.LIGHT_GRAY);
-        g.fillArc(10, 10, 180, 180, 0, 5);
+        g.fillArc(10, 10, 180, 180, 0, (int) percTakenSpots);
     }
 
     @Override
     public void updateView() {
-        //CarParkModel model = (CarParkModel)getModel();
-        // Update the view (repaint)
-        //super.updateView();
-
+        CarParkModel model = (CarParkModel)getModel();
+        //Update the view (repaint)
+        super.updateView();
+        System.out.println("updateview wordt aangeroepen.");
     }
 }
 
