@@ -77,7 +77,7 @@ public class MVCMain {
 
         int xPosController = screen.getLocation().x + 1200; // mainview width so it will placed at the right
         int yPosController = screen.getLocation().y;
-        JFrame controllerFrame = windowBuilder("Title", Color.red, new Dimension(200, 500), new Point(xPosController, yPosController));
+        JFrame controllerFrame = windowBuilder("Start", Color.red, tickController.getSize(), new Point(xPosController, yPosController));
         controllerFrame.add(tickController);
 
 

@@ -26,7 +26,7 @@ public class TickController extends AbstractController implements ActionListener
      */
     public TickController(AbstractModel model) {
         super(model);
-        setSize(140, 300);
+        setSize(150, 200);
         setBackground(Color.green);
 
         tickAmountField = new JTextField();

@@ -40,6 +40,9 @@ public class CarParkModel extends AbstractModel implements Runnable{
     private boolean pause = false;
     private int currectTick = 0;
 
+    int dayRevenue = 0;
+    int revenueNotPayed = 0;
+
     public CarParkModel(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
@@ -230,10 +233,12 @@ private void advanceTime(){
         while (hour > 23) {
             hour -= 24;
             day++;
+            newDay();
         }
         while (day > 6) {
             day -= 7;
         }
+
 
     }
 
@@ -295,9 +300,31 @@ private void advanceTime(){
     	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
             Car car = paymentCarQueue.removeCar();
             // TODO Handle payment.
+            addRevenue(1);
+
             carLeavesSpot(car);
             i++;
     	}
+    }
+
+    private void addRevenue(int amount){
+        dayRevenue += amount;
+    }
+
+    private void calculateRevenueNotPayed(){
+        revenueNotPayed = 0;
+
+        for (int floor = 0; floor < getNumberOfFloors(); floor++) {
+            for (int row = 0; row < getNumberOfRows(); row++) {
+                for (int place = 0; place < getNumberOfPlaces(); place++) {
+                    Location location = new Location(floor, row, place);
+                    Car car = getCarAt(location);
+                    if (car != null) {
+                        revenueNotPayed += 1;
+                    }
+                }
+            }
+        }
     }
     
     private void carsLeaving(){
@@ -347,15 +374,17 @@ private void advanceTime(){
     public void tick(){
         advanceTime();
     	handleExit();
-    	updateViews();
-        
-    	// Pause.
+        calculateRevenueNotPayed();
+        updateViews();
+
+        // Pause.
         try {
             Thread.sleep(tickPause);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    	handleEntrance();
+
+        handleEntrance();
         
         tickCars();
     }
@@ -372,6 +401,21 @@ private void advanceTime(){
                 }
             }
         }
+    }
+
+    /*
+    * Clears the revenue to calculate the new day
+     */
+    private void newDay(){
+        dayRevenue = 0;
+    }
+
+    public int getRevenue(){
+        return dayRevenue;
+    }
+
+    public int getRevenueNotPayed(){
+        return revenueNotPayed;
     }
 
     private boolean locationIsValid(Location location) {
