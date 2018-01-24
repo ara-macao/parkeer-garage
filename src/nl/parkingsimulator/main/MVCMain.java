@@ -35,16 +35,16 @@ public class MVCMain {
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
-        graphLineView = new GraphlineView(model, settings.graphLineDimensions);
+        graphLineView = new GraphlineView(model, settings.getGraphLineDimensions());
 
-        screen = new JFrame(settings.screenName);
-        screen.setSize(settings.screenDimension);
-        screen.setResizable(settings.screenIsResizable);
+        screen = new JFrame(settings.getScreenName());
+        screen.setSize(settings.getScreenDimension());
+        screen.setResizable(settings.getScreenIsResizable());
         screen.setLayout(null);
 
-        addNewElement(carParkView, settings.carParkViewPosition.x, settings.carParkViewPosition.y, settings.carParkViewDimensions.width, settings.carParkViewDimensions.height);
-        addNewElement(textView, settings.textViewPosition.x, settings.textViewPosition.y, settings.textViewDimensions.width, settings.textViewDimensions.height);
-        addNewElement(timeView, settings.timeViewPosition.x, settings.timeViewPosition.y, settings.timeViewDimensions.width, settings.timeViewDimensions.height);
+        addNewElement(carParkView, settings.getCarParkViewPosition().x, settings.getCarParkViewPosition().y, settings.getCarParkViewDimensions().width, settings.getCarParkViewDimensions().height);
+        addNewElement(textView, settings.getTextViewPosition().x, settings.getTextViewPosition().y, settings.getTextViewDimensions().width, settings.getTextViewDimensions().height);
+        addNewElement(timeView, settings.getTimeViewPosition().x, settings.getTimeViewPosition().y, settings.getTimeViewDimensions().width, settings.getTimeViewDimensions().height);
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
@@ -81,10 +81,10 @@ public class MVCMain {
         //Frame pieChartFrame = windowBuilder(settings.pieChartName, Color.red, settings.pieChartDimensions, settings.pieChartPosition);
         //pieChartFrame.add(pieChartController);
 
-        JFrame controllerFrame = windowBuilder(settings.tickControllerName, Color.red, settings.tickControllerDimensions, settings.tickControllerPosition);
+        JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), Color.red, settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
         
-        JFrame graphLineFrame = windowBuilder(settings.graphLineName, Color.red, settings.graphLineDimensions , settings.graphLinePosition);
+        JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), Color.red, settings.getGraphLineDimensions() , settings.getGraphLinePosition());
         graphLineFrame.add(graphLineView);
     }
 
