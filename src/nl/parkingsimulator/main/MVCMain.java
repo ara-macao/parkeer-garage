@@ -16,7 +16,7 @@ public class MVCMain {
     private AbstractView carParkView;
     private AbstractController tickController;
     private AbstractView timeView;
-    private AbstractView graphlineView;
+    private AbstractView graphLineView;
     private AbstractController pieChartController;
     private TextView textView;
     
@@ -35,7 +35,7 @@ public class MVCMain {
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
-        graphlineView = new GraphlineView(model, s.graphLineDimensions);
+        graphLineView = new GraphlineView(model, s.graphLineDimensions);
 
         screen = new JFrame(s.screenName);
         screen.setSize(s.screenDimension);
@@ -48,7 +48,7 @@ public class MVCMain {
 
         timeView.setOpaque(false);
         textView.setOpaque(false); // prevent drawing glitch, should be looked into
-        graphlineView.setOpaque(false);
+        graphLineView.setOpaque(false);
 
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
@@ -60,6 +60,9 @@ public class MVCMain {
          * Window with the PieChartView
          * Spawns window 
          */
+        
+        // TODO implement PieChartView just like controller frame and graphlineFrame
+        
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Taart Diagram");
         frame.setLayout(null);
@@ -81,8 +84,8 @@ public class MVCMain {
         JFrame controllerFrame = windowBuilder(s.tickControllerName, Color.red, s.tickControllerDimensions, s.tickControllerPosition);
         controllerFrame.add(tickController);
         
-        JFrame graphlineFrame = windowBuilder(s.graphLineName, Color.red, s.graphLineDimensions , s.graphLinePosition);
-        graphlineFrame.add(graphlineView);
+        JFrame graphLineFrame = windowBuilder(s.graphLineName, Color.red, s.graphLineDimensions , s.graphLinePosition);
+        graphLineFrame.add(graphLineView);
     }
 
 
