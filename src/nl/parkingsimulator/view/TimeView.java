@@ -16,6 +16,7 @@ public class TimeView extends AbstractView {
 
     /**
      * Constructor for objects of class CarPark
+     * @param model The model where to data comes from
      */
     public TimeView(AbstractModel model) {
         super(model);
@@ -27,6 +28,9 @@ public class TimeView extends AbstractView {
         add(progressBar);
     }
 
+    /**
+     * Overidden. Tells to update the labels and updates the view
+     */
     @Override
     public void updateView() {
 
@@ -49,6 +53,10 @@ public class TimeView extends AbstractView {
         return new Dimension(400, 100);
     }
 
+    /**
+     * Overridden. Draws all the elements on the screen
+     * @param g The graphics to draw on
+     */
     @Override
     public void paintComponent(Graphics g) {
         CarParkModel model = (CarParkModel) getModel();

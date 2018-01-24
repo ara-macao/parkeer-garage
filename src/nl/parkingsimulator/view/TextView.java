@@ -13,11 +13,15 @@ public class TextView extends AbstractView {
 
     /**
      * Constructor for objects of class CarPark
+     * @param model The model where to data comes from
      */
     public TextView(AbstractModel model) {
         super(model);
     }
 
+    /**
+     * Overidden. Tells to update the labels and updates the view
+     */
     @Override
     public void updateView() {
 
@@ -35,8 +39,8 @@ public class TextView extends AbstractView {
     }
 
     /**
-     * Overridden. Paints all the elements on the screen
-     * @param g
+     * Overridden. Draws all the elements on the screen
+     * @param g The graphics to draw on
      */
     @Override
     public void paintComponent(Graphics g) {

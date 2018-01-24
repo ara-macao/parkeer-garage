@@ -20,7 +20,10 @@ public class TickController extends AbstractController implements ActionListener
     private JButton tickPauseButton;
 
 
-
+    /**
+     * Constructor for objects of class CarPark
+     * @param model The model where to data comes from
+     */
     public TickController(AbstractModel model) {
         super(model);
         setSize(140, 300);
@@ -50,6 +53,10 @@ public class TickController extends AbstractController implements ActionListener
         setVisible(true);
     }
 
+    /**
+     * Handles the actions from the button
+     * @param e The event that has been fired
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         CarParkModel parkModel = (CarParkModel)model;
@@ -68,6 +75,10 @@ public class TickController extends AbstractController implements ActionListener
 
     }
 
+    /**
+     * Starts the simulator of the given model
+     * @param parkModel The model we use for the simulation
+     */
     private void runSimulation(CarParkModel parkModel){
         try {
             int tickAmount = parseIntValue(tickAmountField);
@@ -82,6 +93,10 @@ public class TickController extends AbstractController implements ActionListener
         }
     }
 
+    /**
+     * pause the simulator
+     * @param parkModel The model we want to pause
+     */
     private void setTickPause(CarParkModel parkModel){
         try {
             int tickPause = parseIntValue(tickPauseField);
@@ -95,6 +110,10 @@ public class TickController extends AbstractController implements ActionListener
         }
     }
 
+    /**
+     * Parses the value of an inputfield to an int
+     * @param input The input field we need to reed our integes from
+     */
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());
     }
