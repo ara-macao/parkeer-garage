@@ -1,6 +1,7 @@
 package nl.parkingsimulator.logic;
 
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Car {
 
@@ -9,13 +10,13 @@ public abstract class Car {
     private boolean isPaying;
     private boolean hasToPay;
     private int totalMinuteParket;
-    private int id;
+    protected int id;
 
     /**
      * Constructor for objects of class Car
      */
     public Car() {
-        id = hashCode();
+
     }
 
     public Location getLocation() {
@@ -60,4 +61,8 @@ public abstract class Car {
     }
     
     public abstract Color getColor();
+
+    public int getId() {
+        return id;
+    }
 }

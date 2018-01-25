@@ -88,12 +88,12 @@ public class SettingsController extends AbstractController implements ActionList
         int offset = 10;
 
         weekDayArrivalsField.setBounds(xPos, yPos, 120, 30);
-        weekendArrivalsField.setBounds(xPos, yPos + 1 * (30 + offset), 120, 30);
+        weekendArrivalsField.setBounds(xPos, yPos + (30 + offset), 120, 30);
         weekDayPassArrivalsField.setBounds(xPos, yPos + 2 * (30 + offset), 120, 30);
         weekendPassArrivalsField.setBounds(xPos, yPos + 3 * (30 + offset), 120, 30);
           
 		weekDayArrivalsLabel.setBounds(xPos + offset + 120, yPos, 200, 30);
-		weekendArrivalsLabel.setBounds(xPos + offset + 120, yPos + 1 * (30 + offset), 200, 30);
+		weekendArrivalsLabel.setBounds(xPos + offset + 120, yPos + (30 + offset), 200, 30);
 		weekDayPassArrivalsLabel.setBounds(xPos + offset + 120, yPos + 2 * (30 + offset), 200, 30);
 		weekendPassArrivalsLabel.setBounds(xPos + offset + 120, yPos + 3 * (30 + offset), 200, 30);
         

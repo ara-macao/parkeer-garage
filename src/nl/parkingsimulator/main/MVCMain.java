@@ -11,19 +11,19 @@ import java.awt.*;
 public class MVCMain {
     private AbstractModel model;
     private JFrame screen;
-    
+
     private AbstractController tickController;
     private SettingsController settingsController;
     private GraphLineController graphLineController;
     private AbstractController pieChartController;
-    private ReservationsController reservationsController;
-    
+    private AbstractController reservationController;
+
     private AbstractView carParkView;
     private AbstractView timeView;
     private AbstractView graphLineView;
-    ReservationView reservationView;  
+    private AbstractView reservationView;
     private TextView textView;
-    
+
     private Settings settings;
 
     public MVCMain() {
@@ -35,7 +35,6 @@ public class MVCMain {
         model = new CarParkModel(settings);
         tickController = new TickController(model);
         pieChartController = new PieChartController(model);
-        reservationsController = new ReservationsController(model);
 
         carParkView = new CarParkView(model);
         textView = new TextView(model);
@@ -54,7 +53,7 @@ public class MVCMain {
         screen.setLocation(settings.getCarParkViewPosition());
         screen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
-        
+
         /**
          * Add elements to the main screen.
          */
@@ -66,11 +65,11 @@ public class MVCMain {
          * Prevents drawing glitch, should be looked into!
          */
         timeView.setOpaque(false);
-        textView.setOpaque(false); 
+        textView.setOpaque(false);
 
         CarParkModel carModel = (CarParkModel)model;
         carModel.notifyViews();
-        
+
         /**
          * Creating separate windows here...
          */
@@ -85,17 +84,18 @@ public class MVCMain {
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
 
-        JFrame graphLineFrame = windowBuilder(settings.getGraphLineControllerName(), settings.getGraphLineControllerDimensions() , settings.getGraphLineControllerPosition());
+        JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), settings.getGraphLineDimensions() , settings.getGraphLinePosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
         graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize());
         graphLineFrame.add(graphLineController);
         graphLineFrame.add(graphLineView);
 
         JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
-        reservationsFrame.add(reservationsController);
+        reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
+        reservationsFrame.add(reservationController);
         reservationsFrame.add(reservationView);
 
-        JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());       
+        JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
         settingsController = new SettingsController(model, settingsFrame.getContentPane().getSize());
         settingsFrame.add(settingsController);
@@ -114,9 +114,8 @@ public class MVCMain {
 
     /**
      * Creates a frame to be used for the viewers and controllers
-     * 
+     *
      * @param title the title for the frame
-     * @param backgroundColor the background color for the frame
      * @param dimension the dimension of the frame
      * @param location the location of the frame i the screen
      * @return the frame that has been made
