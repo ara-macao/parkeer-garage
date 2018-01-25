@@ -6,6 +6,7 @@ import nl.parkingsimulator.logic.Reservation;
 import nl.parkingsimulator.logic.Settings;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,14 +22,16 @@ public class ReservationsController extends AbstractController implements Action
     CarParkModel parkModel;
 
 
-    public ReservationsController(AbstractModel model) {
+    public ReservationsController(AbstractModel model, Dimension size) {
         super(model);
 
-        CarParkModel parkModel = (CarParkModel) model;
+        parkModel = (CarParkModel) model;
 
-        setSize(300, 300);
+        setSize(size);
 
         reservations = new ArrayList<>();
+
+        addReservation();
 
         reservationLabel = new JLabel("Reserveringen");
         addReservationButton = new JButton("Voeg toe");
@@ -56,17 +59,31 @@ public class ReservationsController extends AbstractController implements Action
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addReservationButton) {
-            reservations.add(new Reservation(reservations.size()));
+            Reservation reservation = new Reservation(reservations.size());
+            reservations.add(reservation);
+            if(parkModel != null) {
+                parkModel.setReservationAt(0,0,0, reservation);
+            }
         }
         else if(e.getSource() == removeReservationButton) {
             if(reservations.size() > 0) {
                 reservations.remove(reservations.size() - 1);
             }
         }
-
-        if(parkModel != null) {
-
-        }
     }
 
+    private void addReservation() {
+        Reservation reservation = new Reservation(0);
+        reservations.add(reservation);
+        if(parkModel != null) {
+            for (int i = 0; i < 30; i++) {
+                parkModel.setReservationAt(0, 0, i, reservation);
+                parkModel.setReservationAt(0, 1, i, reservation);
+                parkModel.setReservationAt(0, 2, i, reservation);
+                parkModel.setReservationAt(0, 3, i, reservation);
+                parkModel.setReservationAt(0, 4, i, reservation);
+                parkModel.setReservationAt(0, 5, i, reservation);
+            }
+        }
+    }
 }

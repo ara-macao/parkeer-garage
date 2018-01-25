@@ -53,7 +53,7 @@ public class Settings {
     private String tickControllerName = "Start";
 
     private Point reservationsPosition = new Point(carParkViewPosition.x + carParkViewDimensions.width, carParkViewPosition.y + getTickControllerDimensions().height);
-    private Dimension reservationsDimensions = new Dimension(300, 300);
+    private Dimension reservationsDimensions = new Dimension(350, 300);
     private String reservationsName = "Reserveringen";
     
     private Point settingsControllerPosition = new Point(reservationsPosition.x + reservationsDimensions.width, reservationsPosition.y);

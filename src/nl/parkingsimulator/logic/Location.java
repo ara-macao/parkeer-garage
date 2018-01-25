@@ -1,11 +1,14 @@
 package nl.parkingsimulator.logic;
 
+import java.awt.*;
+
 public class Location {
 
     private int floor;
     private int row;
     private int place;
     private Reservation reservation;
+    private Color color;
 
     /**
      * Constructor for objects of class Location
@@ -14,6 +17,7 @@ public class Location {
         this.floor = floor;
         this.row = row;
         this.place = place;
+        this.color = Color.pink;
     }
 
     /**
@@ -76,7 +80,23 @@ public class Location {
         return reservation != null;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+        switch (reservation.getCarId()) {
+            case 0:
+                setColor(Color.CYAN);
+                break;
+            case 1:
+                setColor(Color.pink);
+                break;
+        }
     }
 }

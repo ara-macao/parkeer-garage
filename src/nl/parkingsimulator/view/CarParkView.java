@@ -12,7 +12,6 @@ import nl.parkingsimulator.logic.Location;
 public class CarParkView extends AbstractView {
     private Dimension size;
     private Image carParkImage;
-    private Location[][][] parkingSpaces;
 
     /**
      * Constructor for objects of class CarPark
@@ -58,19 +57,15 @@ public class CarParkView extends AbstractView {
             carParkImage = createImage(size.width, size.height);
         }
 
-        if(parkingSpaces == null){
-            
-        }
-
          CarParkModel model = (CarParkModel)getModel();
 
         Graphics graphics = carParkImage.getGraphics();
         for(int floor = 0; floor < model.getNumberOfFloors(); floor++) {
             for(int row = 0; row < model.getNumberOfRows(); row++) {
                 for(int place = 0; place < model.getNumberOfPlaces(); place++) {
-                    Location location = new Location(floor, row, place);
+                    Location location = model.locations[floor][row][place];
                     Car car = model.getCarAt(location);
-                    Color color = car == null ? Color.white : car.getColor();
+                    Color color = car == null ? location.getColor() : car.getColor();
                     drawPlace(graphics, location, color);
                 }
             }
