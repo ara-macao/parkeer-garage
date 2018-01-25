@@ -1,7 +1,9 @@
 # Ignore everything...
-*
+/*
+/*/
 
 # Except...
 !/.gitignore
-!/src/*
+!/src/
 !/LICENSE
+!/external/
