@@ -77,12 +77,9 @@ public class ReservationsController extends AbstractController implements Action
         reservations.add(reservation);
         if(parkModel != null) {
             for (int i = 0; i < 30; i++) {
-                parkModel.setReservationAt(0, 0, i, reservation);
-                parkModel.setReservationAt(0, 1, i, reservation);
-                parkModel.setReservationAt(0, 2, i, reservation);
-                parkModel.setReservationAt(0, 3, i, reservation);
-                parkModel.setReservationAt(0, 4, i, reservation);
-                parkModel.setReservationAt(0, 5, i, reservation);
+                for (int y = 0; y < 6; y++) {
+                    parkModel.setReservationAt(0, y, i, reservation);
+                }
             }
         }
     }
