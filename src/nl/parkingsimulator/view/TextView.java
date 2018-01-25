@@ -14,6 +14,7 @@ public class TextView extends AbstractView {
 
     private JLabel totalRevenueLabel;
     private JLabel notPayedRevenueLabel;
+    private JLabel missedCars;
 
     /**
      * Constructor for objects of class CarPark
@@ -27,6 +28,11 @@ public class TextView extends AbstractView {
 
         totalRevenueLabel = new JLabel();
         notPayedRevenueLabel = new JLabel();
+
+        missedCars = new JLabel();
+        missedCars.setBounds(0, 10, 200, 20);
+        add(missedCars);
+
 
         totalRevenueLabel.setBounds(0, 20, 200, 20);
         notPayedRevenueLabel.setBounds(0, 30, 200, 20);
@@ -48,6 +54,8 @@ public class TextView extends AbstractView {
 
         CarParkModel model = (CarParkModel) getModel();
         if(model != null){
+            missedCars.setText("Missed cars: " + model.getMissedCars());
+
             String totalRevenue = formatMoney(model.getRevenue());
             totalRevenueLabel.setText("Opbrengst vandaag: " + totalRevenue);
 

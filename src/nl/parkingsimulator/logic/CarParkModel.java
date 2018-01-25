@@ -1,6 +1,7 @@
 package nl.parkingsimulator.logic;
 
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.Random;
 
 public class CarParkModel extends AbstractModel implements Runnable {
@@ -52,6 +53,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private double revenueNotPayed = 0;
 
     private HashMap<Integer, Double> weekRevenue = new HashMap<Integer, Double>();
+    private int missedCars = 0;
 
     public CarParkModel(Settings settings) {
         ApplySettings(settings);
@@ -112,6 +114,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     public void setTickPause(int tickPause){
         this.tickPause = tickPause;
+    }
+
+    public int getMissedCars(){
+        return missedCars;
     }
 
     public synchronized void setPauseState(boolean state){
@@ -316,9 +322,7 @@ private void advanceTime() {
     private void carsEntering(CarQueue queue){
         int i=0;
         // Remove car from the front of the queue and assign to a parking space.
-    	while (queue.carsInQueue()>0 && 
-    			getNumberOfOpenSpots()>0 && 
-    			i<enterSpeed) {
+    	while (queue.carsInQueue()>0 && getNumberOfOpenSpots()>0 && i< enterSpeed) {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation();
             setCarAt(freeLocation, car);
@@ -405,18 +409,28 @@ private void advanceTime() {
     
     private void addArrivingCars(int numberOfCars, String type){
         // Add the cars to the back of the queue.
-    	switch(type) {
+
+        // TO-DO: Add missed cars
+        switch(type) {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
-            	entranceCarQueue.addCar(new AdHocCar());
+                addCarsToQueue(entranceCarQueue, new AdHocCar(), i);
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
-            	entrancePassQueue.addCar(new ParkingPassCar());
+                addCarsToQueue(entrancePassQueue, new ParkingPassCar(), i);
             }
             break;	            
     	}
+    }
+
+    private void addCarsToQueue(CarQueue carQueue, Car car, int index){
+            if(index < enterSpeed){
+                carQueue.addCar(car);
+            }else{
+                missedCars++;
+            }
     }
     
     private void carLeavesSpot(Car car){
@@ -465,6 +479,7 @@ private void advanceTime() {
 
         weekRevenue.put(day, dayRevenue);
         dayRevenue = 0;
+        missedCars = 0;
     }
 
     public  HashMap<Integer, Double> getWeekRevenue(){
