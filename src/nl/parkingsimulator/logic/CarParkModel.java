@@ -313,7 +313,9 @@ private void advanceTime() {
     }
     
     private void carsArriving(){
-    	int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
+        missedCars = 0;
+
+        int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
         addArrivingCars(numberOfCars, AD_HOC);    	
     	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals());
         addArrivingCars(numberOfCars, PASS);    	
@@ -479,7 +481,6 @@ private void advanceTime() {
 
         weekRevenue.put(day, dayRevenue);
         dayRevenue = 0;
-        missedCars = 0;
     }
 
     public  HashMap<Integer, Double> getWeekRevenue(){
