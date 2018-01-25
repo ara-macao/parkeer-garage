@@ -12,13 +12,15 @@ public class MVCMain {
     private AbstractModel model;
     private JFrame screen;
     
-    private AbstractView carParkView;
     private AbstractController tickController;
     private SettingsController settingsController;
+    private GraphLineController graphLineController;
+    private AbstractController pieChartController;
+    
+    private AbstractView carParkView;
     private AbstractView timeView;
     private AbstractView graphLineView;
-    ReservationView reservationView;
-    private AbstractController pieChartController;
+    ReservationView reservationView;  
     private TextView textView;
     
     private Settings settings;
@@ -82,7 +84,10 @@ public class MVCMain {
         
         JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), Color.GRAY, settings.getGraphLineDimensions() , settings.getGraphLinePosition());
         // When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        graphLineView = new GraphlineView(model, graphLineFrame.getContentPane().getSize());
+        graphLineView = new GraphLineView(model, new Dimension(graphLineFrame.getContentPane().getSize().width, graphLineFrame.getContentPane().getSize().height - 80));
+        graphLineController = new GraphLineController(model);
+        graphLineController.setBounds(0, graphLineView.getSize().height, graphLineFrame.getContentPane().getSize().width, 80);
+        graphLineFrame.add(graphLineController);
         graphLineFrame.add(graphLineView);
 
         JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), Color.GRAY, settings.getReservationsDimensions(), settings.getReservationsPosition());
@@ -94,8 +99,7 @@ public class MVCMain {
         settingsFrame.add(settingsController);
     }
 
-
-    private void addNewElement(JPanel view, int x, int y, int width, int height){
+    private void addNewElement(JPanel view, int x, int y, int width, int height) {
         screen.getContentPane().add(view);
         view.setBounds(x,y,width, height);
     }
