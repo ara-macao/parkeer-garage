@@ -6,8 +6,6 @@ package nl.parkingsimulator.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
@@ -16,7 +14,7 @@ import nl.parkingsimulator.logic.CarParkModel;
  * @author Robin de Man
  */
 
-public class PieChartView extends AbstractView { ;
+public class PieChartView extends AbstractView {
     
     private int openSpots;
     private int totalSpots;
@@ -25,6 +23,7 @@ public class PieChartView extends AbstractView { ;
     private double percTakenSpots;
     private int degrees;
     private int startPosition;
+    
     /**
      * Constructor for objects of class CarPark
      * @param model
@@ -88,4 +87,5 @@ public class PieChartView extends AbstractView { ;
         super.updateView();
     }
 }
+
 
