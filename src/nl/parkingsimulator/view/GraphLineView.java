@@ -76,7 +76,7 @@ public class GraphLineView extends AbstractView {
 				break;
 			
 			case 10:
-				xAxisTitle = "Tijd in 10 minuten";
+				xAxisTitle = "Tijd x 10 minuten";
 				break;
 				
 			case 15:
@@ -121,7 +121,7 @@ public class GraphLineView extends AbstractView {
         // Customize Chart
         graphLine.getStyler().setYAxisMax((double)this.model.getNumberOfSpots());
         graphLine.getStyler().setPlotContentSize(1.0);
-        graphLine.getStyler().setLegendPosition(LegendPosition.InsideNE);
+        graphLine.getStyler().setLegendPosition(LegendPosition.InsideNW);
         graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
         
         /**
