@@ -118,6 +118,22 @@ public class CarParkModel extends AbstractModel implements Runnable {
             notify();
         }
     }
+    
+    public int getEntranceCarQueue() {
+    	return entranceCarQueue.carsInQueue();
+    }
+    
+    public int getEntrancePassQueue() {
+    	return entrancePassQueue.carsInQueue();
+    }
+    
+    public int getPaymentCarQueue() {
+    	return paymentCarQueue.carsInQueue();
+    }
+    
+    public int getExitCarQueue() {
+    	return exitCarQueue.carsInQueue();
+    }
 
     public int getNumberOfFloors() {
         return numberOfFloors;
