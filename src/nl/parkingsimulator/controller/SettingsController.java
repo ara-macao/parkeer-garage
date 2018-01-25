@@ -17,6 +17,7 @@ import javax.swing.event.ChangeListener;
 
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
+import nl.parkingsimulator.logic.Settings;
 
 /**
  * 
@@ -112,11 +113,14 @@ public class SettingsController extends AbstractController implements ActionList
     	/**
     	 * Update the values in settings.
     	 */
-    	if(e.getSource() == updateButton) {    		
-    		parkModel.getSettings().setWeekDayArrivals(parseIntValue(weekDayArrivalsField));
-    		parkModel.getSettings().setWeekendArrivals(parseIntValue(weekendArrivalsField));
-			parkModel.getSettings().setWeekDayPassArrivals(parseIntValue(weekDayPassArrivalsField));
-			parkModel.getSettings().setWeekendPassArrivals(parseIntValue(weekendPassArrivalsField));
+    	if(e.getSource() == updateButton) {
+    	    Settings settings = parkModel.getSettings();
+            settings.setWeekDayArrivals(parseIntValue(weekDayArrivalsField));
+            settings.setWeekendArrivals(parseIntValue(weekendArrivalsField));
+            settings.setWeekDayPassArrivals(parseIntValue(weekDayPassArrivalsField));
+            settings.setWeekendPassArrivals(parseIntValue(weekendPassArrivalsField));
+
+            parkModel.setSettings(settings);
         }
     }
     

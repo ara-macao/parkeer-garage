@@ -54,20 +54,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private HashMap<Integer, Double> weekRevenue = new HashMap<Integer, Double>();
 
     public CarParkModel(Settings settings) {
-        this.settings = settings;
-
-        this.numberOfFloors = settings.getParkingFloors();
-        this.numberOfRows = settings.getParkingRows();
-        this.numberOfPlaces = settings.getParkingPlacesPerRow();
-        
+        ApplySettings(settings);
         this.tickPause = settings.getTickPause();
-        this.amountOfTicks = settings.getAmountOfTicks(); 
+        this.amountOfTicks = settings.getAmountOfTicks();
 
-        this.enterSpeed = settings.getEnterSpeed();
-        this.paymentSpeed = settings.getPaymentSpeed();
-        this.exitSpeed = settings.getExitSpeed();
-        
-        
         this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
@@ -76,6 +66,19 @@ public class CarParkModel extends AbstractModel implements Runnable {
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simThread = new Thread(this);
+    }
+
+
+    private void ApplySettings(Settings settings){
+        this.settings = settings;
+
+        this.numberOfFloors = settings.getParkingFloors();
+        this.numberOfRows = settings.getParkingRows();
+        this.numberOfPlaces = settings.getParkingPlacesPerRow();
+
+        this.enterSpeed = settings.getEnterSpeed();
+        this.paymentSpeed = settings.getPaymentSpeed();
+        this.exitSpeed = settings.getExitSpeed();
     }
     
     public void startSimulation(){
@@ -478,6 +481,10 @@ private void advanceTime() {
     
     public Settings getSettings() {
     	return settings;
+    }
+
+    public void setSettings(Settings settings){
+        ApplySettings(settings);
     }
 
     private boolean locationIsValid(Location location) {
