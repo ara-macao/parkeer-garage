@@ -59,10 +59,14 @@ public class Settings {
     private Point settingsControllerPosition = new Point(reservationsPosition.x + reservationsDimensions.width, reservationsPosition.y);
     private Dimension settingsControllerDimensions = new Dimension(400, reservationsDimensions.height);
     private String settingsControllerName = "Instellingen";
-
+    
     private Point graphLinePosition = new Point(carParkViewPosition.x, carParkViewPosition.y + carParkViewDimensions.height);
-    private Dimension graphLineDimensions = new Dimension(800, 400);
+    private Dimension graphLineDimensions = new Dimension(880, 400);
     private String graphLineName = "Grafiek";
+    
+    private Point graphLineControllerPosition = new Point(graphLinePosition.x + graphLineDimensions.width, carParkViewPosition.y + carParkViewDimensions.height);
+    private Dimension graphLineControllerDimensions = new Dimension(200, graphLineDimensions.height);
+    private String graphLineControllerName = "Grafiek Settings";
 
     private Point textViewPosition = new Point(50, 0);
     private Dimension textViewDimensions = new Dimension(300, 50);
@@ -70,11 +74,11 @@ public class Settings {
     private Point timeViewPosition = new Point(400, 0);
     private Dimension timeViewDimensions = new Dimension(300, 50);
 
-    private Point pieChartPosition = new Point(carParkViewPosition.x+graphLineDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
+    private Point pieChartPosition = new Point(graphLineControllerPosition.x + graphLineControllerDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
     private Dimension pieChartDimensions = new Dimension(210, 275);
     private String pieChartName = "Taart Grafiek";
 
-    private Point histogramPosition = new Point(carParkViewPosition.x+graphLineDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
+    private Point histogramPosition = new Point(pieChartPosition.x + pieChartDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
     private Dimension histogramDimensions = new Dimension(210, 275);
     private String histogramName = "Histogram";
     
@@ -123,6 +127,10 @@ public class Settings {
     public Point getGraphLinePosition() { return graphLinePosition; }
     public Dimension getGraphLineDimensions() { return graphLineDimensions; }
     public String getGraphLineName() { return graphLineName; }
+    
+    public Point getGraphLineControllerPosition() { return graphLineControllerPosition; }
+    public Dimension getGraphLineControllerDimensions() { return graphLineControllerDimensions; }
+    public String getGraphLineControllerName() { return graphLineControllerName; }
 
     public String getReservationsName() { return reservationsName; }
     public Dimension getReservationsDimensions() { return reservationsDimensions; }

@@ -5,12 +5,16 @@
  */
 package nl.parkingsimulator.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
@@ -46,7 +50,6 @@ public class GraphLineView extends AbstractView {
      */
     public GraphLineView(AbstractModel model) {
         super(model);
-        
         this.model = (CarParkModel)getModel();
 
         numberOfOpenSpots = 0;
@@ -57,6 +60,8 @@ public class GraphLineView extends AbstractView {
         totalNumberOfCars = 0;
         totalNumberOfCarswaiting = 0;
         lastGraphPosition = 0;
+        
+        JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
   
         totalCarsGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsWaitingGraph = new ArrayList<ArrayList<Integer>>();
@@ -72,7 +77,9 @@ public class GraphLineView extends AbstractView {
         totalCarsWaitingGraph.get(1).add(0);
         
         // Create Chart
-        graphLine = QuickChart.getChart("Overzicht van bezette plekken", "Tijd in minuten", "Aantal auto's", "Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
+        graphLine = new XYChartBuilder().width(800).height(600).title(getClass().getSimpleName()).xAxisTitle("Tijd in minuten").yAxisTitle("Aantal auto's").build();
+        
+        graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
         graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
         
         // Customize Chart
@@ -80,10 +87,20 @@ public class GraphLineView extends AbstractView {
         graphLine.getStyler().setXAxisMax((double)this.model.getSettings().getAmountOfTicks());
         graphLine.getStyler().setLegendPosition(LegendPosition.InsideNE);
         graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
+        
+        /**
+         * Use this code to add the chart to this JPanel.
+         */
+        //XChartPanel<XYChart> chartPane = new XChartPanel<>(graphLine);
+        //add(chartPane);
 
         // Show it
         swingWrapper = new SwingWrapper<XYChart>(graphLine);
-        swingWrapper.displayChart();
+        //swingWrapper.displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //swingWrapper.displayChart().setBounds(20, 600, 800, 600);//.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JFrame frame = swingWrapper.displayChart();
+        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+        javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getGraphLinePosition().x, this.model.getSettings().getGraphLinePosition().y, this.model.getSettings().getGraphLineDimensions().width, this.model.getSettings().getGraphLineDimensions().height));        
     }
     
     /**
