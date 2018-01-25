@@ -9,12 +9,13 @@ public abstract class Car {
     private boolean isPaying;
     private boolean hasToPay;
     private int totalMinuteParket;
+    private int id;
 
     /**
      * Constructor for objects of class Car
      */
     public Car() {
-
+        id = hashCode();
     }
 
     public Location getLocation() {

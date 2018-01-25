@@ -16,6 +16,7 @@ public class MVCMain {
     private SettingsController settingsController;
     private GraphLineController graphLineController;
     private AbstractController pieChartController;
+    private ReservationsController reservationsController;
     
     private AbstractView carParkView;
     private AbstractView timeView;
@@ -34,6 +35,7 @@ public class MVCMain {
         model = new CarParkModel(settings);
         tickController = new TickController(model);
         pieChartController = new PieChartController(model);
+        reservationsController = new ReservationsController(model);
 
         carParkView = new CarParkView(model);
         textView = new TextView(model);
@@ -91,13 +93,14 @@ public class MVCMain {
         graphLineFrame.add(graphLineView);
 
         JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), Color.GRAY, settings.getReservationsDimensions(), settings.getReservationsPosition());
+        reservationsFrame.add(reservationsController);
         reservationsFrame.add(reservationView);
-        
+
         JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), Color.GRAY, settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());       
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
         settingsController = new SettingsController(model, settingsFrame.getContentPane().getSize());
         settingsFrame.add(settingsController);
-        
+
         Frame histogramFrame = windowBuilder(settings.getHistogramName(), Color.red, settings.getHistogramDimensions(), settings.getHistogramPosition());
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
