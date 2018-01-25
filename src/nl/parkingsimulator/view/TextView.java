@@ -3,6 +3,7 @@ package nl.parkingsimulator.view;
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -11,12 +12,35 @@ import java.awt.*;
  */
 public class TextView extends AbstractView {
 
+    private JLabel totalRevenueLabel;
+    private JLabel notPayedRevenueLabel;
+    private JLabel missedCars;
+
     /**
      * Constructor for objects of class CarPark
      * @param model The model where to data comes from
      */
     public TextView(AbstractModel model) {
         super(model);
+
+        setSize(getPreferredSize());
+        setLayout(null);
+
+        totalRevenueLabel = new JLabel();
+        notPayedRevenueLabel = new JLabel();
+
+        missedCars = new JLabel();
+        missedCars.setBounds(0, 10, 200, 20);
+        add(missedCars);
+
+
+        totalRevenueLabel.setBounds(0, 20, 200, 20);
+        notPayedRevenueLabel.setBounds(0, 30, 200, 20);
+
+        add(totalRevenueLabel);
+        add(notPayedRevenueLabel);
+
+
     }
 
     /**
@@ -28,6 +52,17 @@ public class TextView extends AbstractView {
         // Update the view (repaint)
         //g.drawString("abc", 25, 25);
 
+        CarParkModel model = (CarParkModel) getModel();
+        if(model != null){
+            missedCars.setText("Missed cars: " + model.getMissedCars());
+
+            String totalRevenue = formatMoney(model.getRevenue());
+            totalRevenueLabel.setText("Opbrengst vandaag: " + totalRevenue);
+
+            String revenueNotPayed = formatMoney(model.getRevenueNotPayed());
+            notPayedRevenueLabel.setText("Nog te betalen: " + revenueNotPayed);
+        }
+
         super.updateView();
     }
 
@@ -35,7 +70,7 @@ public class TextView extends AbstractView {
      * Overridden. Tell the GUI manager how big we would like to be.
      */
     public Dimension getPreferredSize() {
-        return new Dimension(400, 100);
+        return new Dimension(400, 200);
     }
 
     /**
@@ -45,13 +80,6 @@ public class TextView extends AbstractView {
     @Override
     public void paintComponent(Graphics g) {
 
-        CarParkModel model = (CarParkModel) getModel();
-        if(model != null){
-            String totalRevenue = formatMoney(model.getRevenue());
-            g.drawString("Opbrengst vandaag: " + totalRevenue, 25, 25);
-            String revenueNotPayed = formatMoney(model.getRevenueNotPayed());
-            g.drawString("Niet betaald: " + revenueNotPayed, 25, 40);
-        }
     }
 
     private String formatMoney(double money){

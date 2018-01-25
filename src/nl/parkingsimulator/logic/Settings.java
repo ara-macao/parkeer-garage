@@ -74,6 +74,10 @@ public class Settings {
     private Dimension pieChartDimensions = new Dimension(210, 275);
     private String pieChartName = "Taart Grafiek";
 
+    private Point histogramPosition = new Point(carParkViewPosition.x+graphLineDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
+    private Dimension histogramDimensions = new Dimension(210, 275);
+    private String histogramName = "Histogram";
+    
     /**
      *  Getters for CarParkModel.
      */
@@ -107,6 +111,10 @@ public class Settings {
     public Point getPieChartPosition() { return pieChartPosition; }
     public Dimension getPieChartDimensions() { return pieChartDimensions; }
     public String getPieChartName() { return pieChartName; }
+    
+    public Point getHistogramPosition() { return histogramPosition; }
+    public Dimension getHistogramDimensions() { return histogramDimensions; }
+    public String getHistogramName() { return histogramName; }
 
     public Point getTickControllerPosition() { return tickControllerPosition; }
     public Dimension getTickControllerDimensions() { return tickControllerDimensions; }
