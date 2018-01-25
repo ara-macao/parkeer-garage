@@ -5,18 +5,14 @@
  */
 package nl.parkingsimulator.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
 
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
@@ -28,17 +24,18 @@ public class GraphLineView extends AbstractView {
     private int numberOfOpenSpots;
     private int numberOfSpots;
     private int minuteSinceStart;
+    private int updateFrequency;
+    private int lastUpdate;
     private float horizontalGraphPosition;
     private int verticalGraphposition;
     private int lastGraphPosition;
     
-    private int horizontalGraphOffset;
-    private int verticalGraphOffset;
+    private ArrayList<ArrayList<Integer>> graphValues;
     
-    private int graphLineThickness;
-    private int outlineThickness;
+    private XYChart graphLine;
+    private SwingWrapper<XYChart> swingWrapper;
     
-    private ArrayList<Point> graphvalues; 
+    CarParkModel model;
     
     Dimension dimensions;
 
@@ -48,32 +45,34 @@ public class GraphLineView extends AbstractView {
     public GraphLineView(AbstractModel model, Dimension dimensions) {
         super(model);
         setSize(dimensions);
+        
+        this.model = (CarParkModel)getModel();
         this.dimensions = dimensions;
 
         numberOfOpenSpots = 0;
         numberOfSpots = 0;
         minuteSinceStart = 0;
+        updateFrequency = 10;
+        lastUpdate = 0;
         horizontalGraphPosition = 0;
         verticalGraphposition = 0;
         lastGraphPosition = 0;
+  
+        graphValues = new ArrayList<ArrayList<Integer>>();
+        graphValues.add(new ArrayList<Integer>());
+        graphValues.add(new ArrayList<Integer>());
         
-        horizontalGraphOffset = 24;
-        verticalGraphOffset = 16;
-        
-        graphLineThickness = 2;
-        outlineThickness = 1;
-        
-        graphvalues = new ArrayList<Point>();
-        
-        double initdata1[] = {0, 1, 2};
-        double initdata2[] = {0, 1, 2};
+        graphValues.get(0).add(0);
+        graphValues.get(1).add(0);
         
         // Create Chart
-        final XYChart chart = QuickChart.getChart("Simple XChart Real-time Demo", "Radians", "Sine", "sine", initdata1, initdata2);
-        
+        graphLine = QuickChart.getChart("Overzicht van bezette plekken", "Tijd", "Bezette PLekken", "bezette plekken", graphValues.get(0), graphValues.get(1));
+        graphLine.getStyler().setYAxisMax((double)this.model.getNumberOfSpots());
+        graphLine.getStyler().setXAxisMax((double)this.model.getSettings().getAmountOfTicks());
+
         // Show it
-        final SwingWrapper<XYChart> sw = new SwingWrapper<XYChart>(chart);
-        sw.displayChart();
+        swingWrapper = new SwingWrapper<XYChart>(graphLine);
+        swingWrapper.displayChart();
     }
 
     /**
@@ -85,7 +84,7 @@ public class GraphLineView extends AbstractView {
 
     @Override
     public void paintComponent(Graphics g) {
-        //dimensions = this.getSize();
+        /*//dimensions = this.getSize();
         g.setColor(Color.CYAN);
         g.fillRect(0, 0, dimensions.width, dimensions.height); // Background.
         
@@ -93,12 +92,12 @@ public class GraphLineView extends AbstractView {
         createGraphLine(g);
         
         g.setColor(Color.BLACK);   
-        createGraphHolder(g);    
+        createGraphHolder(g);*/  
     }
 
     @Override
     public void updateView() {
-        CarParkModel model = (CarParkModel)getModel();
+        model = (CarParkModel)getModel();
          
         numberOfOpenSpots = model.getNumberOfOpenSpots();
         numberOfSpots = model.getNumberOfSpots();
@@ -106,23 +105,32 @@ public class GraphLineView extends AbstractView {
         
         addGraphValues();
         
+        // Update every hour.
+        if(minuteSinceStart <= lastUpdate) {
+        	graphLine.updateXYSeries("bezette plekken", graphValues.get(0), graphValues.get(1), null);
+            swingWrapper.repaintChart();
+            
+            lastUpdate = minuteSinceStart + updateFrequency;
+        }
+        
         // Update the view (repaint)
         super.updateView();
     }
     
     private void addGraphValues() {
-        horizontalGraphPosition = (((float)dimensions.width - horizontalGraphOffset - graphLineThickness) / 10080) * minuteSinceStart; // 10080 mins in a week. 1440 mins in a day.
-        verticalGraphposition = Math.round((((float)dimensions.height - verticalGraphOffset - outlineThickness) / numberOfSpots) * numberOfOpenSpots);
+        horizontalGraphPosition = ((float)dimensions.width / 10080) * minuteSinceStart; // 10080 mins in a week. 1440 mins in a day.
+        verticalGraphposition =  numberOfSpots - numberOfOpenSpots;
         
         if(horizontalGraphPosition > lastGraphPosition) {
-            graphvalues.add(new Point(lastGraphPosition + horizontalGraphOffset + graphLineThickness, verticalGraphposition));
+        	graphValues.get(0).add(lastGraphPosition);
+        	graphValues.get(1).add(verticalGraphposition);
             
             //System.out.println(graphvalues.get(lastGraphPosition));
             lastGraphPosition++;
         }
     }
     
-    private void createGraphLine(Graphics g) {
+    /*private void createGraphLine(Graphics g) {
         Point previousCoordinate = new Point(horizontalGraphOffset + graphLineThickness, dimensions.height - verticalGraphOffset - outlineThickness);
                 
         for(Iterator<Point> i = graphvalues.iterator(); i.hasNext();) {
@@ -136,9 +144,9 @@ public class GraphLineView extends AbstractView {
             
             previousCoordinate = coordinate;
         }
-    }
+    }*/
     
-    private void createGraphHolder(Graphics g) {
+    /*private void createGraphHolder(Graphics g) {
         g.drawString("0", 0, dimensions.height); // 0 in the left under corner.
         g.drawString(String.valueOf(numberOfSpots), 0, 10); // Number of total spots in the left upper corner. 10 for font height.
         g.drawString("1 Week", dimensions.width - g.getFontMetrics().stringWidth("1 Week"), dimensions.height);
@@ -147,5 +155,5 @@ public class GraphLineView extends AbstractView {
         g2.setStroke(new BasicStroke(outlineThickness));
         g2.drawLine(0, dimensions.height - verticalGraphOffset, dimensions.width, dimensions.height - verticalGraphOffset);
         g2.drawLine(horizontalGraphOffset, 0, horizontalGraphOffset, dimensions.height);
-    }
+    }*/
 }
