@@ -453,7 +453,7 @@ private void advanceTime() {
             if(index < enterSpeed){
                 carQueue.addCar(car);
             }else{
-                missedCars++;
+                missedCarsMinute++;
             }
     }
     
