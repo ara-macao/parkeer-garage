@@ -82,8 +82,8 @@ public class MVCMain {
 
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
-        
-        JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), settings.getGraphLineDimensions() , settings.getGraphLinePosition());
+
+        JFrame graphLineFrame = windowBuilder(settings.getGraphLineControllerName(), settings.getGraphLineControllerDimensions() , settings.getGraphLineControllerPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
         graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize());
         graphLineFrame.add(graphLineController);
