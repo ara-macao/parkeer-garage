@@ -86,9 +86,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
         this.exitSpeed = settings.getExitSpeed();
     }
     
-    public void startSimulation(){
+    public void startSimulation() {
         // check if the thread is running
-        if(simThread.isAlive()){
+        if(simThread.isAlive()) {
             System.out.println("Already running!");
             //running = false;
         }else{
@@ -97,27 +97,31 @@ public class CarParkModel extends AbstractModel implements Runnable {
         }
     }
 
-    public void stopSimulation(){
+    public void stopSimulation() {
         if(simThread.isAlive()) {
             running = false;
         }
     }
 
-    public void setAmountOfTicks(int ticks){
+    public void setAmountOfTicks(int ticks) {
         amountOfTicks = ticks;
     }
 
-    public int getAmountOfTicks(){
+    public int getAmountOfTicks() {
         return amountOfTicks;
     }
 
-    public int getTickProgress(){
+    public int getTickProgress() {
         return currentTick;
     }
 
-    public void setTickPause(int tickPause){
+    public void setTickPause(int tickPause) {
         this.tickPause = tickPause;
     }
+
+    //public int getMissedCars() {
+        //return missedCars;
+    //}
 
     public int getMissedCarsMinute(){
         return missedCarsMinute;
@@ -131,14 +135,14 @@ public class CarParkModel extends AbstractModel implements Runnable {
         return missedCarsDay;
     }
 
-    public  int getMissedCarsWeek(){
+    public int getMissedCarsWeek() {
         return missedCarsWeek;
     }
 
-    public synchronized void setPauseState(boolean state){
+    public synchronized void setPauseState(boolean state) {
         pause = state;
 
-        if(!pause){
+        if(!pause) {
             notify();
         }
     }
@@ -292,7 +296,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         return null;
     }
     
-private void advanceTime() {
+    private void advanceTime() {
         // Advance the time by one minute.
         missedCarsMinute = 0;
         minute++;
@@ -315,27 +319,25 @@ private void advanceTime() {
             day -= 7;
             missedCarsWeek = 0;
         }
-
-
     }
 
-    private void handleEntrance(){
+    private void handleEntrance() {
     	carsArriving();
     	carsEntering(entrancePassQueue);
     	carsEntering(entranceCarQueue);  	
     }
     
-    private void handleExit(){
+    private void handleExit() {
         carsReadyToLeave();
         carsPaying();
         carsLeaving();
     }
     
-    private void updateViews(){
+    private void updateViews() {
     	super.notifyViews();
     }
     
-    private void carsArriving(){
+    private void carsArriving() {
         int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
         addArrivingCars(numberOfCars, AD_HOC);    	
     	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals());
@@ -343,10 +345,10 @@ private void advanceTime() {
 
     }
 
-    private void carsEntering(CarQueue queue){
-        int i=0;
+    private void carsEntering(CarQueue queue) {
+        int i = 0;
         // Remove car from the front of the queue and assign to a parking space.
-    	while (queue.carsInQueue()>0 && getNumberOfOpenSpots()>0 && i< enterSpeed) {
+    	while (queue.carsInQueue() > 0 && getNumberOfOpenSpots() > 0 && i < enterSpeed) {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation();
             setCarAt(freeLocation, car);
@@ -354,12 +356,12 @@ private void advanceTime() {
         }
     }
     
-    private void carsReadyToLeave(){
+    private void carsReadyToLeave() {
         
         // Add leaving cars to the payment queue.
         Car car = getFirstLeavingCar();
         while (car!=null) {
-        	if (car.getHasToPay()){
+        	if (car.getHasToPay()) {
 	            car.setIsPaying(true);
 	            paymentCarQueue.addCar(car);
         	}
@@ -370,10 +372,10 @@ private void advanceTime() {
         }
     }
 
-    private void carsPaying(){
+    private void carsPaying() {
         // Let cars pay.
-    	int i=0;
-    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
+    	int i = 0;
+    	while (paymentCarQueue.carsInQueue() > 0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
             // TODO Handle payment.
             addRevenue(car);
@@ -382,15 +384,15 @@ private void advanceTime() {
     	}
     }
 
-    private void addRevenue(Car car){
+    private void addRevenue(Car car) {
         dayRevenue += calculatePrice(car);
     }
 
-    private double calculatePrice(Car car){
+    private double calculatePrice(Car car) {
         return (double)(car.getTotalMinuteParket()) * (hourPrice /60);
     }
 
-    private void calculateRevenueNotPayed(){
+    private void calculateRevenueNotPayed() {
         revenueNotPayed = 0;
 
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
