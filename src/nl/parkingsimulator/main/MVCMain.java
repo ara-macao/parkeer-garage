@@ -32,13 +32,14 @@ public class MVCMain {
         settings = new Settings();
 
         model = new CarParkModel(settings);
-        tickController = new TickController(model);
+        tickController = new TickController(model); 
         pieChartController = new PieChartController(model);
 
         carParkView = new CarParkView(model);
         textView = new TextView(model);
         timeView = new TimeView(model);
         reservationView = new ReservationView(model);
+        graphLineView = new GraphLineView(model);
 
         /**
          * Creating the main screen...
@@ -71,7 +72,7 @@ public class MVCMain {
         /**
          * Creating separate windows here...
          */
-        Frame pieChartFrame = windowBuilder(settings.getPieChartName(), Color.red, settings.getPieChartDimensions(), settings.getPieChartPosition());
+        Frame pieChartFrame = windowBuilder(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
         PieChartView piechartpanel;
         piechartpanel = new PieChartView(model);
         piechartpanel.setBounds(0, 0, 200, 200);
@@ -79,26 +80,24 @@ public class MVCMain {
         pieChartFrame.add(pieChartController);
         pieChartController.setBounds(0, 200, 200, 40);
 
-        JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), Color.GRAY, settings.getTickControllerDimensions(), settings.getTickControllerPosition());
+        JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
         
-        JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), Color.GRAY, settings.getGraphLineDimensions() , settings.getGraphLinePosition());
-        // When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        graphLineView = new GraphLineView(model, new Dimension(graphLineFrame.getContentPane().getSize().width, graphLineFrame.getContentPane().getSize().height - 80));
-        graphLineController = new GraphLineController(model);
-        graphLineController.setBounds(0, graphLineView.getSize().height, graphLineFrame.getContentPane().getSize().width, 80);
+        JFrame graphLineFrame = windowBuilder(settings.getGraphLineName(), settings.getGraphLineDimensions() , settings.getGraphLinePosition());
+        //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
+        graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize());
         graphLineFrame.add(graphLineController);
         graphLineFrame.add(graphLineView);
 
-        JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), Color.GRAY, settings.getReservationsDimensions(), settings.getReservationsPosition());
+        JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
         reservationsFrame.add(reservationView);
         
-        JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), Color.GRAY, settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());       
+        JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());       
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
         settingsController = new SettingsController(model, settingsFrame.getContentPane().getSize());
         settingsFrame.add(settingsController);
         
-        Frame histogramFrame = windowBuilder(settings.getHistogramName(), Color.red, settings.getHistogramDimensions(), settings.getHistogramPosition());
+        Frame histogramFrame = windowBuilder(settings.getHistogramName(), settings.getHistogramDimensions(), settings.getHistogramPosition());
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
         histogrampanel.setBounds(0, 0, 200, 200);
@@ -119,12 +118,12 @@ public class MVCMain {
      * @param location the location of the frame i the screen
      * @return the frame that has been made
      */
-    private JFrame windowBuilder(String title, Color backgroundColor, Dimension dimension, Point location) {
+    private JFrame windowBuilder(String title, Dimension dimension, Point location) {
         JFrame.setDefaultLookAndFeelDecorated(settings.getDefaultLookAndFeel());
         JFrame frame = new JFrame(title);
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setBackground(backgroundColor);
+        frame.setBackground(Color.GRAY);
         frame.setSize(dimension);
         frame.setVisible(true);
 
