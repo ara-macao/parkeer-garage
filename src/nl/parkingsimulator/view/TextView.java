@@ -54,7 +54,7 @@ public class TextView extends AbstractView {
 
         CarParkModel model = (CarParkModel) getModel();
         if(model != null){
-            missedCars.setText("Missed cars: " + model.getMissedCars());
+            missedCars.setText("Missed cars: " + model.getMissedCarsMinute());
 
             String totalRevenue = formatMoney(model.getRevenue());
             totalRevenueLabel.setText("Opbrengst vandaag: " + totalRevenue);

@@ -53,7 +53,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private double revenueNotPayed = 0;
 
     private HashMap<Integer, Double> weekRevenue = new HashMap<Integer, Double>();
-    private int missedCars = 0;
+    private int missedCarsMinute = 0;
+    private int missedCarsHour = 0;
+    private int missedCarsDay = 0;
+    private int missedCarsWeek = 0;
 
     public CarParkModel(Settings settings) {
         ApplySettings(settings);
@@ -116,8 +119,24 @@ public class CarParkModel extends AbstractModel implements Runnable {
         this.tickPause = tickPause;
     }
 
-    public int getMissedCars() {
-        return missedCars;
+    //public int getMissedCars() {
+        //return missedCars;
+    //}
+
+    public int getMissedCarsMinute(){
+        return missedCarsMinute;
+    }
+
+    public  int getMissedCarsHour(){
+        return missedCarsHour;
+    }
+
+    public int getMissedCarsDay(){
+        return missedCarsDay;
+    }
+
+    public int getMissedCarsWeek() {
+        return missedCarsWeek;
     }
 
     public synchronized void setPauseState(boolean state) {
@@ -279,18 +298,26 @@ public class CarParkModel extends AbstractModel implements Runnable {
     
     private void advanceTime() {
         // Advance the time by one minute.
+        missedCarsMinute = 0;
         minute++;
+        missedCarsHour += missedCarsMinute;
+        missedCarsDay += missedCarsMinute;
+        missedCarsWeek += missedCarsMinute;
+
         while (minute > 59) {
             minute -= 60;
             hour++;
+            missedCarsHour = 0;
         }
         while (hour > 23) {
             hour -= 24;
             newDay();
             day++;
+            missedCarsDay = 0;
         }
         while (day > 6) {
             day -= 7;
+            missedCarsWeek = 0;
         }
     }
 
@@ -311,10 +338,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
     
     private void carsArriving() {
-    	int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
+        int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
         addArrivingCars(numberOfCars, AD_HOC);    	
     	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals());
-        addArrivingCars(numberOfCars, PASS);    	
+        addArrivingCars(numberOfCars, PASS);
+
     }
 
     private void carsEntering(CarQueue queue) {
@@ -427,7 +455,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
             if(index < enterSpeed){
                 carQueue.addCar(car);
             }else{
-                missedCars++;
+                missedCarsMinute++;
             }
     }
     
@@ -477,7 +505,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
         weekRevenue.put(day, dayRevenue);
         dayRevenue = 0;
-        missedCars = 0;
     }
 
     public  HashMap<Integer, Double> getWeekRevenue(){
