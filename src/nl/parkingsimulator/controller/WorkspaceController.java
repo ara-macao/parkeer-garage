@@ -8,6 +8,7 @@ package nl.parkingsimulator.controller;
 import nl.parkingsimulator.logic.AbstractModel;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -20,13 +21,18 @@ public class WorkspaceController extends AbstractController {
 
     public WorkspaceController(AbstractModel model) {
         super(model);
-        setSize(100, 300);
+        setSize(400, 400);
+        setBackground(Color.green);
 
         //workspace = new JDesktopPane();
         testLabel = new JLabel("kut mvc");
+
         setLayout(null);
         add(testLabel);
-        
+
+        testLabel.setBounds(0, 0, 120, 30);
+
+
         setVisible(true);
     }
 
