@@ -11,7 +11,8 @@ import nl.parkingsimulator.logic.Location;
 
 public class CarParkView extends AbstractView {
     private Dimension size;
-    private Image carParkImage;    
+    private Image carParkImage;
+    private Location[][][] parkingSpaces;
 
     /**
      * Constructor for objects of class CarPark
@@ -55,6 +56,10 @@ public class CarParkView extends AbstractView {
         if (!size.equals(getSize())) {
             size = getSize();
             carParkImage = createImage(size.width, size.height);
+        }
+
+        if(parkingSpaces == null){
+            
         }
 
          CarParkModel model = (CarParkModel)getModel();

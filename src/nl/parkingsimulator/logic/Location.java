@@ -5,6 +5,7 @@ public class Location {
     private int floor;
     private int row;
     private int place;
+    private Reservation reservation;
 
     /**
      * Constructor for objects of class Location
@@ -67,4 +68,15 @@ public class Location {
         return place;
     }
 
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public boolean hasReservation() {
+        return reservation != null;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
 }
