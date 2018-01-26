@@ -8,6 +8,7 @@ public class TimeEvent {
     private int endHour;
     private int endMinute;
     private String eventTitle;
+    private int carsModifier;
 
     public TimeEvent(int startDay, int startHour, int startMinute, int endDay, int endHour, int endMinute, int carsModifier, String eventTile){
         this.startDay = startDay;
@@ -17,6 +18,7 @@ public class TimeEvent {
         this.endHour = endHour;
         this.endMinute = endMinute;
         this.eventTitle = eventTile;
+        this.carsModifier = carsModifier;
     }
 
     public boolean checkEvent(int currentDay, int currentHour, int currentMinute){
@@ -32,5 +34,9 @@ public class TimeEvent {
 
     public String getEventTitle(){
         return eventTitle;
+    }
+
+    public int getCarsModifier(){
+        return carsModifier;
     }
 }

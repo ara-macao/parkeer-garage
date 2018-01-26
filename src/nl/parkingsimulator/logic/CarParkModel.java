@@ -60,10 +60,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int missedCarsWeek = 0;
     private ArrayList<TimeEvent> timeEvents = null;
     private String eventTitle = "";
+    private int eventMultiplier = 1;
 
     public CarParkModel(Settings settings) {
         timeEvents = new ArrayList<>(); // initialize event
-
+        eventMultiplier = 1;
         generateNightEvents();
 
         ApplySettings(settings);
@@ -371,9 +372,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
     
     private void carsArriving() {
-        int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
+        int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals() * eventMultiplier, settings.getWeekendArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, AD_HOC);    	
-    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals());
+    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals()* eventMultiplier, settings.getWeekendPassArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, PASS);
 
     }
@@ -579,10 +580,12 @@ public class CarParkModel extends AbstractModel implements Runnable {
             if(event.checkEvent(day, hour, minute)){
                 eventTitle = event.getEventTitle();
                 System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
+                eventMultiplier = event.getCarsModifier();
                 return;
             }
         }
 
+        eventMultiplier = 1;
         eventTitle = "Geen event";
     }
 
