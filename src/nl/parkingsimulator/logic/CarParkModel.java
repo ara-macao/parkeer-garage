@@ -94,6 +94,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
         for (int d = 0; d < 7; d++){
             timeEvents.add(new TimeEvent(d,23,0,d+1,7,0,0, "Nacht"));
         }
+
+//        timeEvents.add(new TimeEvent(6,23,0,7,7,0,0, "Nacht"));
+//        timeEvents.add(new TimeEvent(5, 20, 30, 6, 1, 0, 4, "Concert"));
     }
 
 
@@ -576,17 +579,21 @@ public class CarParkModel extends AbstractModel implements Runnable {
      *
      */
     private void checkEvent(){
+        boolean foundEvent = false;
+
         for (TimeEvent event : timeEvents) {
             if(event.checkEvent(day, hour, minute)){
                 eventTitle = event.getEventTitle();
                 System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
                 eventMultiplier = event.getCarsModifier();
-                return;
+                foundEvent = true;
             }
         }
 
-        eventMultiplier = 1;
-        eventTitle = "Geen event";
+        if(!foundEvent){
+            eventMultiplier = 1;
+            eventTitle = "Geen event";
+        }
     }
 
     public String getEventTitle(){

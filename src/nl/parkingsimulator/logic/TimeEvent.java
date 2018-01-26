@@ -19,15 +19,63 @@ public class TimeEvent {
         this.endMinute = endMinute;
         this.eventTitle = eventTile;
         this.carsModifier = carsModifier;
+
+
     }
 
     public boolean checkEvent(int currentDay, int currentHour, int currentMinute){
-        if(currentDay >= startDay && currentDay <= endDay){
-            if(currentHour >= startHour || currentHour < endHour){
-                // TODO: add minutes
+
+        if(checkDay(currentDay) && checkHours(currentDay, currentHour) && checkMinutes(currentMinute)){
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean checkDay(int currentDay){
+        if(currentDay == 0 && startDay == 6 && endDay == 7){
+            return true;
+        }
+
+        if(currentDay >= startDay && currentDay <= endDay) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean checkHours(int currentDay, int currentHour){
+
+        if(currentDay == 0 && startDay == 6 && endDay == 7){
+            currentDay = 7;
+        }
+
+
+        if(startDay == endDay && currentDay >= startDay && currentDay <= endDay){
+            if(currentHour >= startHour && currentHour <= endHour){
                 return true;
             }
+        }else if(currentDay == startDay){
+            if(currentHour >= startHour){
+                System.out.println("jawor");
+                return true;
+            }
+        }else if(currentDay > startDay && currentDay < endDay){
+            return true;
+        }else if(currentDay == endDay){
+            if(currentHour < endHour){
+                return true;
+            }
+        }else{
+            System.out.println("Something went wrong again");
         }
+        return false;
+    }
+
+    private boolean checkMinutes(int currentMinutes){
+        // TODO: Implement minutes;
+        if(true)
+            return true;
 
         return false;
     }
