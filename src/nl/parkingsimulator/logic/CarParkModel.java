@@ -1,5 +1,6 @@
 package nl.parkingsimulator.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -57,8 +58,14 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int missedCarsHour = 0;
     private int missedCarsDay = 0;
     private int missedCarsWeek = 0;
+    private ArrayList<TimeEvent> timeEvents = null;
+    private String eventTitle = "";
 
     public CarParkModel(Settings settings) {
+        timeEvents = new ArrayList<>(); // initialize event
+
+        generateNightEvents();
+
         ApplySettings(settings);
         this.tickPause = settings.getTickPause();
         this.amountOfTicks = settings.getAmountOfTicks();
@@ -80,6 +87,12 @@ public class CarParkModel extends AbstractModel implements Runnable {
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simThread = new Thread(this);
+    }
+
+    private void generateNightEvents(){
+        for (int d = 0; d < 7; d++){
+            timeEvents.add(new TimeEvent(d,23,0,d+1,7,0,0, "Nacht"));
+        }
     }
 
 
@@ -337,6 +350,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
             day -= 7;
             missedCarsWeek = 0;
         }
+
+        checkEvent();
     }
 
     private void handleEntrance() {
@@ -553,6 +568,26 @@ public class CarParkModel extends AbstractModel implements Runnable {
             return false;
         }
         return true;
+    }
+
+    /*
+     * Checks if there is an event happening at the current time
+     *
+     */
+    private void checkEvent(){
+        for (TimeEvent event : timeEvents) {
+            if(event.checkEvent(day, hour, minute)){
+                eventTitle = event.getEventTitle();
+                System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
+                return;
+            }
+        }
+
+        eventTitle = "Geen event";
+    }
+
+    public String getEventTitle(){
+        return eventTitle;
     }
 
     @Override
