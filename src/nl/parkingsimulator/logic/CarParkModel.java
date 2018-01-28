@@ -24,6 +24,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int paymentSpeed; // number of cars that can pay per minute
     private int exitSpeed; // number of cars that can leave per minute
     
+    //private int passCars;
+    //private int regCars;
+    //private int badPark;
+    //private int reserved;
     
     private int numberOfOpenSpots;
     private Car[][][] cars;
