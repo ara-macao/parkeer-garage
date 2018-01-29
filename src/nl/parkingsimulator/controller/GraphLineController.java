@@ -21,6 +21,8 @@ public class GraphLineController extends AbstractController implements ActionLis
 	private static final long serialVersionUID = 1L;
 	
 	private JButton toggleOccupiedPlaces;
+	private JButton toggleTotalWaitingCars;
+	
     private GraphLineView graphLineView;
     
     public GraphLineController(AbstractModel model, Dimension dimensions, GraphLineView graphLineView) {    
@@ -32,12 +34,23 @@ public class GraphLineController extends AbstractController implements ActionLis
         setBackground(Color.ORANGE);
 
         toggleOccupiedPlaces = new JButton("Bezette plekken");
+        toggleOccupiedPlaces.setToolTipText("klik om de grafiek aan of uit te zetten.");
+        
+        toggleTotalWaitingCars = new JButton("Alle wachtende auto's");
+        toggleTotalWaitingCars.setToolTipText("klik om de grafiek aan of uit te zetten.");
+        
         toggleOccupiedPlaces.addActionListener(this);
+        toggleTotalWaitingCars.addActionListener(this);
 
         setLayout(null);
+        
         add(toggleOccupiedPlaces);
+        add(toggleTotalWaitingCars);
+        
+        int offset = 10;
 
-        toggleOccupiedPlaces.setBounds(0, 0, 120, 30);
+        toggleOccupiedPlaces.setBounds(offset, offset, 170, 30);
+        toggleTotalWaitingCars.setBounds(offset, ((offset * 2) + 30) * 1, 170, 30);
 
         setVisible(true);
     }
@@ -51,5 +64,6 @@ public class GraphLineController extends AbstractController implements ActionLis
     	 * Toggle different graphs.
     	 */
     	if(e.getSource() == toggleOccupiedPlaces) graphLineView.toggleGraph(GraphName.OCCUPIED_PLACES);
+    	if(e.getSource() == toggleTotalWaitingCars) graphLineView.toggleGraph(GraphName.TOTAL_WAITING_CARS);
     }
 }

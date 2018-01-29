@@ -1,5 +1,7 @@
 package nl.parkingsimulator.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -9,6 +11,8 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
+import org.knowm.xchart.style.markers.Marker;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
@@ -31,8 +35,12 @@ public class GraphLineView extends AbstractView {
     private boolean occupiedPlacesGraph;
     private boolean totalwaitingCarsGraph;
     
+    private int activeCharts;
+    
     private ArrayList<ArrayList<Integer>> totalCarsGraph;
     private ArrayList<ArrayList<Integer>> totalCarsWaitingGraph;
+    
+    private Color[] colors = { Color.RED, Color.ORANGE, Color.BLUE }; // Default colors.
     
     private XYChart graphLine;
     private SwingWrapper<XYChart> swingWrapper;
@@ -120,22 +128,21 @@ public class GraphLineView extends AbstractView {
         graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
         graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
         
+        activeCharts = graphLine.getSeriesMap().size();
+        
+        Marker[] markers = { SeriesMarkers.NONE }; // Default markers.
+
         // Customize Chart.
         graphLine.getStyler().setYAxisMax((double)this.model.getNumberOfSpots());
         graphLine.getStyler().setPlotContentSize(1.0);
+        graphLine.getStyler().setSeriesMarkers(markers);
+        graphLine.getStyler().setSeriesColors(colors);
         graphLine.getStyler().setLegendPosition(LegendPosition.InsideNW);
         graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
-        
-        /**
-         * Use this code to add the chart to this JPanel.
-         */
-        //XChartPanel<XYChart> chartPane = new XChartPanel<>(graphLine);
-        //add(chartPane);
 
         // Show it
         swingWrapper = new SwingWrapper<XYChart>(graphLine);
-        //swingWrapper.displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //swingWrapper.displayChart().setBounds(20, 600, 800, 600);//.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         JFrame frame = swingWrapper.displayChart();
         javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getGraphLinePosition().x, this.model.getSettings().getGraphLinePosition().y, this.model.getSettings().getGraphLineDimensions().width, this.model.getSettings().getGraphLineDimensions().height));        
@@ -145,7 +152,7 @@ public class GraphLineView extends AbstractView {
      * @Override updateView() in AbstractView class.
      */
     public void updateView() {
-        model = (CarParkModel)getModel();
+        //model = (CarParkModel)getModel();
          
         numberOfOpenSpots = model.getNumberOfOpenSpots();
         numberOfSpots = model.getNumberOfSpots();
@@ -184,18 +191,20 @@ public class GraphLineView extends AbstractView {
     	switch (name) {
 			case OCCUPIED_PLACES:
 				occupiedPlacesGraph = !occupiedPlacesGraph;
-				if(occupiedPlacesGraph) graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
-				else graphLine.removeSeries("Bezette plekken");
+				if(occupiedPlacesGraph) { graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1)); colors[activeCharts] = Color.RED; activeCharts++; }
+				else { graphLine.removeSeries("Bezette plekken"); activeCharts--; }
 				break;
 			
 			case TOTAL_WAITING_CARS:
 				totalwaitingCarsGraph = !totalwaitingCarsGraph;
-				if(totalwaitingCarsGraph) graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
-				else graphLine.removeSeries("Wachtende auto's");
+				if(totalwaitingCarsGraph) { graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1)); colors[activeCharts] = Color.ORANGE; activeCharts++;}
+				else { graphLine.removeSeries("Wachtende auto's"); activeCharts--; }
 				break;
 	
 			default:
 				throw new IllegalArgumentException("For some reason noting happend...");
 		}
+    	
+    	graphLine.getStyler().setSeriesColors(colors);
     }
 }
