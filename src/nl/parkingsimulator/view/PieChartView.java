@@ -76,6 +76,9 @@ public class PieChartView extends AbstractView {
         pieChart.addSeries("Reserved", percReserved);
         pieChart.addSeries("Wrongly parked", percBadPark);
         
+        //Run the calculations
+        PieChartCalc();
+        
         // Show it
         swingWrapper = new SwingWrapper<PieChart>(pieChart);
         JFrame frame = swingWrapper.displayChart();
@@ -109,6 +112,7 @@ public class PieChartView extends AbstractView {
      * @Override updateView() in AbstractView class.
      */
     public void updateView() {
+        PieChartCalc();
         model = (CarParkModel)getModel();
          
         // Update the pie chart.
