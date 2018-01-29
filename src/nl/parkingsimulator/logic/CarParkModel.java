@@ -546,13 +546,16 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
 
     private boolean locationIsValid(Location location) {
-        int floor = location.getFloor();
-        int row = location.getRow();
-        int place = location.getPlace();
-        if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces) {
-            return false;
+        if(location != null) {
+            int floor = location.getFloor();
+            int row = location.getRow();
+            int place = location.getPlace();
+            if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
