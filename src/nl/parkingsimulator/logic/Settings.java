@@ -69,7 +69,7 @@ public class Settings {
     private String graphLineControllerName = "Grafiek Settings";
 
     private Point textViewPosition = new Point(50, 0);
-    private Dimension textViewDimensions = new Dimension(300, 50);
+    private Dimension textViewDimensions = new Dimension(300, 100);
 
     private Point timeViewPosition = new Point(400, 0);
     private Dimension timeViewDimensions = new Dimension(300, 50);

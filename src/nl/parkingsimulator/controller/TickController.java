@@ -226,7 +226,6 @@ public class TickController extends AbstractController implements ActionListener
             if(tickRate >= maxiumTick)
                 tickRate = maxiumTick;
 
-            System.out.println("Huh" + tickRate);
             parkModel.setTickPause(tickRate);
 
             tickRateSlider.setValue(tickRate);

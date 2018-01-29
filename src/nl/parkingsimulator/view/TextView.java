@@ -15,6 +15,7 @@ public class TextView extends AbstractView {
     private JLabel totalRevenueLabel;
     private JLabel notPayedRevenueLabel;
     private JLabel missedCars;
+    private JLabel currentEvent;
 
     /**
      * Constructor for objects of class CarPark
@@ -28,17 +29,22 @@ public class TextView extends AbstractView {
 
         totalRevenueLabel = new JLabel();
         notPayedRevenueLabel = new JLabel();
+        currentEvent = new JLabel();
 
         missedCars = new JLabel();
-        missedCars.setBounds(0, 10, 200, 20);
+        missedCars.setBounds(0, 10, 200, 10);
         add(missedCars);
 
 
-        totalRevenueLabel.setBounds(0, 20, 200, 20);
-        notPayedRevenueLabel.setBounds(0, 30, 200, 20);
+        totalRevenueLabel.setBounds(0, 20, 200, 10);
+        notPayedRevenueLabel.setBounds(0, 30, 200, 10);
 
         add(totalRevenueLabel);
         add(notPayedRevenueLabel);
+
+
+        currentEvent.setBounds(0, 40, 200, 10);
+        add(currentEvent);
 
 
     }
@@ -61,6 +67,8 @@ public class TextView extends AbstractView {
 
             String revenueNotPayed = formatMoney(model.getRevenueNotPayed());
             notPayedRevenueLabel.setText("Nog te betalen: " + revenueNotPayed);
+
+            currentEvent.setText("Huidige event: " + model.getEventTitle());
         }
 
         super.updateView();
@@ -70,7 +78,7 @@ public class TextView extends AbstractView {
      * Overridden. Tell the GUI manager how big we would like to be.
      */
     public Dimension getPreferredSize() {
-        return new Dimension(400, 200);
+        return new Dimension(400, 220);
     }
 
     /**

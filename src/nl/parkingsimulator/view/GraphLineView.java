@@ -55,13 +55,49 @@ public class GraphLineView extends AbstractView {
         numberOfOpenSpots = 0;
         numberOfSpots = 0;
         minuteSinceStart = 0;
-        horizontalStep = 10; // Every 10 minutes.
+        
+        /**
+         * Only use 1, 10, 15, 30, 60, 1440
+         * For example 15 == steps of a quarter.
+         */
+        horizontalStep = 10;
         horizontalGraphPosition = 0;
         totalNumberOfCars = 0;
         totalNumberOfCarswaiting = 0;
         lastGraphPosition = 0;
         
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
+        
+        String xAxisTitle = "Tijd in onbekend";
+        
+        switch (horizontalStep) {
+			case 1:
+				xAxisTitle = "Tijd in minuten";
+				break;
+			
+			case 10:
+				xAxisTitle = "Tijd x 10 minuten";
+				break;
+				
+			case 15:
+				xAxisTitle = "Tijd in kwartieren";
+				break;
+				
+			case 30:
+				xAxisTitle = "Tijd in halve uren";
+				break;
+				
+			case 60:
+				xAxisTitle = "Tijd in uren";
+				break;
+				
+			case 1440:
+				xAxisTitle = "Tijd in dagen";
+				break;
+
+			default:
+				throw new IllegalArgumentException("horizontalStep " + horizontalStep + " is out of range");
+		}
   
         totalCarsGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsWaitingGraph = new ArrayList<ArrayList<Integer>>();
@@ -75,17 +111,17 @@ public class GraphLineView extends AbstractView {
         totalCarsGraph.get(1).add(0);
         totalCarsWaitingGraph.get(0).add(0);
         totalCarsWaitingGraph.get(1).add(0);
-        
+ 
         // Create Chart
-        graphLine = new XYChartBuilder().width(800).height(600).title(getClass().getSimpleName()).xAxisTitle("Tijd in minuten").yAxisTitle("Aantal auto's").build();
+        graphLine = new XYChartBuilder().title(getClass().getSimpleName()).xAxisTitle(xAxisTitle).yAxisTitle("Aantal auto's").build();
         
         graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
         graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
         
         // Customize Chart
         graphLine.getStyler().setYAxisMax((double)this.model.getNumberOfSpots());
-        graphLine.getStyler().setXAxisMax((double)this.model.getSettings().getAmountOfTicks());
-        graphLine.getStyler().setLegendPosition(LegendPosition.InsideNE);
+        graphLine.getStyler().setPlotContentSize(1.0);
+        graphLine.getStyler().setLegendPosition(LegendPosition.InsideNW);
         graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
         
         /**
@@ -121,10 +157,10 @@ public class GraphLineView extends AbstractView {
         totalNumberOfCarswaiting = model.getEntranceCarQueue() + model.getEntrancePassQueue();
 
         if(minuteSinceStart >= lastGraphPosition * horizontalStep) {
-        	totalCarsGraph.get(0).add(lastGraphPosition * horizontalStep);
+        	totalCarsGraph.get(0).add(lastGraphPosition);
         	totalCarsGraph.get(1).add(totalNumberOfCars);
         	
-        	totalCarsWaitingGraph.get(0).add(lastGraphPosition * horizontalStep);
+        	totalCarsWaitingGraph.get(0).add(lastGraphPosition);
         	totalCarsWaitingGraph.get(1).add(totalNumberOfCarswaiting);
         	
         	// Update the graph line.

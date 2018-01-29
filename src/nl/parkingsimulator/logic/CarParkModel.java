@@ -1,5 +1,6 @@
 package nl.parkingsimulator.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -57,8 +58,15 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int missedCarsHour = 0;
     private int missedCarsDay = 0;
     private int missedCarsWeek = 0;
+    private ArrayList<TimeEvent> timeEvents = null;
+    private String eventTitle = "";
+    private int eventMultiplier = 1;
 
     public CarParkModel(Settings settings) {
+        timeEvents = new ArrayList<>(); // initialize event
+        eventMultiplier = 1;
+        generateNightEvents();
+
         ApplySettings(settings);
         this.tickPause = settings.getTickPause();
         this.amountOfTicks = settings.getAmountOfTicks();
@@ -80,6 +88,15 @@ public class CarParkModel extends AbstractModel implements Runnable {
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simThread = new Thread(this);
+    }
+
+    private void generateNightEvents(){
+        for (int d = 0; d < 7; d++){
+            timeEvents.add(new TimeEvent(d,23,0,d+1,7,0,0, "Nacht"));
+        }
+
+//        timeEvents.add(new TimeEvent(6,23,0,7,7,0,0, "Nacht"));
+//        timeEvents.add(new TimeEvent(5, 20, 30, 6, 1, 0, 4, "Concert"));
     }
 
 
@@ -337,6 +354,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
             day -= 7;
             missedCarsWeek = 0;
         }
+
+        checkEvent();
     }
 
     private void handleEntrance() {
@@ -356,9 +375,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
     
     private void carsArriving() {
-        int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals(), settings.getWeekendArrivals());
+        int numberOfCars = getNumberOfCars(settings.getWeekDayArrivals() * eventMultiplier, settings.getWeekendArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, AD_HOC);    	
-    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals());
+    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals()* eventMultiplier, settings.getWeekendPassArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, PASS);
 
     }
@@ -556,6 +575,33 @@ public class CarParkModel extends AbstractModel implements Runnable {
             return true;
         }
         return false;
+    }
+
+    /*
+     * Checks if there is an event happening at the current time
+     *
+     */
+    private void checkEvent(){
+        boolean foundEvent = false;
+
+        for (TimeEvent event : timeEvents) {
+            if(event.checkEvent(day, hour, minute)){
+                eventTitle = event.getEventTitle();
+                // Easy debugging events
+                //System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
+                eventMultiplier = event.getCarsModifier();
+                foundEvent = true;
+            }
+        }
+
+        if(!foundEvent){
+            eventMultiplier = 1;
+            eventTitle = "Geen event";
+        }
+    }
+
+    public String getEventTitle(){
+        return eventTitle;
     }
 
     @Override
