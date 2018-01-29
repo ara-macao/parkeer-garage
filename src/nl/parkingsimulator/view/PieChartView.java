@@ -28,11 +28,24 @@ import nl.parkingsimulator.logic.CarParkModel;
 
 public class PieChartView extends AbstractView {
     
-    private int openSpots;
     private int totalSpots;
-    private int takenSpots;
-    private double percOpenSpots;
-    private double percTakenSpots;
+    private int totalCarsWaiting;
+    private int carsLeft;
+    private int queueExit;
+    private int queuePayment;
+    private int queueEntrance;
+    private int queuePassEntrance;
+    private int totalCars;
+    private int openSpots;
+    private int passCars;
+    private int regCars;
+    private int badPark;
+    private int reserved;
+    private double percOpen;
+    private double percPass;
+    private double percRegUser;
+    private double percBadPark;
+    private double percReserved;
     
     private PieChart pieChart;
     private SwingWrapper<PieChart> swingWrapper;
@@ -53,15 +66,18 @@ public class PieChartView extends AbstractView {
         pieChart = new PieChartBuilder().title(this.model.getSettings().getPieChartName()).build();
         
         // Customize Chart
-        Color[] sliceColors = new Color[] { new Color(224, 68, 14), new Color(230, 105, 62), new Color(236, 143, 110), new Color(243, 180, 159), new Color(246, 199, 182) };
+        Color[] sliceColors = new Color[] { new Color(230, 230, 230), new Color(0, 0, 255), new Color(255, 0, 0), new Color(0, 255, 0), new Color(255, 255, 0) };
         pieChart.getStyler().setSeriesColors(sliceColors);
      
         // Series
-        pieChart.addSeries("Gold", 24);
-        pieChart.addSeries("Silver", 21);
-        pieChart.addSeries("Platinum", 39);
-        pieChart.addSeries("Copper", 17);
-        pieChart.addSeries("Zinc", 40);
+        pieChart.addSeries("Empty spots", percOpen);
+        pieChart.addSeries("Pass Car", percPass);
+        pieChart.addSeries("Regular Car", percRegUser);
+        pieChart.addSeries("Reserved", percReserved);
+        pieChart.addSeries("Wrongly parked", percBadPark);
+        
+        //Run the calculations
+        PieChartCalc();
         
         // Show it
         swingWrapper = new SwingWrapper<PieChart>(pieChart);
@@ -70,56 +86,43 @@ public class PieChartView extends AbstractView {
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getPieChartPosition().x, this.model.getSettings().getPieChartPosition().y, this.model.getSettings().getPieChartDimensions().width, this.model.getSettings().getPieChartDimensions().height));  
     }
     
-    /**
-     * @Override updateView() in AbstractView class.
-     */
-    public void updateView() {
-        model = (CarParkModel)getModel();
-         
-        // Update the pie chart.
-    	pieChart.updatePieSeries("Gold", Math.random() * 100);
-
-        swingWrapper.repaintChart();
-    }
-    
-    /**
-     * Calculation of the Pie chart slices.
-     */
-    public void PieChartCalc() {
+    public void PieChartCalc(){
         CarParkModel model = (CarParkModel)getModel();
         if(model != null){
             //request all data needed
             openSpots = model.getNumberOfOpenSpots();
             totalSpots = model.getNumberOfSpots();
-            takenSpots = totalSpots - openSpots;
+            queueEntrance = model.getEntranceCarQueue();
+            queuePassEntrance = model.getEntrancePassQueue();
+            passCars = model.getCurrentTotalCars(CarParkModel.PASS);
+            regCars = model.getCurrentTotalCars(CarParkModel.AD_HOC);
+            //badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARK);
+            //reserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
+            
             //create percentages for pie chart slices
-            percOpenSpots = (openSpots * 100.0f) / totalSpots;
-            percTakenSpots = (takenSpots * 100.0f) / totalSpots;
+            percOpen = (openSpots * 100.0f) / totalSpots;
+            percPass = (passCars * 100.0f) / totalSpots;
+            percRegUser = (regCars * 100.0f ) / totalSpots;
+            percBadPark = (badPark * 100.0f ) / totalSpots;
+            percReserved = (reserved * 100.0f ) / totalSpots;
         }
     }
-
+    
     /**
-     * Overridden. The car park view component needs to be redisplayed. Copy the
-     * internal image to screen.
-     * @param g the graphic object
-     
-    @Override
-    public void paintComponent(Graphics g) {
+     * @Override updateView() in AbstractView class.
+     */
+    public void updateView() {
         PieChartCalc();
-        //set background colour
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 500, 500);
-        //Draw the first slice
-        startPosition = -1;
-        g.setColor(Color.LIGHT_GRAY);
-        degrees =(int)(percOpenSpots * 360/100);
-        g.fillArc(10, 10, 180, 180, startPosition, degrees);
-        startPosition = degrees;
-        //Draw the second slice
-        g.setColor(Color.RED);
-        degrees = (int)(percTakenSpots * 360/100);
-        g.fillArc(10, 10, 180, 180, startPosition, degrees);
-    }*/
+        model = (CarParkModel)getModel();
+         
+        // Update the pie chart.
+        pieChart.updatePieSeries("Empty spots", percOpen);
+        pieChart.updatePieSeries("Pass Car", percPass);
+        pieChart.updatePieSeries("Regular Car", percRegUser);
+        pieChart.updatePieSeries("Reserved", percReserved);
+        pieChart.updatePieSeries("Wrongly parked", percBadPark);
+
+        swingWrapper.repaintChart();
+    }
+   
 }
-
-

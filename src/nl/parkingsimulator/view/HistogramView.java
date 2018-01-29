@@ -39,10 +39,13 @@ public class HistogramView extends AbstractView {
         g.fillRect(0, 0, 500, 500);
         //Draw the first rectangle
         g.setColor(Color.RED);
-        g.fillRect(0, 0, 10, adHocQueue);
+        g.fillRect(25, 100, 25, adHocQueue);
         //Draw the second rectangle
         g.setColor(Color.BLUE);
-        g.fillRect(0, 0, 10, passQueue);
+        g.fillRect(50, 100, 25, passQueue);
+        //Draw the third rectangle
+        g.setColor(Color.YELLOW);
+        g.fillRect(75, 100, 25, exitQueue);
     }
 
     @Override

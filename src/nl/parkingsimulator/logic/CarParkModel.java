@@ -31,6 +31,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     public static final String AD_HOC = "1";
     public static final String PASS = "2";
+    public static final String RESERVED = "3";
+    public static final String BAD_PARKING = "4";
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -294,6 +296,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
             cars[location.getFloor()][location.getRow()][location.getPlace()] = car;
             car.setLocation(location);
             numberOfOpenSpots--;
+            
+            String carType = car.getCarType();
+            addCarToTotal(carType);
+
             return true;
         }
         return false;
@@ -363,6 +369,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
             minute -= 60;
             hour++;
             missedCarsHour = 0;
+
+            for(String currentKey : currentTotalCars.keySet()){
+                System.out.println("Total " + currentKey + " is: " + currentTotalCars.get(currentKey) + " --- " + exitCarQueue.carsInQueue());
+            }
         }
         while (hour > 23) {
             hour -= 24;
@@ -409,6 +419,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(car);
             setCarAt(freeLocation, car);
+
             i++;
         }
     }
@@ -446,6 +457,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
 
     private float calculatePrice(Car car) {
+        if(!car.getHasToPay())
+            return 0.0f;
+
         return (float)(car.getTotalMinuteParket()) * (float)(hourPrice /60);
     }
 
@@ -513,9 +527,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
         if(index < enterSpeed){
                 carQueue.addCar(car);
-                String carType = car.getCarType();
-
-            addCarToTotal(carType);
 
             }else{
                 missedCarsMinute++;
@@ -541,7 +552,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
             carIndex--;
         }
 
-        if(carIndex < 0){
+        if(carIndex <= 0){
             carIndex = 0;
         }
         // remove car to the totalCar hashmap
