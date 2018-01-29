@@ -75,7 +75,7 @@ public class Settings {
     private Dimension timeViewDimensions = new Dimension(300, 50);
 
     private Point pieChartPosition = new Point(graphLineControllerPosition.x + graphLineControllerDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
-    private Dimension pieChartDimensions = new Dimension(210, 275);
+    private Dimension pieChartDimensions = new Dimension(400, 400);
     private String pieChartName = "Taart Grafiek";
 
     private Point histogramPosition = new Point(pieChartPosition.x + pieChartDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);

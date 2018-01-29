@@ -31,8 +31,6 @@ public class GraphLineView extends AbstractView {
     private int numberOfSpots;
     private int minuteSinceStart;
     private int horizontalStep;
-    private int lastUpdate;
-    private float horizontalGraphPosition;
     private int totalNumberOfCars;
     private int totalNumberOfCarswaiting;
     private int lastGraphPosition;
@@ -61,7 +59,6 @@ public class GraphLineView extends AbstractView {
          * For example 15 == steps of a quarter.
          */
         horizontalStep = 10;
-        horizontalGraphPosition = 0;
         totalNumberOfCars = 0;
         totalNumberOfCarswaiting = 0;
         lastGraphPosition = 0;
@@ -113,7 +110,7 @@ public class GraphLineView extends AbstractView {
         totalCarsWaitingGraph.get(1).add(0);
  
         // Create Chart
-        graphLine = new XYChartBuilder().title(getClass().getSimpleName()).xAxisTitle(xAxisTitle).yAxisTitle("Aantal auto's").build();
+        graphLine = new XYChartBuilder().title(this.model.getSettings().getGraphLineName()).xAxisTitle(xAxisTitle).yAxisTitle("Aantal auto's").build();
         
         graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
         graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
