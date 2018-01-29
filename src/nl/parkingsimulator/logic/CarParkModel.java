@@ -29,8 +29,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private Car[][][] cars;
     public Location[][][] locations;
 
-    private static final String AD_HOC = "1";
-    private static final String PASS = "2";
+    public static final String AD_HOC = "1";
+    public static final String PASS = "2";
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -110,8 +110,13 @@ public class CarParkModel extends AbstractModel implements Runnable {
         timeEvents.add(new TimeEvent(6, 13, 00, 6, 17, 0, 18f, "Concert"));
     }
 
-    public HashMap<String, Integer> getCurrentTotalCars(){
-        return currentTotalCars;
+    public int getCurrentTotalCars(String type){
+
+        if(currentTotalCars.containsKey(type)){
+            return currentTotalCars.get(type);
+        }
+
+        return 0;
     }
 
 
@@ -554,7 +559,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
         calculateRevenueNotPayed();
         updateViews();
         missedCarsMinute = 0;
-
 
 
         // Pause.
