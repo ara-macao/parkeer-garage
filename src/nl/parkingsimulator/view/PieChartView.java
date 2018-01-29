@@ -4,19 +4,12 @@
 package nl.parkingsimulator.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
-import org.knowm.xchart.style.Styler.LegendPosition;
 
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
@@ -124,5 +117,4 @@ public class PieChartView extends AbstractView {
 
         swingWrapper.repaintChart();
     }
-   
 }
