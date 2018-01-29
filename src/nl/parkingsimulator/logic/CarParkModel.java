@@ -333,11 +333,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
     
     private void advanceTime() {
         // Advance the time by one minute.
-        missedCarsMinute = 0;
         minute++;
         missedCarsHour += missedCarsMinute;
         missedCarsDay += missedCarsMinute;
         missedCarsWeek += missedCarsMinute;
+
 
         while (minute > 59) {
             minute -= 60;
@@ -506,6 +506,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     	handleExit();
         calculateRevenueNotPayed();
         updateViews();
+        missedCarsMinute = 0;
 
         // Pause.
         try {
@@ -515,7 +516,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         }
 
         handleEntrance();
-        
+
         tickCars();
     }
 
