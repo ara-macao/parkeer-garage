@@ -57,7 +57,6 @@ public class TimeEvent {
             }
         }else if(currentDay == startDay){
             if(currentHour >= startHour){
-                System.out.println("jawor");
                 return true;
             }
         }else if(currentDay > startDay && currentDay < endDay){
