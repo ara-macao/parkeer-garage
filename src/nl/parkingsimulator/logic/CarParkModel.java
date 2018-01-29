@@ -58,14 +58,14 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int missedCarsHour = 0;
     private int missedCarsDay = 0;
     private int missedCarsWeek = 0;
-    private ArrayList<TimeEvent> timeEvents = null;
+    private ArrayList<TimeEvent> timeEvents;
     private String eventTitle = "";
-    private int eventMultiplier = 1;
+    private float eventMultiplier = 1;
 
     public CarParkModel(Settings settings) {
         timeEvents = new ArrayList<>(); // initialize event
         eventMultiplier = 1;
-        generateNightEvents();
+        generateEvents();
 
         ApplySettings(settings);
         this.tickPause = settings.getTickPause();
@@ -90,13 +90,21 @@ public class CarParkModel extends AbstractModel implements Runnable {
         simThread = new Thread(this);
     }
 
-    private void generateNightEvents(){
+    private void generateEvents(){
+        // 0 = m  1 = d 2 = w 3 = d 4 = v 5 = z 6 = z
+
+        // Create all night
         for (int d = 0; d < 7; d++){
             timeEvents.add(new TimeEvent(d,23,0,d+1,7,0,0, "Nacht"));
         }
 
-//        timeEvents.add(new TimeEvent(6,23,0,7,7,0,0, "Nacht"));
-//        timeEvents.add(new TimeEvent(5, 20, 30, 6, 1, 0, 4, "Concert"));
+        // Buy evening
+        timeEvents.add(new TimeEvent(3, 17, 30, 3, 22, 30, 2, "Koopavond"));
+
+        // Add concerts
+        timeEvents.add(new TimeEvent(4, 20, 00, 5, 0, 0, 2, "Concert"));
+        timeEvents.add(new TimeEvent(5, 20, 00, 6, 0, 0, 2, "Concert"));
+        timeEvents.add(new TimeEvent(6, 13, 00, 6, 17, 0, 3, "Concert"));
     }
 
 
@@ -333,11 +341,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
     
     private void advanceTime() {
         // Advance the time by one minute.
-        missedCarsMinute = 0;
         minute++;
         missedCarsHour += missedCarsMinute;
         missedCarsDay += missedCarsMinute;
         missedCarsWeek += missedCarsMinute;
+
 
         while (minute > 59) {
             minute -= 60;
@@ -425,8 +433,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         dayRevenue += calculatePrice(car);
     }
 
-    private double calculatePrice(Car car) {
-        return (double)(car.getTotalMinuteParket()) * (hourPrice /60);
+    private float calculatePrice(Car car) {
+        return (float)(car.getTotalMinuteParket()) * (float)(hourPrice /60);
     }
 
     private void calculateRevenueNotPayed() {
@@ -456,13 +464,13 @@ public class CarParkModel extends AbstractModel implements Runnable {
     	}	
     }
     
-    private int getNumberOfCars(int weekDay, int weekend){
+    private int getNumberOfCars(float weekDay, float weekend){
         Random random = new Random();
 
         // Get the average number of cars that arrive per hour.
         int averageNumberOfCarsPerHour = day < 5
-                ? weekDay
-                : weekend;
+                ? Math.round(weekDay)
+                : Math.round(weekend);
 
         // Calculate the number of cars that arrive this minute.
         double standardDeviation = averageNumberOfCarsPerHour * 0.3;
@@ -506,6 +514,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     	handleExit();
         calculateRevenueNotPayed();
         updateViews();
+        missedCarsMinute = 0;
 
         // Pause.
         try {
@@ -515,7 +524,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         }
 
         handleEntrance();
-        
+
         tickCars();
     }
 
@@ -565,13 +574,16 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
 
     private boolean locationIsValid(Location location) {
-        int floor = location.getFloor();
-        int row = location.getRow();
-        int place = location.getPlace();
-        if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces) {
-            return false;
+        if(location != null) {
+            int floor = location.getFloor();
+            int row = location.getRow();
+            int place = location.getPlace();
+            if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     /*
@@ -584,7 +596,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         for (TimeEvent event : timeEvents) {
             if(event.checkEvent(day, hour, minute)){
                 eventTitle = event.getEventTitle();
-                System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
+                // Easy debugging events
+                //System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
                 eventMultiplier = event.getCarsModifier();
                 foundEvent = true;
             }
