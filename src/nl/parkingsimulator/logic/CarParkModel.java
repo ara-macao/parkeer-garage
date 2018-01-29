@@ -95,16 +95,16 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
         // Create all night
         for (int d = 0; d < 7; d++){
-            timeEvents.add(new TimeEvent(d,23,0,d+1,7,0,0, "Nacht"));
+            timeEvents.add(new TimeEvent(d,23,0,d+1,7,0,0f, "Nacht"));
         }
 
         // Buy evening
-        timeEvents.add(new TimeEvent(3, 17, 30, 3, 22, 30, 2, "Koopavond"));
+        timeEvents.add(new TimeEvent(3, 17, 30, 3, 22, 30, 2f, "Koopavond"));
 
         // Add concerts
-        timeEvents.add(new TimeEvent(4, 20, 00, 5, 0, 0, 2, "Concert"));
-        timeEvents.add(new TimeEvent(5, 20, 00, 6, 0, 0, 2, "Concert"));
-        timeEvents.add(new TimeEvent(6, 13, 00, 6, 17, 0, 3, "Concert"));
+        timeEvents.add(new TimeEvent(4, 20, 00, 5, 0, 0, 2.3f, "Concert"));
+        timeEvents.add(new TimeEvent(5, 20, 00, 6, 0, 0, 2.5f, "Concert"));
+        timeEvents.add(new TimeEvent(6, 13, 00, 6, 17, 0, 18f, "Concert"));
     }
 
 
