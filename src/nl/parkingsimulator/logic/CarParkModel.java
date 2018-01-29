@@ -584,7 +584,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         for (TimeEvent event : timeEvents) {
             if(event.checkEvent(day, hour, minute)){
                 eventTitle = event.getEventTitle();
-                System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
+                // Easy debugging events
+                //System.out.println("Event is happening at: "  + day + "-" + hour + "-" + minute);
                 eventMultiplier = event.getCarsModifier();
                 foundEvent = true;
             }
