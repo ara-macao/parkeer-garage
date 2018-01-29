@@ -455,6 +455,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
 
     private float calculatePrice(Car car) {
+        if(!car.getHasToPay())
+            return 0.0f;
+
         return (float)(car.getTotalMinuteParket()) * (float)(hourPrice /60);
     }
 
