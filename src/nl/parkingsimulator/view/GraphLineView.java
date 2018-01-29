@@ -141,7 +141,7 @@ public class GraphLineView extends AbstractView {
         graphLine.getStyler().setSeriesMarkers(markers);
         graphLine.getStyler().setSeriesColors(colors);
         graphLine.getStyler().setLegendPosition(LegendPosition.InsideNW);
-        graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
+        graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
 
         // Show it
         swingWrapper = new SwingWrapper<XYChart>(graphLine);
