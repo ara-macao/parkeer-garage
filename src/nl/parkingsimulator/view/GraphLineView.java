@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nl.parkingsimulator.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
@@ -27,13 +17,19 @@ import nl.parkingsimulator.logic.CarParkModel;
  * @author Thom van Dijk
  */
 public class GraphLineView extends AbstractView { 
-    private int numberOfOpenSpots;
+
+	private static final long serialVersionUID = 1L;
+	
+	private int numberOfOpenSpots;
     private int numberOfSpots;
     private int minuteSinceStart;
     private int horizontalStep;
     private int totalNumberOfCars;
     private int totalNumberOfCarswaiting;
     private int lastGraphPosition;
+    
+    private boolean occupiedPlacesGraph;
+    private boolean totalwaitingCarsGraph;
     
     private ArrayList<ArrayList<Integer>> totalCarsGraph;
     private ArrayList<ArrayList<Integer>> totalCarsWaitingGraph;
@@ -42,6 +38,10 @@ public class GraphLineView extends AbstractView {
     private SwingWrapper<XYChart> swingWrapper;
     
     private CarParkModel model;
+    
+    public enum GraphName {
+    	OCCUPIED_PLACES, TOTAL_WAITING_CARS
+    }
 
     /**
      * Constructor for objects of class CarPark
@@ -55,13 +55,17 @@ public class GraphLineView extends AbstractView {
         minuteSinceStart = 0;
         
         /**
-         * Only use 1, 10, 15, 30, 60, 1440
-         * For example 15 == steps of a quarter.
+         * Only use 1, 10, 15, 30, 60, 1440 for horizontalStep.
+         * For example 15 == 15 minutes == quarter.
          */
         horizontalStep = 10;
+        
         totalNumberOfCars = 0;
         totalNumberOfCarswaiting = 0;
         lastGraphPosition = 0;
+        
+        occupiedPlacesGraph = true;
+        totalwaitingCarsGraph = true;
         
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
         
@@ -109,13 +113,14 @@ public class GraphLineView extends AbstractView {
         totalCarsWaitingGraph.get(0).add(0);
         totalCarsWaitingGraph.get(1).add(0);
  
-        // Create Chart
+        // Create Chart.
         graphLine = new XYChartBuilder().title(this.model.getSettings().getGraphLineName()).xAxisTitle(xAxisTitle).yAxisTitle("Aantal auto's").build();
         
+        // Default enabled.
         graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
         graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
         
-        // Customize Chart
+        // Customize Chart.
         graphLine.getStyler().setYAxisMax((double)this.model.getNumberOfSpots());
         graphLine.getStyler().setPlotContentSize(1.0);
         graphLine.getStyler().setLegendPosition(LegendPosition.InsideNW);
@@ -159,13 +164,38 @@ public class GraphLineView extends AbstractView {
         	
         	totalCarsWaitingGraph.get(0).add(lastGraphPosition);
         	totalCarsWaitingGraph.get(1).add(totalNumberOfCarswaiting);
-        	
+
         	// Update the graph line.
-        	graphLine.updateXYSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1), null);
-        	graphLine.updateXYSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1), null);
+        	if(occupiedPlacesGraph) {
+        		graphLine.updateXYSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1), null);
+        	}
+        	
+        	if(totalwaitingCarsGraph) {
+        		graphLine.updateXYSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1), null);
+        	}
+
             swingWrapper.repaintChart();
             
             lastGraphPosition++;
         }
+    }
+    
+    public void toggleGraph(GraphName name) {
+    	switch (name) {
+			case OCCUPIED_PLACES:
+				occupiedPlacesGraph = !occupiedPlacesGraph;
+				if(occupiedPlacesGraph) graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
+				else graphLine.removeSeries("Bezette plekken");
+				break;
+			
+			case TOTAL_WAITING_CARS:
+				totalwaitingCarsGraph = !totalwaitingCarsGraph;
+				if(totalwaitingCarsGraph) graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
+				else graphLine.removeSeries("Wachtende auto's");
+				break;
+	
+			default:
+				throw new IllegalArgumentException("For some reason noting happend...");
+		}
     }
 }

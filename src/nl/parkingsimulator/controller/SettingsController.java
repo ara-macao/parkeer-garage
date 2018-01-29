@@ -5,12 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -26,7 +22,9 @@ import nl.parkingsimulator.logic.Settings;
  */
 public class SettingsController extends AbstractController implements ActionListener, ChangeListener {
 
-    private JTextField weekDayArrivalsField;
+	private static final long serialVersionUID = 1L;
+	
+	private JTextField weekDayArrivalsField;
     private JTextField weekendArrivalsField;
     private JTextField weekDayPassArrivalsField;
     private JTextField weekendPassArrivalsField;
@@ -124,14 +122,16 @@ public class SettingsController extends AbstractController implements ActionList
         }
     }
     
-	@Override
+    /**
+     * @Override
+     */
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
 	}
 
     /**
-     * Parses the value of an inputfield to an int
-     * @param input The input field we need to reed our integes from
+     * Parses the value of an input field to an int
+     * @param input The input field we need to reed our integers from
      */
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());

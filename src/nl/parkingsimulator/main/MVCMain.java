@@ -77,7 +77,7 @@ public class MVCMain {
          */
         JFrame pieChartFrame = windowBuilder(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        graphLineController = new GraphLineController(model, pieChartFrame.getContentPane().getSize());
+        pieChartController = new PieChartController(model);
         pieChartFrame.add(pieChartController); 
         //pieChartFrame.add(pieChartView);  
 
@@ -86,7 +86,7 @@ public class MVCMain {
 
         JFrame graphLineFrame = windowBuilder(settings.getGraphLineControllerName(), settings.getGraphLineControllerDimensions() , settings.getGraphLineControllerPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize());
+        graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize(), (GraphLineView) graphLineView);
         graphLineFrame.add(graphLineController);
         //graphLineFrame.add(graphLineView);
 

@@ -8,39 +8,48 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import nl.parkingsimulator.logic.AbstractModel;
-import nl.parkingsimulator.logic.CarParkModel;
+import nl.parkingsimulator.view.GraphLineView;
+import nl.parkingsimulator.view.GraphLineView.GraphName;
 
 /**
+ * This class controls the graphs of the GraphLineView class.
  * 
  * @author Thom van Dijk
- *
  */
 public class GraphLineController extends AbstractController implements ActionListener {
-    private JButton ChangeViewButton;
-    private CarParkModel model;
-    private Dimension dimensions;
+
+	private static final long serialVersionUID = 1L;
+	
+	private JButton toggleOccupiedPlaces;
+    private GraphLineView graphLineView;
     
-    public GraphLineController(AbstractModel model, Dimension dimensions) {    
+    public GraphLineController(AbstractModel model, Dimension dimensions, GraphLineView graphLineView) {    
         super(model);
         setSize(dimensions);
         
-        this.dimensions = dimensions;
+        this.graphLineView = graphLineView;
 
         setBackground(Color.ORANGE);
 
-        ChangeViewButton = new JButton("Change View");
-        ChangeViewButton.addActionListener(this);
+        toggleOccupiedPlaces = new JButton("Bezette plekken");
+        toggleOccupiedPlaces.addActionListener(this);
 
         setLayout(null);
-        add(ChangeViewButton);
+        add(toggleOccupiedPlaces);
 
-        ChangeViewButton.setBounds(0, 0, 120, 30);
+        toggleOccupiedPlaces.setBounds(0, 0, 120, 30);
 
         setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * @Override
+     */
+    public void actionPerformed(ActionEvent e) {
+    	
+    	/**
+    	 * Toggle different graphs.
+    	 */
+    	if(e.getSource() == toggleOccupiedPlaces) graphLineView.toggleGraph(GraphName.OCCUPIED_PLACES);
     }
 }
