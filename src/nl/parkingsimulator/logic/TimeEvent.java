@@ -8,9 +8,9 @@ public class TimeEvent {
     private int endHour;
     private int endMinute;
     private String eventTitle;
-    private int carsModifier;
+    private float carsModifier;
 
-    public TimeEvent(int startDay, int startHour, int startMinute, int endDay, int endHour, int endMinute, int carsModifier, String eventTile){
+    public TimeEvent(int startDay, int startHour, int startMinute, int endDay, int endHour, int endMinute, float carsModifier, String eventTile){
         this.startDay = startDay;
         this.startHour = startHour;
         this.startMinute = startMinute;
@@ -19,7 +19,6 @@ public class TimeEvent {
         this.endMinute = endMinute;
         this.eventTitle = eventTile;
         this.carsModifier = carsModifier;
-
 
     }
 
@@ -83,7 +82,7 @@ public class TimeEvent {
         return eventTitle;
     }
 
-    public int getCarsModifier(){
+    public float getCarsModifier(){
         return carsModifier;
     }
 }
