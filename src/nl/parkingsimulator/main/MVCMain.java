@@ -23,6 +23,7 @@ public class MVCMain {
     private AbstractView graphLineView;
     private AbstractView reservationView;
     private TextView textView;
+    private PieChartView pieChartView;
 
     private Settings settings;
 
@@ -41,6 +42,7 @@ public class MVCMain {
         timeView = new TimeView(model);
         reservationView = new ReservationView(model);
         graphLineView = new GraphLineView(model);
+        pieChartView = new PieChartView(model);
 
         /**
          * Creating the main screen...
@@ -73,13 +75,11 @@ public class MVCMain {
         /**
          * Creating separate windows here...
          */
-        Frame pieChartFrame = windowBuilder(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
-        PieChartView piechartpanel;
-        piechartpanel = new PieChartView(model);
-        piechartpanel.setBounds(0, 0, 200, 200);
-        pieChartFrame.add(piechartpanel);
-        pieChartFrame.add(pieChartController);
-        pieChartController.setBounds(0, 200, 200, 40);
+        JFrame pieChartFrame = windowBuilder(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
+        //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
+        graphLineController = new GraphLineController(model, pieChartFrame.getContentPane().getSize());
+        pieChartFrame.add(pieChartController); 
+        //pieChartFrame.add(pieChartView);  
 
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
@@ -88,7 +88,7 @@ public class MVCMain {
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
         graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize());
         graphLineFrame.add(graphLineController);
-        graphLineFrame.add(graphLineView);
+        //graphLineFrame.add(graphLineView);
 
         JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
         reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
