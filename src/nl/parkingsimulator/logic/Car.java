@@ -11,12 +11,13 @@ public abstract class Car {
     private boolean hasToPay;
     private int totalMinuteParket;
     protected int id;
+    private String carType;
 
     /**
      * Constructor for objects of class Car
      */
-    public Car() {
-
+    public Car(String carType) {
+        this.carType = carType;
     }
 
     public Location getLocation() {
@@ -64,5 +65,9 @@ public abstract class Car {
 
     public int getId() {
         return id;
+    }
+
+    public String getCarType(){
+        return carType;
     }
 }

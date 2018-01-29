@@ -62,6 +62,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private String eventTitle = "";
     private float eventMultiplier = 1;
 
+    private HashMap<String, Integer> currentTotalCars = new HashMap<String, Integer>();
+
+
     public CarParkModel(Settings settings) {
         timeEvents = new ArrayList<>(); // initialize event
         eventMultiplier = 1;
@@ -105,6 +108,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
         timeEvents.add(new TimeEvent(4, 20, 00, 5, 0, 0, 2.3f, "Concert"));
         timeEvents.add(new TimeEvent(5, 20, 00, 6, 0, 0, 2.5f, "Concert"));
         timeEvents.add(new TimeEvent(6, 13, 00, 6, 17, 0, 18f, "Concert"));
+    }
+
+    public HashMap<String, Integer> getCurrentTotalCars(){
+        return currentTotalCars;
     }
 
 
@@ -459,7 +466,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         // Let cars leave.
     	int i=0;
     	while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
-            exitCarQueue.removeCar();
+    	    Car car = exitCarQueue.removeCar();
+            removeCarTotal(car.getCarType());
             i++;
     	}	
     }
@@ -485,23 +493,54 @@ public class CarParkModel extends AbstractModel implements Runnable {
         switch(type) {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
-                addCarsToQueue(entranceCarQueue, new AdHocCar(), i);
+                addCarsToQueue(entranceCarQueue, new AdHocCar(type), i);
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
-                addCarsToQueue(entrancePassQueue, new ParkingPassCar(), i);
+                addCarsToQueue(entrancePassQueue, new ParkingPassCar(type), i);
             }
             break;	            
     	}
     }
 
     private void addCarsToQueue(CarQueue carQueue, Car car, int index){
-            if(index < enterSpeed){
+
+        if(index < enterSpeed){
                 carQueue.addCar(car);
+                String carType = car.getCarType();
+
+            addCarToTotal(carType);
+
             }else{
                 missedCarsMinute++;
             }
+    }
+
+    private void addCarToTotal(String carType){
+        int carIndex = 0;
+
+        if(currentTotalCars.containsKey(carType)){
+            carIndex = currentTotalCars.get(carType);
+            carIndex++;
+        }
+        // add car to the totalCar hashmap
+        currentTotalCars.put(carType, carIndex);
+    }
+
+    private void removeCarTotal(String carType){
+        int carIndex = 0;
+
+        if(currentTotalCars.containsKey(carType)){
+            carIndex = currentTotalCars.get(carType);
+            carIndex--;
+        }
+
+        if(carIndex < 0){
+            carIndex = 0;
+        }
+        // remove car to the totalCar hashmap
+        currentTotalCars.put(carType, carIndex);
     }
     
     private void carLeavesSpot(Car car){
@@ -515,6 +554,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         calculateRevenueNotPayed();
         updateViews();
         missedCarsMinute = 0;
+
+
 
         // Pause.
         try {
