@@ -113,7 +113,6 @@ public class PieChartView extends AbstractView {
      */
     public void updateView() {
         PieChartCalc();
-        model = (CarParkModel)getModel();
          
         // Update the pie chart.
         pieChart.updatePieSeries("Empty spots", percOpen);
