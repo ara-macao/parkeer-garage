@@ -31,6 +31,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     public static final String AD_HOC = "1";
     public static final String PASS = "2";
+    public static final String RESERVED = "3";
+    public static final String BAD_PARKING = "4";
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
