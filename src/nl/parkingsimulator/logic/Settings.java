@@ -65,7 +65,7 @@ public class Settings {
     private String graphLineName = "Grafiek";
     
     private Point graphLineControllerPosition = new Point(graphLinePosition.x + graphLineDimensions.width, carParkViewPosition.y + carParkViewDimensions.height);
-    private Dimension graphLineControllerDimensions = new Dimension(380, graphLineDimensions.height);
+    private Dimension graphLineControllerDimensions = new Dimension(560, graphLineDimensions.height);
     private String graphLineControllerName = "Grafiek Settings";
 
     private Point textViewPosition = new Point(50, 0);
