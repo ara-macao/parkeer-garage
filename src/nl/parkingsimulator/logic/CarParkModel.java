@@ -65,6 +65,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private float eventMultiplier = 1;
 
     private HashMap<String, Integer> currentTotalCars = new HashMap<String, Integer>();
+    private boolean hasReset = false;
 
 
     public CarParkModel(Settings settings) {
@@ -113,7 +114,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
         generateParkingLot();
         initializeQueues();
 
-        notifyViews();
     }
 
     private void generateParkingLot(){
@@ -168,7 +168,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
         if(simThread.isAlive())
             stopSimulation();
 
+        hasReset = true;
         initializeCarParkModel(settings);
+
+        notifyViews();
     }
 
 
@@ -452,6 +455,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
     
     private void updateViews() {
     	super.notifyViews();
+        hasReset = false;
+    }
+
+    public boolean getHasReset(){
+        return hasReset;
     }
     
     private void carsArriving() {
