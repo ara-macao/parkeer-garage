@@ -69,37 +69,6 @@ public class GraphLineView extends AbstractView {
         passHoldersGraph = false;
         
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
-        
-        String xAxisTitle = "Tijd in onbekend";
-        
-        switch (horizontalStep) {
-			case 1:
-				xAxisTitle = "Tijd in minuten";
-				break;
-			
-			case 10:
-				xAxisTitle = "Tijd x 10 minuten";
-				break;
-				
-			case 15:
-				xAxisTitle = "Tijd in kwartieren";
-				break;
-				
-			case 30:
-				xAxisTitle = "Tijd in halve uren";
-				break;
-				
-			case 60:
-				xAxisTitle = "Tijd in uren";
-				break;
-				
-			case 1440:
-				xAxisTitle = "Tijd in dagen";
-				break;
-
-			default:
-				throw new IllegalArgumentException("horizontalStep " + horizontalStep + " is out of range");
-		}
   
         totalCarsGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsWaitingGraph = new ArrayList<ArrayList<Integer>>();
@@ -125,7 +94,7 @@ public class GraphLineView extends AbstractView {
         totalPassHoldersGraph.get(1).add(0);
  
         // Create Chart.
-        graphLine = new XYChartBuilder().title(this.model.getSettings().getGraphLineName()).xAxisTitle(xAxisTitle).yAxisTitle("Aantal auto's").build();
+        graphLine = new XYChartBuilder().title(this.model.getSettings().getGraphLineName()).xAxisTitle(getTitleXAxis()).yAxisTitle("Aantal auto's").build();
         
         // Default enabled.
         graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
@@ -164,7 +133,27 @@ public class GraphLineView extends AbstractView {
         int totalCarsLeaving = model.getExitCarQueue() + model.getPaymentCarQueue();
 
         if(model.getTotalTicks() >= lastGraphPosition * horizontalStep) {
-        	totalCarsGraph.get(0).add(lastGraphPosition);
+        	
+        	int maxGraphPoints = 100;
+        	
+        	/**
+        	 * If the graph becomes to long we need to maintain a certain size.
+        	 */
+        	if(totalCarsGraph.get(0).size() > maxGraphPoints) {
+        		totalCarsGraph.get(0).remove(0);
+        		totalCarsGraph.get(1).remove(0);
+        		
+        		totalCarsWaitingGraph.get(0).remove(0);
+        		totalCarsWaitingGraph.get(1).remove(0);
+        		                             
+        		totalCarsLeavingGraph.get(0).remove(0);
+        		totalCarsLeavingGraph.get(1).remove(0);
+        		                             
+        		totalPassHoldersGraph.get(0).remove(0);
+        		totalPassHoldersGraph.get(1).remove(0);
+        	}
+
+    		totalCarsGraph.get(0).add(lastGraphPosition);
         	totalCarsGraph.get(1).add(totalNumberOfCars);
         	
         	totalCarsWaitingGraph.get(0).add(lastGraphPosition);
@@ -175,6 +164,7 @@ public class GraphLineView extends AbstractView {
             
             totalPassHoldersGraph.get(0).add(lastGraphPosition);
             totalPassHoldersGraph.get(1).add(model.getCurrentTotalCars(CarParkModel.PASS));
+
 
         	// Update the graph line.
         	if(occupiedPlacesGraph) graphLine.updateXYSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1), null);
@@ -219,5 +209,72 @@ public class GraphLineView extends AbstractView {
 		}
     	
     	graphLine.getStyler().setSeriesColors(colors);
+    }
+    
+    /**
+     * Only use 1, 10, 15, 30, 60, 1440 for step.
+     * For example 15 == 15 minutes == quarter.
+     * @param int step
+     */
+    public void setHorizontalStep(int step) {
+    	horizontalStep = step;
+    	graphLine.setXAxisTitle(getTitleXAxis());
+    	resetGraphs();
+    }
+    
+    public void setGraphHeight(int height) {
+    	
+    }
+    
+    public void setHorizontalZoom(int zoom) {
+    	
+    }
+    
+    private void resetGraphs() {
+    	totalCarsGraph.get(0).clear();       
+    	totalCarsGraph.get(1).clear();       
+    	totalCarsWaitingGraph.get(0).clear();
+    	totalCarsWaitingGraph.get(1).clear();
+    	totalCarsLeavingGraph.get(0).clear();
+    	totalCarsLeavingGraph.get(1).clear();
+    	totalPassHoldersGraph.get(0).clear();
+    	totalPassHoldersGraph.get(1).clear();
+    	
+    	lastGraphPosition = 0;
+    }
+    
+    private String getTitleXAxis() {
+    	String xAxisTitle = "";
+    	
+    	switch (horizontalStep) {
+			case 1:
+				xAxisTitle = "Tijd in minuten";
+				break;
+			
+			case 10:
+				xAxisTitle = "Tijd x 10 minuten";
+				break;
+				
+			case 15:
+				xAxisTitle = "Tijd in kwartieren";
+				break;
+				
+			case 30:
+				xAxisTitle = "Tijd in halve uren";
+				break;
+				
+			case 60:
+				xAxisTitle = "Tijd in uren";
+				break;
+				
+			case 1440:
+				xAxisTitle = "Tijd in dagen";
+				break;
+	
+			default:
+				throw new IllegalArgumentException("horizontalStep " + horizontalStep + " is out of range");
+		}
+    	
+    	return xAxisTitle;
     }
 }
