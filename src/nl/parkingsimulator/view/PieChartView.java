@@ -39,6 +39,11 @@ public class PieChartView extends AbstractView {
     private double percRegUser;
     private double percBadPark;
     private double percReserved;
+    private double percQueueExit;
+    private double percQueuePayment;
+    private double percQueueEntrance;
+    private double percQueuePassEntrance;
+    private String chartType =  "overview";  
     
     private PieChart pieChart;
     private SwingWrapper<PieChart> swingWrapper;
@@ -63,12 +68,28 @@ public class PieChartView extends AbstractView {
         pieChart.getStyler().setSeriesColors(sliceColors);
      
         // Series
-        pieChart.addSeries("Empty spots", percOpen);
-        pieChart.addSeries("Pass Car", percPass);
-        pieChart.addSeries("Regular Car", percRegUser);
-        pieChart.addSeries("Reserved", percReserved);
-        pieChart.addSeries("Wrongly parked", percBadPark);
-        
+        switch (chartType){
+            case "overview" : {
+                System.out.println("You have selected piechart type: OVERVIEW.");
+                pieChart.addSeries("Empty spots", percOpen);
+                pieChart.addSeries("Pass Car", percPass);
+                pieChart.addSeries("Regular Car", percRegUser);
+                pieChart.addSeries("Reserved", percReserved);
+                pieChart.addSeries("Wrongly parked", percBadPark);
+                break;
+            }
+            case "queues" : {
+                System.out.println("You have selected piechart type: queues.");
+                pieChart.addSeries("IN", percQueueEntrance);
+                pieChart.addSeries("IN PASS", percQueuePassEntrance);
+                pieChart.addSeries("OUT Exit", percQueueExit);
+                pieChart.addSeries("OUT Payment", percQueuePayment);
+            }
+            case "simple" : {
+                break;
+            }
+        }
+       
         //Run the calculations
         PieChartCalc();
         
@@ -87,10 +108,13 @@ public class PieChartView extends AbstractView {
             totalSpots = model.getNumberOfSpots();
             queueEntrance = model.getEntranceCarQueue();
             queuePassEntrance = model.getEntrancePassQueue();
+            queueExit = model.getExitCarQueue();
+            queuePayment = model.getPaymentCarQueue();
             passCars = model.getCurrentTotalCars(CarParkModel.PASS);
             regCars = model.getCurrentTotalCars(CarParkModel.AD_HOC);
             //badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARK);
-            //reserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
+            reserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
+            totalCarsWaiting = queueExit + queuePayment + queueEntrance + queuePassEntrance;
             
             //create percentages for pie chart slices
             percOpen = (openSpots * 100.0f) / totalSpots;
@@ -98,6 +122,11 @@ public class PieChartView extends AbstractView {
             percRegUser = (regCars * 100.0f ) / totalSpots;
             percBadPark = (badPark * 100.0f ) / totalSpots;
             percReserved = (reserved * 100.0f ) / totalSpots;
+            percQueueEntrance = (queueEntrance * 100.0f) / totalCarsWaiting;
+            percQueuePassEntrance = (queuePassEntrance * 100.0f) / totalCarsWaiting;
+            percQueueExit = (queueExit * 100.0f ) / totalCarsWaiting;
+            percQueuePayment = (queuePayment * 100.0f ) / totalCarsWaiting;
+            //percReserved = (reserved * 100.0f ) / totalCarsWaiting;
         }
     }
     
@@ -106,14 +135,27 @@ public class PieChartView extends AbstractView {
      */
     public void updateView() {
         PieChartCalc();
-         
-        // Update the pie chart.
-        pieChart.updatePieSeries("Empty spots", percOpen);
-        pieChart.updatePieSeries("Pass Car", percPass);
-        pieChart.updatePieSeries("Regular Car", percRegUser);
-        pieChart.updatePieSeries("Reserved", percReserved);
-        pieChart.updatePieSeries("Wrongly parked", percBadPark);
-
+         switch (chartType){
+            case "overview" : {
+                System.out.println(totalCarsWaiting);
+                pieChart.updatePieSeries("Empty spots", percOpen);
+                pieChart.updatePieSeries("Pass Car", percPass);
+                pieChart.updatePieSeries("Regular Car", percRegUser);
+                pieChart.updatePieSeries("Reserved", percReserved);
+                pieChart.updatePieSeries("Wrongly parked", percBadPark);
+                break;
+            }
+            case "queues" : {
+                pieChart.updatePieSeries("IN", percQueueEntrance);
+                pieChart.updatePieSeries("IN PASS", percQueuePassEntrance);
+                pieChart.updatePieSeries("OUT Exit", percQueueExit);
+                pieChart.updatePieSeries("OUT Payment", percQueuePayment);
+                break;
+            }
+            case "simple" : {
+                break;
+            }
+        }
         swingWrapper.repaintChart();
     }
 }
