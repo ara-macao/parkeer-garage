@@ -129,12 +129,11 @@ public class GraphLineView extends AbstractView {
      * @Override updateView() in AbstractView class.
      */
     public void updateView() {
-        addGraphValues();
-
-
         if(model.getHasReset()){
             resetGraphs();
         }
+        
+        addGraphValues();
     }
     
     private void addGraphValues() {
