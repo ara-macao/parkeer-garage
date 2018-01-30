@@ -24,7 +24,7 @@ public class MVCMain {
 
     public MVCMain() {
 
-        new MVCScreen(); // Testing screen
+        MVCScreen newScreen = new MVCScreen(); // Testing screen
 
         settings = new Settings();
 
@@ -83,13 +83,23 @@ public class MVCMain {
         frame.setVisible(true); */
 
         Frame pieChartFrame = windowBuilder(settings.getPieChartName(), Color.red, settings.getPieChartDimensions(), settings.getPieChartPosition());
+        JInternalFrame iFrame = buildInjectableWindow(settings.getPieChartName(), Color.red, settings.getPieChartDimensions(), settings.getPieChartPosition());
+        /*
         PieChartView panel;
         panel = new PieChartView(model);
         panel.setBounds(0, 0, 200, 200);
         pieChartFrame.add(panel);
         pieChartFrame.add(pieChartController);
         pieChartController.setBounds(0, 200, 200, 40);
-
+        */
+        PieChartView panel;
+        panel = new PieChartView(model);
+        panel.setBounds(0, 0, 200, 200);
+        iFrame.add(panel);
+        iFrame.add(pieChartController);
+        pieChartController.setBounds(0, 200, 200, 40);
+        
+        newScreen.workspaceController.injectInternalFrame(iFrame);
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), Color.red, settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
         
@@ -126,5 +136,10 @@ public class MVCMain {
         frame.setLocation(location);
 
         return frame;
+    }
+    private JInternalFrame buildInjectableWindow(String title, Color backgroundColor, Dimension dimension, Point location) {
+        JInternalFrame iFrame = new JInternalFrame("title", false, false, false, false);
+        iFrame.setBounds(location.x, location.y, dimension.width, dimension.height);
+        return iFrame;
     }
 }
