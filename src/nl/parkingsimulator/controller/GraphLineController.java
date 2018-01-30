@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.view.GraphLineView;
 import nl.parkingsimulator.view.GraphLineView.GraphName;
+import nl.parkingsimulator.view.GraphLineView.ZoomLevel;
 
 /**
  * This class controls the graphs of the GraphLineView class.
@@ -166,9 +167,9 @@ public class GraphLineController extends AbstractController implements ActionLis
     	
     	if(e.getSource() == setGraphHeight) graphLineView.setGraphHeight(parseIntValue(graphHeight));;
     	
-    	if(e.getSource() == setZoomDay) graphLineView.setHorizontalZoom(1);;
-    	if(e.getSource() == setZoomWeek) graphLineView.setHorizontalZoom(1);
-    	if(e.getSource() == setZoomMonth) graphLineView.setHorizontalZoom(1);
+    	if(e.getSource() == setZoomDay) graphLineView.setHorizontalZoom(ZoomLevel.DAY);;
+    	if(e.getSource() == setZoomWeek) graphLineView.setHorizontalZoom(ZoomLevel.WEEK);
+    	if(e.getSource() == setZoomMonth) graphLineView.setHorizontalZoom(ZoomLevel.MONTH);
     }
     
     /**

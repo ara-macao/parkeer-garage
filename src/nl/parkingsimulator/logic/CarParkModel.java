@@ -422,10 +422,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
             minute -= 60;
             hour++;
             missedCarsHour = 0;
-
-            for(String currentKey : currentTotalCars.keySet()){
-                System.out.println("Total " + currentKey + " is: " + currentTotalCars.get(currentKey) + " --- " + exitCarQueue.carsInQueue());
-            }
         }
         while (hour > 23) {
             hour -= 24;
