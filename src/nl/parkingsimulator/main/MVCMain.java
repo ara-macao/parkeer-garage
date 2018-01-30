@@ -21,10 +21,11 @@ public class MVCMain {
     private TextView textView;
     
     private Settings settings;
+    public MVCScreen newScreen;
 
     public MVCMain() {
 
-        MVCScreen newScreen = new MVCScreen(); // Testing screen
+        newScreen = new MVCScreen(); // Testing screen
 
         settings = new Settings();
 

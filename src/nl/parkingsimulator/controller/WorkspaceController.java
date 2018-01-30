@@ -38,7 +38,7 @@ public class WorkspaceController extends AbstractController {
         gridbag.setConstraints(workspace, c);
         add(workspace);
         for (int i = 0; i < 5; i++) {
-            if(true) {
+            if (true) {
                 break;
             }
             JInternalFrame demo = new JInternalFrame("demo sub window " + Integer.toString(i), false, false, false, false);
@@ -62,8 +62,13 @@ public class WorkspaceController extends AbstractController {
         //workspace.add(frame);
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-              workspace.add(frame);
+                System.out.println(SwingUtilities.isEventDispatchThread());
+                frame.setVisible(true);
+                workspace.add(frame);
+                workspace.validate();
+                workspace.repaint();
+                System.out.println("Hello from thread");
             }
-          });
+        });
     }
 }
