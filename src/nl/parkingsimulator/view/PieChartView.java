@@ -1,21 +1,16 @@
-/**
- * 
- */
 package nl.parkingsimulator.view;
 
 import java.awt.Color;
-
 import javax.swing.JFrame;
-
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.SwingWrapper;
-
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
 /**
- * PieChartView - This chart shows a pie chart of the current spots in use.
+ * PieChartView - This view shows a piechart
+ * It's dynamically assigned to show either Car queue percentages or parking spot availability.
  * @author Robin de Man
  */
 
@@ -45,7 +40,6 @@ public class PieChartView extends AbstractView {
     
     private PieChart pieChart;
     private SwingWrapper<PieChart> swingWrapper;
-    
     private CarParkModel model;
     
     /**
@@ -86,8 +80,8 @@ public class PieChartView extends AbstractView {
         //Run the calculations
         PieChartCalc();
         
-        // Show it
-        swingWrapper = new SwingWrapper<PieChart>(pieChart);
+        // Generate the Jframe data
+        swingWrapper = new SwingWrapper<>(pieChart);
         JFrame frame = swingWrapper.displayChart();
         javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getPieChartPosition().x, this.model.getSettings().getPieChartPosition().y, this.model.getSettings().getPieChartDimensions().width, this.model.getSettings().getPieChartDimensions().height));  
@@ -95,7 +89,7 @@ public class PieChartView extends AbstractView {
     
     public void PieChartCalc(){
         CarParkModel model = (CarParkModel)getModel();
-         if(model != null){
+        if(model != null){
             //request all data needed
             openSpots = model.getNumberOfOpenSpots();
             totalSpots = model.getNumberOfSpots();
@@ -108,7 +102,7 @@ public class PieChartView extends AbstractView {
             //badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARK);
             reserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
             totalCarsWaiting = queueExit + queuePayment + queueEntrance + queuePassEntrance;
-            
+
             //create percentages for pie chart slices
             percOpen = (openSpots * 100.0f) / totalSpots;
             percPass = (passCars * 100.0f) / totalSpots;
@@ -120,33 +114,34 @@ public class PieChartView extends AbstractView {
             percQueueExit = (queueExit * 100.0f ) / totalCarsWaiting;
             percQueuePayment = (queuePayment * 100.0f ) / totalCarsWaiting;
             //percReserved = (reserved * 100.0f ) / totalCarsWaiting;
-        if(totalCarsWaiting > 75 && chartType.equals("overview")){
-            System.out.println("Switching to queues");
-            chartType = "queues";
-            pieChart.removeSeries("Empty spots");
-            pieChart.removeSeries("Pass Car");
-            pieChart.removeSeries("Regular Car");
-            pieChart.removeSeries("Reserved");
-            pieChart.removeSeries("Wrongly parked");
-            pieChart.addSeries("IN", percQueueEntrance);
-            pieChart.addSeries("IN PASS", percQueuePassEntrance);
-            pieChart.addSeries("OUT Exit", percQueueExit);
-            pieChart.addSeries("OUT Payment", percQueuePayment);
-            
-        }
-        if(totalCarsWaiting < 10 && chartType.equals("queues")){
-            System.out.println("Switching to overview");
-            chartType = "overview";
-            pieChart.removeSeries("IN");
-            pieChart.removeSeries("IN PASS");
-            pieChart.removeSeries("OUT Exit");
-            pieChart.removeSeries("OUT Payment");
-            pieChart.addSeries("Empty spots", percOpen);
-            pieChart.addSeries("Pass Car", percPass);
-            pieChart.addSeries("Regular Car", percRegUser);
-            pieChart.addSeries("Reserved", percReserved);
-            pieChart.addSeries("Wrongly parked", percBadPark);
-        }
+
+            //Check whether overview or queues should be shown on screen
+            if(totalCarsWaiting > 75 && chartType.equals("overview")){
+                //System.out.println("Switching to queues");
+                chartType = "queues";
+                pieChart.removeSeries("Empty spots");
+                pieChart.removeSeries("Pass Car");
+                pieChart.removeSeries("Regular Car");
+                pieChart.removeSeries("Reserved");
+                pieChart.removeSeries("Wrongly parked");
+                pieChart.addSeries("IN", percQueueEntrance);
+                pieChart.addSeries("IN PASS", percQueuePassEntrance);
+                pieChart.addSeries("OUT Exit", percQueueExit);
+                pieChart.addSeries("OUT Payment", percQueuePayment);
+            }
+            if(totalCarsWaiting < 10 && chartType.equals("queues")){
+                //System.out.println("Switching to overview");
+                chartType = "overview";
+                pieChart.removeSeries("IN");
+                pieChart.removeSeries("IN PASS");
+                pieChart.removeSeries("OUT Exit");
+                pieChart.removeSeries("OUT Payment");
+                pieChart.addSeries("Empty spots", percOpen);
+                pieChart.addSeries("Pass Car", percPass);
+                pieChart.addSeries("Regular Car", percRegUser);
+                pieChart.addSeries("Reserved", percReserved);
+                pieChart.addSeries("Wrongly parked", percBadPark);
+            }
         }
     }
     
@@ -155,8 +150,8 @@ public class PieChartView extends AbstractView {
      */
     @Override
     public void updateView() {
-        PieChartCalc();
-         switch (chartType){
+    PieChartCalc();
+        switch (chartType){
             case "overview" : {
                 pieChart.updatePieSeries("Empty spots", percOpen);
                 pieChart.updatePieSeries("Pass Car", percPass);
@@ -173,6 +168,7 @@ public class PieChartView extends AbstractView {
                 break;
             }
         }
-        swingWrapper.repaintChart();
+    //repaint the PieChartView content
+    swingWrapper.repaintChart();
     }
 }

@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nl.parkingsimulator.view;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import nl.parkingsimulator.logic.AbstractModel;
@@ -13,7 +9,7 @@ import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.style.Styler.LegendPosition;
 /**
- * The histogram view gives an overview of statistics in rectangles
+ * The histogram view shows how many cars are in specific queues
  * @author GraphX
  */
 public class HistogramView extends AbstractView {
@@ -21,10 +17,11 @@ public class HistogramView extends AbstractView {
     private int adHocQueue;
     private int passQueue;
     private int exitQueue;
+    private int paymentQueue;
+    private double maxHeight = 1000.0;
        
     private CategoryChart histogram;
     private SwingWrapper<CategoryChart> swingWrapper;
-    
     private CarParkModel model;
     
     public HistogramView (AbstractModel model) {
@@ -32,18 +29,22 @@ public class HistogramView extends AbstractView {
         this.model = (CarParkModel)getModel();
         
         getValues();
-         
+
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
 
         // Create Chart
         histogram = new CategoryChartBuilder().title(this.model.getSettings().getHistogramName()).build();
         
         // Customize Chart
-        histogram.getStyler().setLegendPosition(LegendPosition.InsideNW);
+        
+        histogram.getStyler().setLegendPosition(LegendPosition.InsideNE);
         histogram.getStyler().setHasAnnotations(true);
+        histogram.getStyler().setLegendVisible(false);
+        //max height reflects the amount of cars before people start to leave.
+        histogram.getStyler().setYAxisMax((double)maxHeight);
 
-        // Series
-        histogram.addSeries("queues", Arrays.asList(new Integer[] { 0, 1, 2, 3, 4 }), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, 6, 5 }));
+        // add the queue series to the histogram.
+        histogram.addSeries("queues", new ArrayList<>(Arrays.asList(new String[] { "Ingang", "Pas ingang", "uitgang", "betalen"})), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, paymentQueue}));
         
         swingWrapper = new SwingWrapper<CategoryChart>(histogram);
         JFrame frame = swingWrapper.displayChart();
@@ -53,16 +54,21 @@ public class HistogramView extends AbstractView {
     
     public void getValues (){
         CarParkModel model = (CarParkModel)getModel();
+        // get all necessary data from the model
         if(model != null){
             adHocQueue = model.getEntranceCarQueue();
             passQueue = model.getEntrancePassQueue();
             exitQueue = model.getExitCarQueue();
+            paymentQueue = model.getPaymentCarQueue();
         }
         
     }
+    
+    @Override
     public void updateView() {
         getValues();
-        histogram.updateCategorySeries("queues", Arrays.asList(new Integer[] { 0, 1, 2, 3, 4 }), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, 6, 5 }), null);
+        histogram.updateCategorySeries("queues", new ArrayList<>(Arrays.asList(new String[] { "Ingang", "Pas ingang", "uitgang", "betalen"})), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, paymentQueue}), null);
+        // update the view
         swingWrapper.repaintChart();
     }
 }

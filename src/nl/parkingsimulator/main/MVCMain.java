@@ -75,12 +75,6 @@ public class MVCMain {
         /**
          * Creating separate windows here...
          */
-        JFrame pieChartFrame = windowBuilder(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
-        //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        pieChartController = new PieChartController(model);
-        pieChartFrame.add(pieChartController); 
-        //pieChartFrame.add(pieChartView);  
-
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
 
@@ -100,11 +94,11 @@ public class MVCMain {
         settingsController = new SettingsController(model, settingsFrame.getContentPane().getSize());
         settingsFrame.add(settingsController);
 
-        Frame histogramFrame = windowBuilder(settings.getHistogramName(), settings.getHistogramDimensions(), settings.getHistogramPosition());
+        //Frame histogramFrame = windowBuilder(settings.getHistogramName(), settings.getHistogramDimensions(), settings.getHistogramPosition()); this is adding an additional panel unnecessary
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
         histogrampanel.setBounds(0, 0, 200, 200);
-        histogramFrame.add(histogrampanel);
+        //histogramFrame.add(histogrampanel); this is adding an additional panel unnecessary
     }
 
     private void addNewElement(JPanel view, int x, int y, int width, int height) {
