@@ -68,11 +68,15 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
 
     public CarParkModel(Settings settings) {
+        initializeCarParkModel(settings);
+    }
+
+    private void initializeCarParkModel(Settings settings){
         timeEvents = new ArrayList<>(); // initialize event
         eventMultiplier = 1;
         generateEvents();
-
         ApplySettings(settings);
+
         this.tickPause = settings.getTickPause();
         this.amountOfTicks = settings.getAmountOfTicks();
 
@@ -119,6 +123,13 @@ public class CarParkModel extends AbstractModel implements Runnable {
         }
 
         return 0;
+    }
+
+    public void resetSimulation(){
+        if(simThread.isAlive())
+            stopSimulation();
+
+        initializeCarParkModel(settings);
     }
 
 

@@ -33,6 +33,8 @@ public class TickController extends AbstractController implements ActionListener
     private JButton pauseButton;
     private JButton resumeButton;
 
+    private JButton resetButton;
+
     JLabel tickLabel;
     JSlider tickRateSlider;
     private int miniumTick = 0;
@@ -80,6 +82,8 @@ public class TickController extends AbstractController implements ActionListener
         resumeButton.addActionListener(this);
         pauseButton.addActionListener(this);
 
+        resetButton = new JButton("Reset");
+        resetButton.addActionListener(this);
         this.setLayout(null);
 
         add(amountLabel);
@@ -93,6 +97,7 @@ public class TickController extends AbstractController implements ActionListener
         add(hourRadio);
         add(dayRadio);
         add(weekRadio);
+        add(resetButton);
 
         int xPos = 10;
         int yPos = 10;
@@ -128,11 +133,13 @@ public class TickController extends AbstractController implements ActionListener
         tickRateSlider.setMinorTickSpacing(10);
         tickRateSlider.setPaintTicks(true);
 
-        yPos += 10;
         //yPos += offset += tickRateSlider.getHeight();
-        pauseButton.setBounds(xPos  + (offset * 11) + tickLabel.getWidth() + tickRateSlider.getWidth(), yPos, 120, 30);
-        resumeButton.setBounds(xPos  + (offset * 13) + tickLabel.getWidth() + tickRateSlider.getWidth() + pauseButton.getWidth(), yPos, 120, 30);
+        pauseButton.setBounds(xPos  + (offset * 11) + tickLabel.getWidth() + tickRateSlider.getWidth(), yPos + 10, 120, 30);
+        resumeButton.setBounds(xPos  + (offset * 13) + tickLabel.getWidth() + tickRateSlider.getWidth() + pauseButton.getWidth(), yPos + 10, 120, 30);
 
+        yPos += offset + tickRateSlider.getHeight();
+
+        resetButton.setBounds(xPos, yPos, 120, 30);
         setVisible(true);
     }
 
@@ -160,6 +167,10 @@ public class TickController extends AbstractController implements ActionListener
 
             if(e.getSource() == pauseButton){
                 parkModel.setPauseState(true);
+            }
+
+            if(e.getSource() == resetButton){
+                parkModel.resetSimulation();
             }
         }
 
