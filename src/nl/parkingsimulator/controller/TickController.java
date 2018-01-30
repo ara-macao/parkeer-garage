@@ -16,6 +16,7 @@ import java.util.Hashtable;
  */
 public class TickController extends AbstractController implements ActionListener, ChangeListener {
 
+    JLabel amountLabel;
     private JTextField tickAmountField;
     private JButton runButton;
 
@@ -53,12 +54,12 @@ public class TickController extends AbstractController implements ActionListener
         runButton = new JButton("Run");
         runButton.addActionListener(this);
         runButton.setToolTipText("Click to start the simulation.");
+        amountLabel = new JLabel("Duration:");
 
-
-        minuteRadio = new JRadioButton("Minutes", false);
-        hourRadio = new JRadioButton("Hours", false);
-        dayRadio = new JRadioButton("Days", false);
-        weekRadio = new JRadioButton("Weeks", true);
+        minuteRadio = new JRadioButton("Minuten", false);
+        hourRadio = new JRadioButton("Uren", false);
+        dayRadio = new JRadioButton("Dagen", false);
+        weekRadio = new JRadioButton("Weken", true);
 
         buttonGroup = new ButtonGroup();
         buttonGroup.add(minuteRadio);
@@ -81,6 +82,7 @@ public class TickController extends AbstractController implements ActionListener
 
         this.setLayout(null);
 
+        add(amountLabel);
         add(tickAmountField);
         add(runButton);
         add(tickRateSlider);
@@ -96,27 +98,28 @@ public class TickController extends AbstractController implements ActionListener
         int yPos = 10;
         int offset = 5;
 
-        tickAmountField.setBounds(xPos, yPos, 140, 30);
+        amountLabel.setBounds(xPos, yPos, 120, 30);
+        tickAmountField.setBounds(xPos + amountLabel.getWidth(), yPos, 140, 30);
 
-        minuteRadio.setBounds(xPos + tickAmountField.getWidth() + (offset), yPos, 120, 30);
-        hourRadio.setBounds(xPos + tickAmountField.getWidth() + minuteRadio.getWidth() + (offset * 2), yPos, 120, 30);
-        dayRadio.setBounds(xPos  + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + (offset * 3), yPos, 120, 30);
-        weekRadio.setBounds(xPos  + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + (offset * 4), yPos, 120, 30);
-        runButton.setBounds(xPos+ minuteRadio.getWidth() + dayRadio.getWidth()  + hourRadio.getWidth() + dayRadio.getWidth() + weekRadio.getWidth() + (offset * 5), yPos, 120, 30);
+        minuteRadio.setBounds(xPos + amountLabel.getWidth() + tickAmountField.getWidth() + (offset), yPos, 70, 30);
+        hourRadio.setBounds(xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + (offset * 2), yPos, 60, 30);
+        dayRadio.setBounds(xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + (offset * 3), yPos, 70, 30);
+        weekRadio.setBounds( xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + (offset * 4), yPos, 70, 30);
+        runButton.setBounds( xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + weekRadio.getWidth()  + (offset * 5), yPos, 80, 30);
 
         yPos += offset + runButton.getHeight();
 
 
-        tickLabel.setBounds(xPos, yPos, 140, 60);
-        tickRateSlider.setBounds(tickLabel.getWidth() + xPos, yPos, 140, 60);
+        tickLabel.setBounds(xPos, yPos, 120, 60);
+        tickRateSlider.setBounds(xPos + tickLabel.getWidth(), yPos, 250, 60);
 
         // Add positions label in the slider
         Hashtable position = new Hashtable();
-        position.put(-maxiumTick, new JLabel("200"));
-        position.put((-maxiumTick/4)*3, new JLabel("150"));
-        position.put(-maxiumTick/2, new JLabel("100"));
-        position.put(-maxiumTick/4, new JLabel("50"));
-        position.put(-miniumTick, new JLabel("0"));
+        position.put(-maxiumTick, new JLabel(1 + "%"));
+        position.put((-maxiumTick/4) * 3, new JLabel(maxiumTick/4 + "%"));
+        position.put(-maxiumTick/2, new JLabel(maxiumTick/2 + "%"));
+        position.put(-maxiumTick/4, new JLabel((maxiumTick/4) * 3 + "%"));
+        position.put(-miniumTick, new JLabel(maxiumTick + "%"));
         // Set the label to be drawn
         tickRateSlider.setLabelTable(position);
 
@@ -124,8 +127,6 @@ public class TickController extends AbstractController implements ActionListener
         tickRateSlider.setMajorTickSpacing(50);
         tickRateSlider.setMinorTickSpacing(10);
         tickRateSlider.setPaintTicks(true);
-
-
 
         yPos += offset += tickRateSlider.getHeight();
         resumeButton.setBounds(xPos, yPos, 120, 30);
