@@ -62,7 +62,7 @@ public class HistogramView extends AbstractView {
     }
     public void updateView() {
         getValues();
-        //histogram.updateCategorySeries("queues", Arrays.asList(new Integer[] { 0, 1, 2, 3, 4 }), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, 6, 5 }));
+        histogram.updateCategorySeries("queues", Arrays.asList(new Integer[] { 0, 1, 2, 3, 4 }), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, 6, 5 }), null);
         swingWrapper.repaintChart();
     }
 }
