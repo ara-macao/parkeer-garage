@@ -25,6 +25,13 @@ public class GraphLineController extends AbstractController implements ActionLis
 	private JButton toggleTotalLeavingCars;
 	private JButton toggleParkedPassHolders;
 	
+	private JButton setTimeStepMin; // 1, 10, 15, 30, 60, 1440
+	private JButton setTimeStep10Min;
+	private JButton setTimeStepQuarter;
+	private JButton setTimeStepHalfHour;
+	private JButton setTimeStepHour;
+	private JButton setTimeStepDay;
+	
     private GraphLineView graphLineView;
     
     public GraphLineController(AbstractModel model, Dimension dimensions, GraphLineView graphLineView) {    
@@ -38,19 +45,33 @@ public class GraphLineController extends AbstractController implements ActionLis
         toggleOccupiedPlaces = new JButton("Bezette plekken");
         toggleOccupiedPlaces.setToolTipText("klik om de grafiek aan of uit te zetten.");
         
-        toggleTotalWaitingCars = new JButton("Alle wachtende auto's");
+        toggleTotalWaitingCars = new JButton("Wachtende auto's ingang");
         toggleTotalWaitingCars.setToolTipText("klik om de grafiek aan of uit te zetten.");
         
-        toggleTotalLeavingCars = new JButton("Alle vertrekkende auto's");
+        toggleTotalLeavingCars = new JButton("Wachtende auto's uitgang");
         toggleTotalLeavingCars.setToolTipText("klik om de grafiek aan of uit te zetten.");
         
-        toggleParkedPassHolders = new JButton("Alle geparkeerde pashouders");
+        toggleParkedPassHolders = new JButton("Geparkeerde pashouders");
         toggleParkedPassHolders.setToolTipText("klik om de grafiek aan of uit te zetten.");
+        
+        setTimeStepMin		= new JButton("Tijd in minuten");
+        setTimeStep10Min	= new JButton("Tijd in 10 minuten");
+        setTimeStepQuarter	= new JButton("Tijd in kwartieren");
+        setTimeStepHalfHour	= new JButton("Tijd in halve uren");
+        setTimeStepHour		= new JButton("Tijd in uren");
+        setTimeStepDay		= new JButton("Tijd in dagen");
         
         toggleOccupiedPlaces.addActionListener(this);
         toggleTotalWaitingCars.addActionListener(this);
         toggleTotalLeavingCars.addActionListener(this);
         toggleParkedPassHolders.addActionListener(this);
+        
+        setTimeStepMin.addActionListener(this);
+        setTimeStep10Min.addActionListener(this);
+        setTimeStepQuarter.addActionListener(this);
+        setTimeStepHalfHour.addActionListener(this);
+        setTimeStepHour.addActionListener(this);
+        setTimeStepDay.addActionListener(this);
 
         setLayout(null);
         
@@ -59,13 +80,27 @@ public class GraphLineController extends AbstractController implements ActionLis
         add(toggleTotalLeavingCars);
         add(toggleParkedPassHolders);
         
+        add(setTimeStepMin);
+        add(setTimeStep10Min);
+        add(setTimeStepQuarter);
+        add(setTimeStepHalfHour);
+        add(setTimeStepHour);
+        add(setTimeStepDay);
+        
         int offset = 10;
 
-        toggleOccupiedPlaces.setBounds(offset, offset, 170, 30);
-        toggleTotalWaitingCars.setBounds(offset, ((offset * 2) + 30) * 1, 170, 30);
-        toggleTotalLeavingCars.setBounds(offset, ((offset * 3) + (30 * 2)) * 1, 170, 30);
-        toggleParkedPassHolders.setBounds(offset, ((offset * 4) + (30 * 3)) * 1, 170, 30);
-
+        toggleOccupiedPlaces.setBounds		(offset, offset, 170, 30);
+        toggleTotalWaitingCars.setBounds	(offset, ((offset * 2) + 30) * 1, 170, 30);
+        toggleTotalLeavingCars.setBounds	(offset, ((offset * 3) + (30 * 2)) * 1, 170, 30);
+        toggleParkedPassHolders.setBounds	(offset, ((offset * 4) + (30 * 3)) * 1, 170, 30);
+        
+        setTimeStepMin.setBounds		((offset * 2) + 170, offset, 170, 30);
+        setTimeStep10Min.setBounds		((offset * 2) + 170, ((offset * 2) + 30) * 1, 170, 30);      
+        setTimeStepQuarter.setBounds	((offset * 2) + 170, ((offset * 3) + (30 * 2)) * 1, 170, 30);
+        setTimeStepHalfHour.setBounds	((offset * 2) + 170, ((offset * 4) + (30 * 3)) * 1, 170, 30);
+        setTimeStepHour.setBounds		((offset * 2) + 170, ((offset * 5) + (30 * 4)) * 1, 170, 30);      
+        setTimeStepDay.setBounds		((offset * 2) + 170, ((offset * 6) + (30 * 5)) * 1, 170, 30);
+        
         setVisible(true);
     }
 
@@ -81,5 +116,15 @@ public class GraphLineController extends AbstractController implements ActionLis
     	if(e.getSource() == toggleTotalWaitingCars) graphLineView.toggleGraph(GraphName.TOTAL_WAITING_CARS);
     	if(e.getSource() == toggleTotalLeavingCars) graphLineView.toggleGraph(GraphName.TOTAL_LEAVING_CARS);
     	if(e.getSource() == toggleParkedPassHolders) graphLineView.toggleGraph(GraphName.PASS_HOLDERS);
+    	
+    	/**
+    	 * Set the time for the horizontal line.
+    	 */
+    	if(e.getSource() == setTimeStepMin) graphLineView.setHorizontalStep(1);
+    	if(e.getSource() == setTimeStep10Min) graphLineView.setHorizontalStep(10);
+    	if(e.getSource() == setTimeStepQuarter) graphLineView.setHorizontalStep(15);
+    	if(e.getSource() == setTimeStepHalfHour) graphLineView.setHorizontalStep(30);
+    	if(e.getSource() == setTimeStepHour) graphLineView.setHorizontalStep(60);
+    	if(e.getSource() == setTimeStepDay) graphLineView.setHorizontalStep(1440);
     }
 }
