@@ -8,6 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*; // temporaly
+import java.util.Hashtable;
 
 /**
  *
@@ -28,14 +29,12 @@ public class TickController extends AbstractController implements ActionListener
 //    private JRadioButton week;
 
 
-    private JTextField tickPauseField;
-    private JButton tickPauseButton;
-
     private JButton pauseButton;
     private JButton resumeButton;
 
+    JLabel tickLabel;
     JSlider tickRateSlider;
-    private int miniumTick = 1;
+    private int miniumTick = 0;
     private int maxiumTick = 200;
     private int defaultTick = 100;
 
@@ -46,7 +45,7 @@ public class TickController extends AbstractController implements ActionListener
     public TickController(AbstractModel model) {
         super(model);
         setSize(750, 200);
-        setBackground(Color.green);
+        //setBackground(Color.green);
 
 
         tickAmountField = new JTextField();
@@ -72,13 +71,9 @@ public class TickController extends AbstractController implements ActionListener
         pauseButton = new JButton("Pause");
         pauseButton.setToolTipText("Pauses the simulation");
 
-        tickPauseField = new JTextField();
-        tickPauseField.setText("100");
-        tickPauseButton = new JButton("Set tick pause");
-        tickPauseButton.setToolTipText("Sets the pause duration between every tick.");
-        tickPauseButton.addActionListener(this);
 
-        tickRateSlider = new JSlider(JSlider.HORIZONTAL,miniumTick, maxiumTick, defaultTick);
+        tickLabel = new JLabel("Simulation speed:");
+        tickRateSlider = new JSlider(JSlider.HORIZONTAL,-maxiumTick, -miniumTick, -Math.round(maxiumTick/2));
         tickRateSlider.addChangeListener(this);
 
         resumeButton.addActionListener(this);
@@ -88,9 +83,8 @@ public class TickController extends AbstractController implements ActionListener
 
         add(tickAmountField);
         add(runButton);
-        add(tickPauseField);
-        add(tickPauseButton);
         add(tickRateSlider);
+        add(tickLabel);
         add(resumeButton);
         add(pauseButton);
         add(minuteRadio);
@@ -102,7 +96,7 @@ public class TickController extends AbstractController implements ActionListener
         int yPos = 10;
         int offset = 5;
 
-        tickAmountField.setBounds(xPos, yPos, 120, 30);
+        tickAmountField.setBounds(xPos, yPos, 140, 30);
 
         minuteRadio.setBounds(xPos + tickAmountField.getWidth() + (offset), yPos, 120, 30);
         hourRadio.setBounds(xPos + tickAmountField.getWidth() + minuteRadio.getWidth() + (offset * 2), yPos, 120, 30);
@@ -112,12 +106,28 @@ public class TickController extends AbstractController implements ActionListener
 
         yPos += offset + runButton.getHeight();
 
-        tickPauseField.setBounds(xPos, yPos, 120, 30);
-        tickPauseButton.setBounds(xPos + tickPauseField.getWidth() + offset, yPos, 120, 30);
-        yPos += offset + tickPauseButton.getHeight();
-        tickRateSlider.setBounds(xPos, yPos, 120, 30);
 
-        yPos += offset + tickPauseButton.getHeight();
+        tickLabel.setBounds(xPos, yPos, 140, 60);
+        tickRateSlider.setBounds(tickLabel.getWidth() + xPos, yPos, 140, 60);
+
+        // Add positions label in the slider
+        Hashtable position = new Hashtable();
+        position.put(-maxiumTick, new JLabel("200"));
+        position.put((-maxiumTick/4)*3, new JLabel("150"));
+        position.put(-maxiumTick/2, new JLabel("100"));
+        position.put(-maxiumTick/4, new JLabel("50"));
+        position.put(-miniumTick, new JLabel("0"));
+        // Set the label to be drawn
+        tickRateSlider.setLabelTable(position);
+
+        tickRateSlider.setPaintLabels(true);
+        tickRateSlider.setMajorTickSpacing(50);
+        tickRateSlider.setMinorTickSpacing(10);
+        tickRateSlider.setPaintTicks(true);
+
+
+
+        yPos += offset += tickRateSlider.getHeight();
         resumeButton.setBounds(xPos, yPos, 120, 30);
         pauseButton.setBounds(xPos + resumeButton.getWidth() + offset, yPos, 120, 30);
 
@@ -140,16 +150,6 @@ public class TickController extends AbstractController implements ActionListener
         if(parkModel != null){
             if(e.getSource() == runButton){
                 runSimulation(parkModel);
-            }
-
-            if(e.getSource() == tickPauseButton){
-                try {
-                    int tickAmount = parseIntValue(tickPauseField);
-                    setTickPause(parkModel,tickAmount);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
             }
 
             if(e.getSource() == resumeButton){
@@ -222,14 +222,13 @@ public class TickController extends AbstractController implements ActionListener
      * @param parkModel The model we want to pause
      */
     private void setTickPause(CarParkModel parkModel, int tickRate){
+        tickRate = -tickRate;
+
         if(tickRate > 0){
             if(tickRate >= maxiumTick)
                 tickRate = maxiumTick;
 
             parkModel.setTickPause(tickRate);
-
-            tickRateSlider.setValue(tickRate);
-            tickPauseField.setText(Integer.toString(tickRate));
         }
     }
 
