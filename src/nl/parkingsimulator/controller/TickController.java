@@ -51,10 +51,10 @@ public class TickController extends AbstractController implements ActionListener
 
         tickAmountField = new JTextField();
         tickAmountField.setText("1");  // 10080 = week,    1440 = dag
-        runButton = new JButton("Run");
+        runButton = new JButton("Start simulatie");
         runButton.addActionListener(this);
         runButton.setToolTipText("Click to start the simulation.");
-        amountLabel = new JLabel("Duration:");
+        amountLabel = new JLabel("Simulatie lengte:");
 
         minuteRadio = new JRadioButton("Minuten", false);
         hourRadio = new JRadioButton("Uren", false);
@@ -67,13 +67,13 @@ public class TickController extends AbstractController implements ActionListener
         buttonGroup.add(dayRadio);
         buttonGroup.add(weekRadio);
 
-        resumeButton = new JButton("Resume");
-        resumeButton.setToolTipText("Resume the simulation");
-        pauseButton = new JButton("Pause");
-        pauseButton.setToolTipText("Pauses the simulation");
+        resumeButton = new JButton("Hervat");
+        resumeButton.setToolTipText("Hervat de simulatie");
+        pauseButton = new JButton("Pauzeer");
+        pauseButton.setToolTipText("Pauzeert de simulatie");
 
 
-        tickLabel = new JLabel("Simulation speed:");
+        tickLabel = new JLabel("Simulatie snelheid:");
         tickRateSlider = new JSlider(JSlider.HORIZONTAL,-maxiumTick, -miniumTick, -Math.round(maxiumTick/2));
         tickRateSlider.addChangeListener(this);
 
@@ -105,7 +105,7 @@ public class TickController extends AbstractController implements ActionListener
         hourRadio.setBounds(xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + (offset * 2), yPos, 60, 30);
         dayRadio.setBounds(xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + (offset * 3), yPos, 70, 30);
         weekRadio.setBounds( xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + (offset * 4), yPos, 70, 30);
-        runButton.setBounds( xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + weekRadio.getWidth()  + (offset * 5), yPos, 80, 30);
+        runButton.setBounds( xPos + amountLabel.getWidth() + tickAmountField.getWidth() + minuteRadio.getWidth() + hourRadio.getWidth() + dayRadio.getWidth() + weekRadio.getWidth()  + (offset * 5), yPos, 120, 30);
 
         yPos += offset + runButton.getHeight();
 
@@ -128,9 +128,10 @@ public class TickController extends AbstractController implements ActionListener
         tickRateSlider.setMinorTickSpacing(10);
         tickRateSlider.setPaintTicks(true);
 
-        yPos += offset += tickRateSlider.getHeight();
-        resumeButton.setBounds(xPos, yPos, 120, 30);
-        pauseButton.setBounds(xPos + resumeButton.getWidth() + offset, yPos, 120, 30);
+        yPos += 10;
+        //yPos += offset += tickRateSlider.getHeight();
+        pauseButton.setBounds(xPos  + (offset * 11) + tickLabel.getWidth() + tickRateSlider.getWidth(), yPos, 120, 30);
+        resumeButton.setBounds(xPos  + (offset * 13) + tickLabel.getWidth() + tickRateSlider.getWidth() + pauseButton.getWidth(), yPos, 120, 30);
 
         setVisible(true);
     }
