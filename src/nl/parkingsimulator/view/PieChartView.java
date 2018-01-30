@@ -71,6 +71,10 @@ public class PieChartView extends AbstractView {
         switch (chartType){
             case "overview" : {
                 System.out.println("You have selected piechart type: OVERVIEW.");
+                pieChart.removeSeries("IN");
+                pieChart.removeSeries("IN PASS");
+                pieChart.removeSeries("OUT Exit");
+                pieChart.removeSeries("OUT Payment");
                 pieChart.addSeries("Empty spots", percOpen);
                 pieChart.addSeries("Pass Car", percPass);
                 pieChart.addSeries("Regular Car", percRegUser);
@@ -80,6 +84,11 @@ public class PieChartView extends AbstractView {
             }
             case "queues" : {
                 System.out.println("You have selected piechart type: queues.");
+                pieChart.removeSeries("Empty Spots");
+                pieChart.removeSeries("Pass Car");
+                pieChart.removeSeries("Regular Car");
+                pieChart.removeSeries("Reserved");
+                pieChart.removeSeries("Wrongly Parked");
                 pieChart.addSeries("IN", percQueueEntrance);
                 pieChart.addSeries("IN PASS", percQueuePassEntrance);
                 pieChart.addSeries("OUT Exit", percQueueExit);
@@ -89,7 +98,7 @@ public class PieChartView extends AbstractView {
                 break;
             }
         }
-       
+        
         //Run the calculations
         PieChartCalc();
         
@@ -102,6 +111,33 @@ public class PieChartView extends AbstractView {
     
     public void PieChartCalc(){
         CarParkModel model = (CarParkModel)getModel();
+        while(totalCarsWaiting > 50 && chartType.equals("overview")){
+            System.out.println("Switching to queues");
+            chartType = "queues";
+            pieChart.removeSeries("Empty spots");
+            pieChart.removeSeries("Pass Car");
+            pieChart.removeSeries("Regular Car");
+            pieChart.removeSeries("Reserved");
+            pieChart.removeSeries("Wrongly parked");
+            pieChart.addSeries("IN", percQueueEntrance);
+            pieChart.addSeries("IN PASS", percQueuePassEntrance);
+            pieChart.addSeries("OUT Exit", percQueueExit);
+            pieChart.addSeries("OUT Payment", percQueuePayment);
+            
+        }
+        while(totalCarsWaiting < 10 && chartType.equals("queues")){
+            System.out.println("Switching to overview");
+            chartType = "overview";
+            pieChart.removeSeries("IN");
+            pieChart.removeSeries("IN PASS");
+            pieChart.removeSeries("OUT Exit");
+            pieChart.removeSeries("OUT Payment");
+            pieChart.addSeries("Empty spots", percOpen);
+            pieChart.addSeries("Pass Car", percPass);
+            pieChart.addSeries("Regular Car", percRegUser);
+            pieChart.addSeries("Reserved", percReserved);
+            pieChart.addSeries("Wrongly parked", percBadPark);
+        }
         if(model != null){
             //request all data needed
             openSpots = model.getNumberOfOpenSpots();
@@ -137,7 +173,6 @@ public class PieChartView extends AbstractView {
         PieChartCalc();
          switch (chartType){
             case "overview" : {
-                System.out.println(totalCarsWaiting);
                 pieChart.updatePieSeries("Empty spots", percOpen);
                 pieChart.updatePieSeries("Pass Car", percPass);
                 pieChart.updatePieSeries("Regular Car", percRegUser);

@@ -132,7 +132,7 @@ public class GraphLineView extends AbstractView {
         if(model.getHasReset()){
             resetGraphs();
         }
-        
+
         addGraphValues();
     }
     
