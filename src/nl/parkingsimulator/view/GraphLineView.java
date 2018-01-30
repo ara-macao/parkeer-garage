@@ -23,15 +23,15 @@ public class GraphLineView extends AbstractView {
 	private static final long serialVersionUID = 1L;
 	
     private int horizontalStep;
+    private int graphZoom;
     private int lastGraphPosition;
+    private int activeCharts;
     
     private boolean occupiedPlacesGraph;
     private boolean totalwaitingCarsGraph;
     private boolean leavingCarsGraph;
     private boolean passHoldersGraph;
-    
-    private int activeCharts;
-    
+
     private ArrayList<ArrayList<Integer>> totalCarsGraph;
     private ArrayList<ArrayList<Integer>> totalCarsWaitingGraph;
     private ArrayList<ArrayList<Integer>> totalCarsLeavingGraph;
@@ -47,6 +47,10 @@ public class GraphLineView extends AbstractView {
     public enum GraphName {
     	OCCUPIED_PLACES, TOTAL_WAITING_CARS, TOTAL_LEAVING_CARS, PASS_HOLDERS
     }
+    
+    public enum ZoomLevel {
+    	DAY, WEEK, MONTH
+    }
 
     /**
      * Constructor for objects of class CarPark
@@ -61,6 +65,7 @@ public class GraphLineView extends AbstractView {
          */
         horizontalStep = 10;
         
+        graphZoom = 100;
         lastGraphPosition = 0;
         
         occupiedPlacesGraph = true;
@@ -101,7 +106,7 @@ public class GraphLineView extends AbstractView {
         graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
         
         activeCharts = graphLine.getSeriesMap().size();
-        
+
         Marker[] markers = { SeriesMarkers.NONE }; // Default markers.
 
         // Customize Chart.
@@ -133,13 +138,11 @@ public class GraphLineView extends AbstractView {
         int totalCarsLeaving = model.getExitCarQueue() + model.getPaymentCarQueue();
 
         if(model.getTotalTicks() >= lastGraphPosition * horizontalStep) {
-        	
-        	int maxGraphPoints = 100;
-        	
+
         	/**
         	 * If the graph becomes to long we need to maintain a certain size.
         	 */
-        	if(totalCarsGraph.get(0).size() > maxGraphPoints) {
+        	if(totalCarsGraph.get(0).size() > graphZoom) {
         		totalCarsGraph.get(0).remove(0);
         		totalCarsGraph.get(1).remove(0);
         		
@@ -226,8 +229,47 @@ public class GraphLineView extends AbstractView {
     	graphLine.getStyler().setYAxisMax((double)height);
     }
     
-    public void setHorizontalZoom(int zoom) {
-    	
+    public void setHorizontalZoom(ZoomLevel zoom) {
+    	switch (horizontalStep) {
+			case 1:
+				if(zoom == ZoomLevel.DAY) graphZoom = 1440; // Minutes in a day.
+				else if(zoom == ZoomLevel.WEEK) graphZoom = 10080; // Minutes in a week.
+				else graphZoom = 40320; // Minutes in a month.
+				break;
+			
+			case 10:
+				if(zoom == ZoomLevel.DAY) graphZoom = 144;
+				else if(zoom == ZoomLevel.WEEK) graphZoom = 1008;
+				else graphZoom = 4032;
+				break;
+				
+			case 15:
+				if(zoom == ZoomLevel.DAY) graphZoom = 96;
+				else if(zoom == ZoomLevel.WEEK) graphZoom = 672;
+				else graphZoom = 2688;
+				break;
+				
+			case 30:
+				if(zoom == ZoomLevel.DAY) graphZoom = 48;
+				else if(zoom == ZoomLevel.WEEK) graphZoom = 336;
+				else graphZoom = 1344;
+				break;
+				
+			case 60:
+				if(zoom == ZoomLevel.DAY) graphZoom = 24;
+				else if(zoom == ZoomLevel.WEEK) graphZoom = 168;
+				else graphZoom = 627;
+				break;
+				
+			case 1440:
+				if(zoom == ZoomLevel.DAY) graphZoom = 0;
+				else if(zoom == ZoomLevel.WEEK) graphZoom = 7;
+				else graphZoom = 28;
+				break;
+	
+			default:
+				throw new IllegalArgumentException("horizontalStep " + horizontalStep + " is out of range");
+		}
     }
     
     private void resetGraphs() {
