@@ -34,7 +34,7 @@ public class HistogramView extends AbstractView {
         this.model = (CarParkModel)getModel();
          
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
-
+/**
         // Create Chart
         histogram = new CategoryChartBuilder().title(this.model.getSettings().getHistogramName()).build();
         
@@ -42,6 +42,7 @@ public class HistogramView extends AbstractView {
         JFrame frame = swingWrapper.displayChart();
         javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getHistogramPosition().x, this.model.getSettings().getHistogramPosition().y, this.model.getSettings().getHistogramDimensions().width, this.model.getSettings().getHistogramDimensions().height));
+    */
     }
     
     public void getValues (){
