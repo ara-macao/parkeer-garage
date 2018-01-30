@@ -27,9 +27,11 @@ public class Settings {
     
     private int weekDayArrivals= 100; // average number of arriving cars per hour
     private int weekendArrivals = 200; // average number of arriving cars per hour
-    private int weekDayPassArrivals= 50; // average number of arriving cars per hour
+    private int weekDayPassArrivals = 50; // average number of arriving cars per hour
     private int weekendPassArrivals = 5; // average number of arriving cars per hour
- 
+    private int weekDayReservated = 25; // average number of arriving cars per hour
+    private int weekendReservated = 35; // average number of arriving cars per hour
+
     private int enterSpeed = 3; // number of cars that can enter per minute
     private int paymentSpeed = 7; // number of cars that can pay per minute
     private int exitSpeed = 5; // number of cars that can leave per minute
@@ -96,7 +98,9 @@ public class Settings {
     public int getWeekendArrivals() { return weekendArrivals; } // average number of arriving cars per hour
     public int getWeekDayPassArrivals() { return weekDayPassArrivals; } // average number of arriving cars per hour
     public int getWeekendPassArrivals() { return weekendPassArrivals; } // average number of arriving cars per hour
-               
+    public int getWeekDayReserved() { return weekDayReservated; } // average number of arriving cars per hour
+    public int getWeekendReserved() { return weekendReservated; } // average number of arriving cars per hour
+
     public int getEnterSpeed() { return enterSpeed; } // number of cars that can enter per minute
     public int getPaymentSpeed() { return paymentSpeed; } // number of cars that can pay per minute
     public int getExitSpeed() { return exitSpeed; } // number of cars that can leave per minute

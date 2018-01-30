@@ -99,7 +99,7 @@ public class PieChartView extends AbstractView {
             queuePayment = model.getPaymentCarQueue();
             passCars = model.getCurrentTotalCars(CarParkModel.PASS);
             regCars = model.getCurrentTotalCars(CarParkModel.AD_HOC);
-            //badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARK);
+            badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARKING);
             reserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
             totalCarsWaiting = queueExit + queuePayment + queueEntrance + queuePassEntrance;
 
