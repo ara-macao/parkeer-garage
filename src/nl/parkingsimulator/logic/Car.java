@@ -12,6 +12,7 @@ public abstract class Car {
     private int totalMinuteParket;
     protected int id;
     private String carType;
+    private Color color;
 
     /**
      * Constructor for objects of class Car
@@ -37,7 +38,7 @@ public abstract class Car {
         totalMinuteParket = minutesLeft;
     }
 
-    public int getTotalMinuteParket(){
+    public int getTotalMinuteParked(){
         return totalMinuteParket;
     }
     
@@ -61,7 +62,13 @@ public abstract class Car {
         minutesLeft--;
     }
     
-    public abstract Color getColor();
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color){
+        this.color = color;
+    }
 
     public int getId() {
         return id;

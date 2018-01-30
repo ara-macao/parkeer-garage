@@ -467,6 +467,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         addArrivingCars(numberOfCars, AD_HOC);    	
     	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals()* eventMultiplier, settings.getWeekendPassArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, PASS);
+        addArrivingCars(100, RESERVED);
+        addArrivingCars(50, BAD_PARKING);
 
     }
 
@@ -518,7 +520,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         if(!car.getHasToPay())
             return 0.0f;
 
-        return (float)(car.getTotalMinuteParket()) * (float)(hourPrice /60);
+        return (float)(car.getTotalMinuteParked()) * (float)(hourPrice /60);
     }
 
     private void calculateRevenueNotPayed() {
@@ -578,7 +580,17 @@ public class CarParkModel extends AbstractModel implements Runnable {
                 addCarsToQueue(entrancePassQueue, new ParkingPassCar(type), i);
             }
             break;	            
-    	}
+        case RESERVED:
+            for (int i = 0; i < numberOfCars; i++) {
+                addCarsToQueue(entrancePassQueue, new ReservedCar(type), i);
+            }
+            break;
+        case BAD_PARKING:
+            for (int i = 0; i < numberOfCars; i++) {
+                addCarsToQueue(entrancePassQueue, new BadParkedCar(type), i);
+            }
+            break;
+        }
     }
 
     private void addCarsToQueue(CarQueue carQueue, Car car, int index){

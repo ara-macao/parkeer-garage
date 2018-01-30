@@ -22,4 +22,15 @@ public class ReservedCar extends Car {
     public Color getColor() {
         return Color.GREEN;
     }
+//
+//    @Override
+//    public void tick(){
+//        if(startTime - getTotalMinuteParked() == 30){
+//            setColor(Color.cyan);
+//        }
+//
+//        if(getMinutesLeft() == 30){
+//            setColor(Color.BLACK);
+//        }
+//    }
 }

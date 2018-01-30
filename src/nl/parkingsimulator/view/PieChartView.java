@@ -94,7 +94,7 @@ public class PieChartView extends AbstractView {
         PieChartCalc();
         
         // Show it
-        swingWrapper = new SwingWrapper<PieChart>(pieChart);
+        swingWrapper = new SwingWrapper<>(pieChart);
         JFrame frame = swingWrapper.displayChart();
         javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getPieChartPosition().x, this.model.getSettings().getPieChartPosition().y, this.model.getSettings().getPieChartDimensions().width, this.model.getSettings().getPieChartDimensions().height));  
@@ -112,7 +112,7 @@ public class PieChartView extends AbstractView {
             queuePayment = model.getPaymentCarQueue();
             passCars = model.getCurrentTotalCars(CarParkModel.PASS);
             regCars = model.getCurrentTotalCars(CarParkModel.AD_HOC);
-            //badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARK);
+            badPark = model.getCurrentTotalCars(CarParkModel.BAD_PARKING);
             reserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
             totalCarsWaiting = queueExit + queuePayment + queueEntrance + queuePassEntrance;
             

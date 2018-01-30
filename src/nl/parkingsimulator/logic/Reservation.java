@@ -4,6 +4,8 @@ public class Reservation {
 
     private int id;
     private int carId;
+    private int startTime;
+    private int endTime;
 
     public Reservation(int carId) {
         this.carId = carId;
