@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.view.GraphLineView;
@@ -31,6 +32,13 @@ public class GraphLineController extends AbstractController implements ActionLis
 	private JButton setTimeStepHalfHour;
 	private JButton setTimeStepHour;
 	private JButton setTimeStepDay;
+	
+	private JTextField graphHeight;
+	private JButton setGraphHeight;
+	
+	private JButton setZoomDay;
+	private JButton setZoomWeek;
+	private JButton setZoomMonth;
 	
     private GraphLineView graphLineView;
     
@@ -61,6 +69,15 @@ public class GraphLineController extends AbstractController implements ActionLis
         setTimeStepHour		= new JButton("Tijd in uren");
         setTimeStepDay		= new JButton("Tijd in dagen");
         
+        graphHeight = new JTextField();
+        graphHeight.setText("550");
+        
+        setGraphHeight = new JButton("Zet grafiek hoogte");
+        
+        setZoomDay = new JButton("Dag weergave");
+        setZoomWeek = new JButton("Week weergave"); 
+        setZoomMonth = new JButton("Maand weergave");
+        
         toggleOccupiedPlaces.addActionListener(this);
         toggleTotalWaitingCars.addActionListener(this);
         toggleTotalLeavingCars.addActionListener(this);
@@ -72,6 +89,12 @@ public class GraphLineController extends AbstractController implements ActionLis
         setTimeStepHalfHour.addActionListener(this);
         setTimeStepHour.addActionListener(this);
         setTimeStepDay.addActionListener(this);
+        
+        setGraphHeight.addActionListener(this);
+        
+        setZoomDay.addActionListener(this);  
+        setZoomWeek.addActionListener(this);
+        setZoomMonth.addActionListener(this);
 
         setLayout(null);
         
@@ -87,6 +110,13 @@ public class GraphLineController extends AbstractController implements ActionLis
         add(setTimeStepHour);
         add(setTimeStepDay);
         
+        add(graphHeight);
+        add(setGraphHeight);
+        
+        add(setZoomDay);  
+        add(setZoomWeek); 
+        add(setZoomMonth);
+        
         int offset = 10;
 
         toggleOccupiedPlaces.setBounds		(offset, offset, 170, 30);
@@ -100,6 +130,13 @@ public class GraphLineController extends AbstractController implements ActionLis
         setTimeStepHalfHour.setBounds	((offset * 2) + 170, ((offset * 4) + (30 * 3)) * 1, 170, 30);
         setTimeStepHour.setBounds		((offset * 2) + 170, ((offset * 5) + (30 * 4)) * 1, 170, 30);      
         setTimeStepDay.setBounds		((offset * 2) + 170, ((offset * 6) + (30 * 5)) * 1, 170, 30);
+        
+        graphHeight.setBounds 		((offset * 3) + (170 * 2), offset, 170, 30);
+        setGraphHeight.setBounds 	((offset * 3) + (170 * 2), ((offset * 2) + 30) * 1, 170, 30);
+        
+        setZoomDay.setBounds 		((offset * 3) + (170 * 2), ((offset * 3) + (30 * 2)) * 1, 170, 30);  
+        setZoomWeek.setBounds 		((offset * 3) + (170 * 2), ((offset * 4) + (30 * 3)) * 1, 170, 30); 
+        setZoomMonth.setBounds 		((offset * 3) + (170 * 2), ((offset * 5) + (30 * 4)) * 1, 170, 30);
         
         setVisible(true);
     }
@@ -126,5 +163,19 @@ public class GraphLineController extends AbstractController implements ActionLis
     	if(e.getSource() == setTimeStepHalfHour) graphLineView.setHorizontalStep(30);
     	if(e.getSource() == setTimeStepHour) graphLineView.setHorizontalStep(60);
     	if(e.getSource() == setTimeStepDay) graphLineView.setHorizontalStep(1440);
+    	
+    	if(e.getSource() == setGraphHeight) graphLineView.setGraphHeight(parseIntValue(graphHeight));;
+    	
+    	if(e.getSource() == setZoomDay) graphLineView.setHorizontalZoom(1);;
+    	if(e.getSource() == setZoomWeek) graphLineView.setHorizontalZoom(1);
+    	if(e.getSource() == setZoomMonth) graphLineView.setHorizontalZoom(1);
+    }
+    
+    /**
+     * Parses the value of an input field to an int
+     * @param input The input field we need to reed our integers from
+     */
+    private int parseIntValue(JTextField input) throws NumberFormatException {
+        return Integer.parseInt(input.getText());
     }
 }

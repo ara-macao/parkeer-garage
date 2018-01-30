@@ -223,7 +223,7 @@ public class GraphLineView extends AbstractView {
     }
     
     public void setGraphHeight(int height) {
-    	
+    	graphLine.getStyler().setYAxisMax((double)height);
     }
     
     public void setHorizontalZoom(int zoom) {
