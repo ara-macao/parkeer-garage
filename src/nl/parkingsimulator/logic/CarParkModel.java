@@ -72,14 +72,51 @@ public class CarParkModel extends AbstractModel implements Runnable {
     }
 
     private void initializeCarParkModel(Settings settings){
-        timeEvents = new ArrayList<>(); // initialize event
-        eventMultiplier = 1;
-        generateEvents();
         ApplySettings(settings);
+
+        tickPause = 0;
+        amountOfTicks = 0;
+        numberOfOpenSpots = 0;
+        cars= null;
+        locations= null;
+
+        entranceCarQueue = new CarQueue();
+        entrancePassQueue = new CarQueue();
+        paymentCarQueue = new CarQueue();
+        exitCarQueue = new CarQueue();
+
+        day = 0;
+        hour = 0;
+        minute = 0;
+        totalTicks = 0;
+
+        running = false;
+        pause = false;
+        currentTick = 0;
+        hourPrice = 1.2;
+        dayRevenue = 0;
+        revenueNotPayed = 0;
+        weekRevenue = new HashMap<Integer, Double>();
+        missedCarsMinute = 0;
+        missedCarsHour = 0;
+        missedCarsDay = 0;
+        missedCarsWeek = 0;
+        eventTitle = "";
+        eventMultiplier = 1;
+        timeEvents = new ArrayList<>(); // initialize event
+
+        generateEvents();
 
         this.tickPause = settings.getTickPause();
         this.amountOfTicks = settings.getAmountOfTicks();
 
+        generateParkingLot();
+        initializeQueues();
+
+        notifyViews();
+    }
+
+    private void generateParkingLot(){
         this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         locations = new Location[numberOfFloors][numberOfRows][numberOfPlaces];
@@ -91,7 +128,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
                 }
             }
         }
+    }
 
+    private void initializeQueues(){
         entranceCarQueue = new CarQueue();
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
