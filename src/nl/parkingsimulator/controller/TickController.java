@@ -42,7 +42,7 @@ public class TickController extends AbstractController implements ActionListener
     private int defaultTick = 100;
 
     /**
-     * Constructor for objects of class CarPark
+     * Constructor for objects of class TickController
      * @param model The model where to data comes from
      */
     public TickController(AbstractModel model) {
@@ -143,6 +143,14 @@ public class TickController extends AbstractController implements ActionListener
         setVisible(true);
     }
 
+    /**
+     * Constructor for objects of class TickController
+     * @param panel The panel we want to add.
+     * @param x The x position of the panel.
+     * @param y The y position of the panel.
+     * @param width The width of the panel.
+     * @param height The height of the panel.
+     */
     private void SetElement(JPanel panel, int x, int y, int width, int height){
         add(panel);
         panel.setBounds(x, y, width, height);
@@ -156,6 +164,7 @@ public class TickController extends AbstractController implements ActionListener
     public void actionPerformed(ActionEvent e) {
         CarParkModel parkModel = (CarParkModel)model;
 
+        // Check which button has been pressed
         if(parkModel != null){
             if(e.getSource() == runButton){
                 runSimulation(parkModel);
@@ -199,15 +208,12 @@ public class TickController extends AbstractController implements ActionListener
         try {
             int tickAmount = parseIntValue(tickAmountField);
 
+            // Check which radio button has been selected
             if(minuteRadio.isSelected()){
                 // we can let the value as is
             }
 
             if(hourRadio.isSelected()){
-               // 10080 = week,    1440 = dag
-                // 1440 dag
-                // 60 uur
-                //
                 tickAmount *= 60;
             }
 
@@ -219,8 +225,9 @@ public class TickController extends AbstractController implements ActionListener
                 tickAmount *= 10080;
             }
 
-
+            // Check if the tickamount is bigger then 0
             if(tickAmount > 0){
+                // Set the tickamount and start the simulation
                 parkModel.setAmountOfTicks(tickAmount);
                 parkModel.startSimulation();
             }
@@ -233,14 +240,19 @@ public class TickController extends AbstractController implements ActionListener
     /**
      * pause the simulator
      * @param parkModel The model we want to pause
+     * @param tickRate The amount of time between every tick
      */
     private void setTickPause(CarParkModel parkModel, int tickRate){
+        // Convert to make it a plus number
         tickRate = -tickRate;
 
+        // If the tickrate is bigger then 0 we can update the tickrate
         if(tickRate > 0){
+            // if the tickrate is bigger then our maximum, we set it to the maximum tickrate
             if(tickRate >= maxiumTick)
                 tickRate = maxiumTick;
 
+            // Set tickrate
             parkModel.setTickPause(tickRate);
         }
     }

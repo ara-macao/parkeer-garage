@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * Textview creates labels showing how many cars are missed, which event is happening, how many money there is earned and how many money you still get.
  * @author Jeroen Westers
  */
 public class TextView extends AbstractView {
@@ -18,7 +18,7 @@ public class TextView extends AbstractView {
     private JLabel currentEvent;
 
     /**
-     * Constructor for objects of class CarPark
+     * Constructor for objects of class TextCiew
      * @param model The model where to data comes from
      */
     public TextView(AbstractModel model) {
@@ -55,20 +55,17 @@ public class TextView extends AbstractView {
     @Override
     public void updateView() {
 
-        // Update the view (repaint)
-        //g.drawString("abc", 25, 25);
-
         CarParkModel model = (CarParkModel) getModel();
         if(model != null){
-            missedCars.setText("Missed cars: " + model.getMissedCarsMinute());
+            missedCars.setText("Missed cars: " + model.getMissedCarsMinute()); // get missed cars
 
-            String totalRevenue = formatMoney(model.getRevenue());
-            totalRevenueLabel.setText("Opbrengst vandaag: " + totalRevenue);
+            String totalRevenue = formatMoney(model.getRevenue()); // get revenue
+            totalRevenueLabel.setText("Opbrengst vandaag: " + totalRevenue); // show revenue
 
-            String revenueNotPayed = formatMoney(model.getRevenueNotPayed());
-            notPayedRevenueLabel.setText("Nog te betalen: " + revenueNotPayed);
+            String revenueNotPayed = formatMoney(model.getRevenueNotPayed()); // get not payed revenue
+            notPayedRevenueLabel.setText("Nog te betalen: " + revenueNotPayed); // show not payed revenue
 
-            currentEvent.setText("Huidige event: " + model.getEventTitle());
+            currentEvent.setText("Huidige event: " + model.getEventTitle()); // Set current event
         }
 
         super.updateView();
@@ -90,15 +87,11 @@ public class TextView extends AbstractView {
 
     }
 
+    /**
+     * Converts the given amount to money format
+     * @param money The number we need to convert.
+     */
     private String formatMoney(double money){
-        return String.format("%.2f", money);
+        return String.format("%.2f", money); // format the giving amount to money format
     }
 }
-
-// je moet in deze view
-// de opbrengst van de dag weergeven en de verwachtte opbrengst van de klanten die nog in de
-// garage aanwezig zijn maar nog niet hebben betaald. Maak gebruik van de AbstractView structuur
-// die je in het Life project dat in de MVC projecten zit kunt vinden.
-
-// Opbrengtst van de dag
-// Verwachte opbrengst van de klanten nog in garage niet betaald
