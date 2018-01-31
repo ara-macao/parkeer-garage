@@ -29,10 +29,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private Car[][][] cars;
     public Location[][][] locations;
 
-    public static final String AD_HOC = "1";
-    public static final String PASS = "2";
-    public static final String RESERVED = "3";
-    public static final String BAD_PARKING = "4";
+    public static final int AD_HOC = 1;
+    public static final int PASS = 2;
+    public static final int RESERVED = 3;
+    public static final int BAD_PARKING = 4;
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -64,7 +64,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private String eventTitle = "";
     private float eventMultiplier = 1;
 
-    private HashMap<String, Integer> currentTotalCars = new HashMap<String, Integer>();
+    private HashMap<Integer, Integer> currentTotalCars = new HashMap<Integer, Integer>();
     private boolean hasReset = false;
 
 
@@ -155,7 +155,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         timeEvents.add(new TimeEvent(6, 13, 00, 6, 17, 0, 18f, "Concert"));
     }
 
-    public int getCurrentTotalCars(String type){
+    public int getCurrentTotalCars(int type){
 
         if(currentTotalCars.containsKey(type)){
             return currentTotalCars.get(type);
@@ -350,7 +350,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
             car.setLocation(location);
             numberOfOpenSpots--;
             
-            String carType = car.getCarType();
+            int carType = car.getCarType();
             addCarToTotal(carType);
 
             return true;
@@ -381,7 +381,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
                         if(location.getReservation() == null) {
                             return location;
                         }
-                        else if(location.getReservation().getCarId() == car.getId()){
+                        else if(location.getReservation().getCarType() == car.getCarType()){
                             return location;
                         }
                     }
@@ -469,7 +469,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         addArrivingCars(numberOfCars, PASS);
         numberOfCars = getNumberOfCars(settings.getWeekDayReserved()* eventMultiplier, settings.getWeekendReserved()* eventMultiplier);
         addArrivingCars(numberOfCars, RESERVED);
-        numberOfCars = getNumberOfCars(totalWeekNumbers / 20, totalWeekendNumbers / 20);
+        numberOfCars = getNumberOfCars(totalWeekNumbers / 8, totalWeekendNumbers / 88);
         addArrivingCars(numberOfCars, BAD_PARKING);
 
     }
@@ -567,7 +567,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         return (int)Math.round(numberOfCarsPerHour / 60);	
     }
     
-    private void addArrivingCars(int numberOfCars, String type){
+    private void addArrivingCars(int numberOfCars, int type){
         // Add the cars to the back of the queue.
 
         // TO-DO: Add missed cars
@@ -605,7 +605,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
             }
     }
 
-    private void addCarToTotal(String carType){
+    private void addCarToTotal(int carType){
         int carIndex = 0;
 
         if(currentTotalCars.containsKey(carType)){
@@ -616,7 +616,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         currentTotalCars.put(carType, carIndex);
     }
 
-    private void removeCarTotal(String carType){
+    private void removeCarTotal(int carType){
         int carIndex = 0;
 
         if(currentTotalCars.containsKey(carType)){

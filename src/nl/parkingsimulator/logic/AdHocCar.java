@@ -6,7 +6,7 @@ import java.awt.*;
 public class AdHocCar extends Car {
     private static final Color COLOR=Color.red;
 	
-    public AdHocCar(String carType) {
+    public AdHocCar(int carType) {
         super(carType);
     	Random random = new Random();
     	int stayMinutes = (int) (15 + random.nextFloat() * 3 * 60);

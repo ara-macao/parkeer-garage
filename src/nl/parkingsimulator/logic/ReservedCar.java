@@ -10,7 +10,7 @@ public class ReservedCar extends Car {
      *
      * @param carType
      */
-    public ReservedCar(String carType) {
+    public ReservedCar(int carType) {
         super(carType);
         Random random = new Random();
         int stayMinutes = (int) (15 + random.nextFloat() * 3 * 60);

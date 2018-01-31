@@ -3,26 +3,26 @@ package nl.parkingsimulator.logic;
 public class Reservation {
 
     private int id;
-    private int carId;
+    private int carType;
     private int startTime;
     private int endTime;
 
-    public Reservation(int carId) {
-        this.carId = carId;
+    public Reservation(int carType) {
+        this.carType = carType;
         this.id = hashCode();
-        System.out.println("Reservation: " + id + " made for carID: " + carId);
+        System.out.println("Reservation: " + id + " made for carID: " + carType);
     }
 
-    public int getCarId() {
-        return carId;
+    public int getCarType() {
+        return carType;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setCarId(int carId) {
-        this.carId = carId;
+    public void setCarType(int carId) {
+        this.carType = carId;
     }
 
     public void setId(int id) {
