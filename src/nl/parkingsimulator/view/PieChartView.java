@@ -62,18 +62,18 @@ public class PieChartView extends AbstractView {
         // Series
         switch (chartType){
             case "overview" : {
-                pieChart.addSeries("Empty spots", percOpen);
-                pieChart.addSeries("Pass Car", percPass);
-                pieChart.addSeries("Regular Car", percRegUser);
-                pieChart.addSeries("Reserved", percReserved);
-                pieChart.addSeries("Wrongly parked", percBadPark);
+                pieChart.addSeries("Vrije plekken", percOpen);
+                pieChart.addSeries("Pashouders", percPass);
+                pieChart.addSeries("Gewone bezoekers", percRegUser);
+                pieChart.addSeries("Gereserveerd", percReserved);
+                pieChart.addSeries("Verkeerd geparkeerd", percBadPark);
                 break;
             }
             case "queues" : {
-                pieChart.addSeries("IN", percQueueEntrance);
-                pieChart.addSeries("IN PASS", percQueuePassEntrance);
-                pieChart.addSeries("OUT Exit", percQueueExit);
-                pieChart.addSeries("OUT Payment", percQueuePayment);
+                pieChart.addSeries("Totaal wachtend", percQueueEntrance);
+                pieChart.addSeries("Pashouders wachtend", percQueuePassEntrance);
+                pieChart.addSeries("Wachtend uitgang", percQueueExit);
+                pieChart.addSeries("Betalen uitgang", percQueuePayment);
             }
         }
         
@@ -81,7 +81,7 @@ public class PieChartView extends AbstractView {
         PieChartCalc();
         
         // Generate the Jframe data
-        swingWrapper = new SwingWrapper<>(pieChart);
+        swingWrapper = new SwingWrapper<PieChart>(pieChart);
         JFrame frame = swingWrapper.displayChart();
         javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getPieChartPosition().x, this.model.getSettings().getPieChartPosition().y, this.model.getSettings().getPieChartDimensions().width, this.model.getSettings().getPieChartDimensions().height));  
@@ -116,32 +116,32 @@ public class PieChartView extends AbstractView {
             //percReserved = (reserved * 100.0f ) / totalCarsWaiting;
 
             //Check whether overview or queues should be shown on screen
-            /**if(totalCarsWaiting > 75 && chartType.equals("overview")){
+            if(totalCarsWaiting > 75 && chartType == "overview"){
                 //System.out.println("Switching to queues");
                 chartType = "queues";
-                pieChart.removeSeries("Empty spots");
-                pieChart.removeSeries("Pass Car");
-                pieChart.removeSeries("Regular Car");
-                pieChart.removeSeries("Reserved");
-                pieChart.removeSeries("Wrongly parked");
-                pieChart.addSeries("IN", percQueueEntrance);
-                pieChart.addSeries("IN PASS", percQueuePassEntrance);
-                pieChart.addSeries("OUT Exit", percQueueExit);
-                pieChart.addSeries("OUT Payment", percQueuePayment);
+                pieChart.removeSeries("Vrije plekken");
+                pieChart.removeSeries("Pashouders");
+                pieChart.removeSeries("Gewone bezoekers");
+                pieChart.removeSeries("Gereserveerd");
+                pieChart.removeSeries("Verkeerd geparkeerd");
+                pieChart.addSeries("Totaal wachtend", percQueueEntrance);
+                pieChart.addSeries("Pashouders wachtend", percQueuePassEntrance);
+                pieChart.addSeries("Wachtend uitgang", percQueueExit);
+                pieChart.addSeries("Betalen uitgang", percQueuePayment);
             }
-            if(totalCarsWaiting (lessthan) 10 && chartType.equals("queues")){
+            if(totalCarsWaiting < 10 && chartType == "queues"){
                 //System.out.println("Switching to overview");
                 chartType = "overview";
-                pieChart.removeSeries("IN");
-                pieChart.removeSeries("IN PASS");
-                pieChart.removeSeries("OUT Exit");
-                pieChart.removeSeries("OUT Payment");
-                pieChart.addSeries("Empty spots", percOpen);
-                pieChart.addSeries("Pass Car", percPass);
-                pieChart.addSeries("Regular Car", percRegUser);
-                pieChart.addSeries("Reserved", percReserved);
-                pieChart.addSeries("Wrongly parked", percBadPark);
-            }*/
+                pieChart.removeSeries("Totaal wachtend");
+                pieChart.removeSeries("Pashouders wachtend");
+                pieChart.removeSeries("Wachtend uitgang");
+                pieChart.removeSeries("Betalen uitgang");
+                pieChart.addSeries("Vrije plekken", percOpen);
+                pieChart.addSeries("Pashouders", percPass);
+                pieChart.addSeries("Gewone bezoekers", percRegUser);
+                pieChart.addSeries("Gereserveerd", percReserved);
+                pieChart.addSeries("Verkeerd geparkeerd", percBadPark);
+            }
         }
     }
     
@@ -165,18 +165,18 @@ public class PieChartView extends AbstractView {
 
         switch (chartType){
             case "overview" : {
-                pieChart.updatePieSeries("Empty spots", percOpen);
-                pieChart.updatePieSeries("Pass Car", percPass);
-                pieChart.updatePieSeries("Regular Car", percRegUser);
-                pieChart.updatePieSeries("Reserved", percReserved);
-                pieChart.updatePieSeries("Wrongly parked", percBadPark);
+                pieChart.updatePieSeries("Vrije plekken", percOpen);          
+                pieChart.updatePieSeries("Pashouders", percPass);             
+                pieChart.updatePieSeries("Gewone bezoekers", percRegUser);    
+                pieChart.updatePieSeries("Gereserveerd", percReserved);       
+                pieChart.updatePieSeries("Verkeerd geparkeerd", percBadPark); 
                 break;
             }
             case "queues" : {
-                pieChart.updatePieSeries("IN", percQueueEntrance);
-                pieChart.updatePieSeries("IN PASS", percQueuePassEntrance);
-                pieChart.updatePieSeries("OUT Exit", percQueueExit);
-                pieChart.updatePieSeries("OUT Payment", percQueuePayment);
+                pieChart.updatePieSeries("Totaal wachtend", percQueueEntrance);        
+                pieChart.updatePieSeries("Pashouders wachtend", percQueuePassEntrance);
+                pieChart.updatePieSeries("Wachtend uitgang", percQueueExit);           
+                pieChart.updatePieSeries("Betalen uitgang", percQueuePayment);         
                 break;
             }
             
