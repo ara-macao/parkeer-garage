@@ -150,7 +150,19 @@ public class PieChartView extends AbstractView {
      */
     @Override
     public void updateView() {
-    PieChartCalc();
+        PieChartCalc();
+        if(model.getHasReset()){ 
+            percOpen = 0;
+            percPass = 0;
+            percRegUser = 0;
+            percReserved = 0;
+            percBadPark = 0;
+            percQueueEntrance = 0;
+            percQueuePassEntrance = 0;
+            percQueueExit = 0;
+            percQueuePayment = 0;
+        }
+
         switch (chartType){
             case "overview" : {
                 pieChart.updatePieSeries("Empty spots", percOpen);
@@ -167,6 +179,7 @@ public class PieChartView extends AbstractView {
                 pieChart.updatePieSeries("OUT Payment", percQueuePayment);
                 break;
             }
+            
         }
     //repaint the PieChartView content
     swingWrapper.repaintChart();

@@ -105,6 +105,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         eventTitle = "";
         eventMultiplier = 1;
         timeEvents = new ArrayList<>(); // initialize event
+        currentTotalCars.clear();
 
         generateEvents();
 
