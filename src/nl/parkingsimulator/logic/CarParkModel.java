@@ -106,7 +106,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
         eventMultiplier = 1;
         timeEvents = new ArrayList<>(); // initialize event
         currentTotalCars.clear();
-
         generateEvents();
 
         this.tickPause = settings.getTickPause();
@@ -219,6 +218,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     public void setTickPause(int tickPause) {
         this.tickPause = tickPause;
+        settings.setTickPause(tickPause);
     }
 
     //public int getMissedCars() {
