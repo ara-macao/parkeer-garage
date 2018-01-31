@@ -35,7 +35,7 @@ public class Settings {
     private int enterSpeed = 3; // number of cars that can enter per minute
     private int paymentSpeed = 7; // number of cars that can pay per minute
     private int exitSpeed = 5; // number of cars that can leave per minute
-    
+
     /**
      *  Settings of the main screen.
      */
@@ -160,5 +160,6 @@ public class Settings {
     public void setWeekendArrivals(int weekendArrivals) { this.weekendArrivals = weekendArrivals; } // average number of arriving cars per hour
     public void setWeekDayPassArrivals(int weekDayPassArrivals) { this.weekDayPassArrivals = weekDayPassArrivals; } // average number of arriving cars per hour
     public void setWeekendPassArrivals(int weekendPassArrivals) { this.weekendPassArrivals = weekendPassArrivals; } // average number of arriving cars per hour
+    public  void setTickPause(int tickPause){this.tickPause = tickPause; } // Set tickpause
 }
 
