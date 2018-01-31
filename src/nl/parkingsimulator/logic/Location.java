@@ -90,7 +90,7 @@ public class Location {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
-        switch (reservation.getCarId()) {
+        switch (reservation.getCarType()) {
             case 0:
                 setColor(Color.CYAN);
                 break;
