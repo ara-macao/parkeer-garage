@@ -9,6 +9,9 @@ import nl.parkingsimulator.logic.Car;
 import nl.parkingsimulator.logic.CarParkModel;
 import nl.parkingsimulator.logic.Location;
 
+/**
+ * Carparkview draws the parking garage.
+ */
 public class CarParkView extends AbstractView {
     private Dimension size;
     private Image carParkImage;
@@ -49,6 +52,9 @@ public class CarParkView extends AbstractView {
         }
     }
 
+    /**
+     * Overidden. Tells to update the labels and updates the view
+     */
     @Override
     public void updateView() {
         // Create a new car park image if the size has changed.
