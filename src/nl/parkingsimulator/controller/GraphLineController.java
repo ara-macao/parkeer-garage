@@ -1,14 +1,29 @@
 package nl.parkingsimulator.controller;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.text.Position;
 
 import nl.parkingsimulator.logic.AbstractModel;
+import nl.parkingsimulator.logic.CarParkModel;
 import nl.parkingsimulator.view.GraphLineView;
 import nl.parkingsimulator.view.GraphLineView.GraphName;
 import nl.parkingsimulator.view.GraphLineView.ZoomLevel;
@@ -34,7 +49,7 @@ public class GraphLineController extends AbstractController implements ActionLis
 	private JButton setTimeStepHour;
 	private JButton setTimeStepDay;
 	
-	private JTextField graphHeight;
+	private JTextField textFieldGraphHeight;
 	private JButton setGraphHeight;
 	
 	private JButton setZoomDay;
@@ -42,18 +57,22 @@ public class GraphLineController extends AbstractController implements ActionLis
 	private JButton setZoomMonth;
 	
     private GraphLineView graphLineView;
+    private CarParkModel model;
     
-    public GraphLineController(AbstractModel model, Dimension dimensions, GraphLineView graphLineView) {    
+    public GraphLineController(AbstractModel model, Dimension dimensions, Point position, GraphLineView graphLineView) {    
         super(model);
-        setSize(dimensions);
-        
         this.graphLineView = graphLineView;
-
-        setBackground(Color.ORANGE);
-
+        this.model = (CarParkModel) model;
+ 
+        JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(dimensions);
+        frame.setLocation(position);
+        frame.setResizable(false);
+        
         toggleOccupiedPlaces = new JButton("Bezette plekken");
         toggleOccupiedPlaces.setToolTipText("klik om de grafiek aan of uit te zetten.");
-        
+
         toggleTotalWaitingCars = new JButton("Wachtende auto's ingang");
         toggleTotalWaitingCars.setToolTipText("klik om de grafiek aan of uit te zetten.");
         
@@ -70,15 +89,15 @@ public class GraphLineController extends AbstractController implements ActionLis
         setTimeStepHour		= new JButton("Tijd in uren");
         setTimeStepDay		= new JButton("Tijd in dagen");
         
-        graphHeight = new JTextField();
-        graphHeight.setText("550");
+        textFieldGraphHeight = new JTextField();
+        textFieldGraphHeight.setText("550");
         
         setGraphHeight = new JButton("Zet grafiek hoogte");
         
         setZoomDay = new JButton("Dag weergave");
         setZoomWeek = new JButton("Week weergave"); 
         setZoomMonth = new JButton("Maand weergave");
-        
+
         toggleOccupiedPlaces.addActionListener(this);
         toggleTotalWaitingCars.addActionListener(this);
         toggleTotalLeavingCars.addActionListener(this);
@@ -99,54 +118,101 @@ public class GraphLineController extends AbstractController implements ActionLis
 
         setLayout(null);
         
-        add(toggleOccupiedPlaces);
-        add(toggleTotalWaitingCars);
-        add(toggleTotalLeavingCars);
-        add(toggleParkedPassHolders);
-        
-        add(setTimeStepMin);
-        add(setTimeStep10Min);
-        add(setTimeStepQuarter);
-        add(setTimeStepHalfHour);
-        add(setTimeStepHour);
-        add(setTimeStepDay);
-        
-        add(graphHeight);
-        add(setGraphHeight);
-        
-        add(setZoomDay);  
-        add(setZoomWeek); 
-        add(setZoomMonth);
-        
-        int offset = 10;
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        toggleOccupiedPlaces.setBounds		(offset, offset, 170, 30);
-        toggleTotalWaitingCars.setBounds	(offset, ((offset * 2) + 30) * 1, 170, 30);
-        toggleTotalLeavingCars.setBounds	(offset, ((offset * 3) + (30 * 2)) * 1, 170, 30);
-        toggleParkedPassHolders.setBounds	(offset, ((offset * 4) + (30 * 3)) * 1, 170, 30);
+        int offset = 5;
+        int groupOffset = 20;
+
+        container.add(toggleOccupiedPlaces);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(toggleTotalWaitingCars);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(toggleTotalLeavingCars);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(toggleParkedPassHolders);
+        container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
         
-        setTimeStepMin.setBounds		((offset * 2) + 170, offset, 170, 30);
-        setTimeStep10Min.setBounds		((offset * 2) + 170, ((offset * 2) + 30) * 1, 170, 30);      
-        setTimeStepQuarter.setBounds	((offset * 2) + 170, ((offset * 3) + (30 * 2)) * 1, 170, 30);
-        setTimeStepHalfHour.setBounds	((offset * 2) + 170, ((offset * 4) + (30 * 3)) * 1, 170, 30);
-        setTimeStepHour.setBounds		((offset * 2) + 170, ((offset * 5) + (30 * 4)) * 1, 170, 30);      
-        setTimeStepDay.setBounds		((offset * 2) + 170, ((offset * 6) + (30 * 5)) * 1, 170, 30);
+        container.add(setTimeStepMin);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setTimeStep10Min);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setTimeStepQuarter);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setTimeStepHalfHour);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setTimeStepHour);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setTimeStepDay);
+        container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
+
+        container.add(textFieldGraphHeight); // Text field.
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setGraphHeight);
+        container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
+
+        container.add(setZoomDay);  
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setZoomWeek); 
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setZoomMonth);
         
-        graphHeight.setBounds 		((offset * 3) + (170 * 2), offset, 170, 30);
-        setGraphHeight.setBounds 	((offset * 3) + (170 * 2), ((offset * 2) + 30) * 1, 170, 30);
+        toggleOccupiedPlaces.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toggleTotalWaitingCars.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toggleTotalLeavingCars.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toggleParkedPassHolders.setAlignmentX(Component.CENTER_ALIGNMENT);
+                                
+        setTimeStepMin.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setTimeStep10Min.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setTimeStepQuarter.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setTimeStepHalfHour.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setTimeStepHour.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setTimeStepDay.setAlignmentX(Component.CENTER_ALIGNMENT);
+                                
+        textFieldGraphHeight.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setGraphHeight.setAlignmentX(Component.CENTER_ALIGNMENT);
+                                
+        setZoomDay.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setZoomWeek.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setZoomMonth.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        setZoomDay.setBounds 		((offset * 3) + (170 * 2), ((offset * 3) + (30 * 2)) * 1, 170, 30);  
-        setZoomWeek.setBounds 		((offset * 3) + (170 * 2), ((offset * 4) + (30 * 3)) * 1, 170, 30); 
-        setZoomMonth.setBounds 		((offset * 3) + (170 * 2), ((offset * 5) + (30 * 4)) * 1, 170, 30);
+        int maxButtonWidth = Short.MAX_VALUE;
+        int maxButtonHeight = Short.MAX_VALUE;
+
+        toggleOccupiedPlaces.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        toggleTotalWaitingCars.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        toggleTotalLeavingCars.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        toggleParkedPassHolders.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+        setTimeStepMin.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setTimeStep10Min.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setTimeStepQuarter.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setTimeStepHalfHour.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setTimeStepHour.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setTimeStepDay.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+        textFieldGraphHeight.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setGraphHeight.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         
-        setVisible(true);
+        setZoomDay.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setZoomWeek.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setZoomMonth.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        int scrollSpeed = 16;
+
+        JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(scrollSpeed);
+        
+        frame.getContentPane().add(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     /**
      * @Override
      */
     public void actionPerformed(ActionEvent e) {
-    	
     	/**
     	 * Toggle different graphs.
     	 */
@@ -165,7 +231,7 @@ public class GraphLineController extends AbstractController implements ActionLis
     	if(e.getSource() == setTimeStepHour) graphLineView.setHorizontalStep(60);
     	if(e.getSource() == setTimeStepDay) graphLineView.setHorizontalStep(1440);
     	
-    	if(e.getSource() == setGraphHeight) graphLineView.setGraphHeight(parseIntValue(graphHeight));;
+    	if(e.getSource() == setGraphHeight) graphLineView.setGraphHeight(parseIntValue(textFieldGraphHeight));;
     	
     	if(e.getSource() == setZoomDay) graphLineView.setHorizontalZoom(ZoomLevel.DAY);;
     	if(e.getSource() == setZoomWeek) graphLineView.setHorizontalZoom(ZoomLevel.WEEK);

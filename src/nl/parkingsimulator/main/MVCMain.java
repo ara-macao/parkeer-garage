@@ -43,6 +43,8 @@ public class MVCMain {
         reservationView = new ReservationView(model);
         graphLineView = new GraphLineView(model);
         pieChartView = new PieChartView(model);
+        
+        graphLineController = new GraphLineController(model, settings.getGraphLineControllerDimensions(), settings.getGraphLineControllerPosition(), (GraphLineView) graphLineView);
 
         /**
          * Creating the main screen...
@@ -78,16 +80,15 @@ public class MVCMain {
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
 
-        JFrame graphLineFrame = windowBuilder(settings.getGraphLineControllerName(), settings.getGraphLineControllerDimensions() , settings.getGraphLineControllerPosition());
+        //JFrame graphLineControllerFrame = windowBuilder(settings.getGraphLineControllerName(), settings.getGraphLineControllerDimensions() , settings.getGraphLineControllerPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        graphLineController = new GraphLineController(model, graphLineFrame.getContentPane().getSize(), (GraphLineView) graphLineView);
-        graphLineFrame.add(graphLineController);
-        //graphLineFrame.add(graphLineView);
+        //graphLineController = new GraphLineController(model, graphLineControllerFrame.getContentPane().getSize(), (GraphLineView) graphLineView, graphLineControllerFrame);
+        
+        //graphLineControllerFrame.add(graphLineController);
 
         JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
         reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
         reservationsFrame.add(reservationController);
-        reservationsFrame.add(reservationView);
 
         JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
@@ -98,7 +99,6 @@ public class MVCMain {
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
         histogrampanel.setBounds(0, 0, 200, 200);
-        //histogramFrame.add(histogrampanel); this is adding an additional panel unnecessary
     }
 
     private void addNewElement(JPanel view, int x, int y, int width, int height) {
@@ -117,7 +117,7 @@ public class MVCMain {
     private JFrame windowBuilder(String title, Dimension dimension, Point location) {
         JFrame.setDefaultLookAndFeelDecorated(settings.getDefaultLookAndFeel());
         JFrame frame = new JFrame(title);
-        frame.setLayout(null);
+        //frame.setLayout(null); // This setting creates problems with adding scroll bars...
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setBackground(Color.GRAY);
         frame.setSize(dimension);
