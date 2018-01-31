@@ -44,7 +44,7 @@ public class HistogramView extends AbstractView {
         //max height reflects the amount of cars before people start to leave.
         histogram.getStyler().setYAxisMax((double)maxHeight);
         
-        Color[] colors = { Color.RED };
+        Color[] colors = { Color.ORANGE };
         histogram.getStyler().setSeriesColors(colors);
 
         // add the queue series to the histogram.
@@ -70,11 +70,6 @@ public class HistogramView extends AbstractView {
     @Override
     public void updateView() {
         getValues();
-        
-        adHocQueue = 100;
-        passQueue = 100;
-        exitQueue = 100;
-        paymentQueue =100;
         
         histogram.updateCategorySeries("queues", new ArrayList<>(Arrays.asList(new String[] { "Ingang", "Pas ingang", "uitgang", "betalen"})), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, paymentQueue}), null);
         // update the view
