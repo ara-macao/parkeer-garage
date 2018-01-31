@@ -1,4 +1,5 @@
 package nl.parkingsimulator.view;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFrame;
@@ -42,6 +43,9 @@ public class HistogramView extends AbstractView {
         histogram.getStyler().setLegendVisible(false);
         //max height reflects the amount of cars before people start to leave.
         histogram.getStyler().setYAxisMax((double)maxHeight);
+        
+        Color[] colors = { Color.RED };
+        histogram.getStyler().setSeriesColors(colors);
 
         // add the queue series to the histogram.
         histogram.addSeries("queues", new ArrayList<>(Arrays.asList(new String[] { "Ingang", "Pas ingang", "uitgang", "betalen"})), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, paymentQueue}));
@@ -52,7 +56,7 @@ public class HistogramView extends AbstractView {
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getHistogramPosition().x, this.model.getSettings().getHistogramPosition().y, this.model.getSettings().getHistogramDimensions().width, this.model.getSettings().getHistogramDimensions().height));
     }
     
-    public void getValues (){
+    public void getValues () {
         CarParkModel model = (CarParkModel)getModel();
         // get all necessary data from the model
         if(model != null){
@@ -61,12 +65,17 @@ public class HistogramView extends AbstractView {
             exitQueue = model.getExitCarQueue();
             paymentQueue = model.getPaymentCarQueue();
         }
-        
     }
     
     @Override
     public void updateView() {
         getValues();
+        
+        adHocQueue = 100;
+        passQueue = 100;
+        exitQueue = 100;
+        paymentQueue =100;
+        
         histogram.updateCategorySeries("queues", new ArrayList<>(Arrays.asList(new String[] { "Ingang", "Pas ingang", "uitgang", "betalen"})), Arrays.asList(new Integer[] { adHocQueue, passQueue, exitQueue, paymentQueue}), null);
         // update the view
         swingWrapper.repaintChart();

@@ -81,8 +81,8 @@ public class Settings {
     private String pieChartName = "Taart Grafiek";
 
     private Point histogramPosition = new Point(pieChartPosition.x + pieChartDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
-    private Dimension histogramDimensions = new Dimension(210, 275);
-    private String histogramName = "Histogram";
+    private Dimension histogramDimensions = new Dimension(400, 300);
+    private String histogramName = "Wachtrijen";
     
     /**
      *  Getters for CarParkModel.
