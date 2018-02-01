@@ -19,6 +19,7 @@ public class TimeView extends AbstractView {
     /**
      * Constructor for objects of class TimeView
      * @param model The model where to data comes from
+     * @param dimensions The dimension of the model
      */
     public TimeView(AbstractModel model, Dimension dimensions) {
         super(model);
@@ -48,7 +49,7 @@ public class TimeView extends AbstractView {
      * @param yPos The y position of the component.
      * @param width The width of the component
      * @param height The height of the component
-     * @return component The component we have made and set
+     * @return The component we have made and set
      */
     private JComponent addComponent(JComponent component, int xPos, int yPos, int width, int height){
         component.setBounds(xPos, yPos, width, height); // set position and size
@@ -105,7 +106,8 @@ public class TimeView extends AbstractView {
     /**
      * Parses the value of an inputfield to an int
      * @param number The number to convert
-     * @param max The maxium value of number
+     * @param max The maximum value of number
+     * @return The formatted number
      */
     private String getDoubleTime(int number, int max){
         if(number < max){

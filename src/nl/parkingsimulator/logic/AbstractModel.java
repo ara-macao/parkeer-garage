@@ -3,6 +3,12 @@ package nl.parkingsimulator.logic;
 import java.util.*;
 import nl.parkingsimulator.view.*;
 
+/**
+ * Abstract Model
+ *
+ * @author Hanze
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public abstract class AbstractModel {
 	private List<AbstractView> views;
 	

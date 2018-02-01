@@ -2,6 +2,12 @@ package nl.parkingsimulator.logic;
 
 import java.awt.*;
 
+/**
+ * Location
+ * Holds information about the place
+ *
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public class Location {
 
     private int floor;
@@ -12,6 +18,9 @@ public class Location {
 
     /**
      * Constructor for objects of class Location
+     * @param floor The floor
+     * @param row The row
+     * @param place The place
      */
     public Location(int floor, int row, int place) {
         this.floor = floor;
@@ -22,6 +31,7 @@ public class Location {
 
     /**
      * Implement content equality.
+     * @param obj The object
      */
     public boolean equals(Object obj) {
         if(obj instanceof Location) {

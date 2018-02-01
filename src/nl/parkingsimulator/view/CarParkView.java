@@ -14,6 +14,7 @@ import nl.parkingsimulator.logic.Location;
  * Carparkview draws the parking garage.
  * 
  * @author Hanze
+ * @author Jeroen Westers (Refactored to mvc)
  * @author Thom van Dijk (removed hardcoded values)
  */
 public class CarParkView extends AbstractView {
@@ -34,6 +35,8 @@ public class CarParkView extends AbstractView {
     
     /**
      * Constructor for objects of class CarPark
+     * @param model The model we get our data from
+     * @param dimensions The dimension of the view
      */
     public CarParkView(AbstractModel model, Dimension dimensions) {
         super(model);
@@ -56,7 +59,6 @@ public class CarParkView extends AbstractView {
     /**
      * Overridden. The car park view component needs to be redisplayed. Copy the
      * internal image to screen.
-     * @Override
      */
     public void paintComponent(Graphics g) {
         if (carParkImage == null) {
@@ -75,7 +77,6 @@ public class CarParkView extends AbstractView {
 
     /**
      * Overridden. Tells to update the labels and updates the view
-     * @Override
      */
     public void updateView() {
         // Create a new car park image if the size has changed.
@@ -104,6 +105,9 @@ public class CarParkView extends AbstractView {
 
     /**
      * Paint a place on this car park view in a given color.
+     * @param graphics The grapics
+     * @param location The location for the grapics
+     * @param color The color for the graphics
      */
     private void drawPlace(Graphics graphics, Location location, Color color) {
         graphics.setColor(color);

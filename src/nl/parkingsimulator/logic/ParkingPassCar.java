@@ -3,6 +3,12 @@ package nl.parkingsimulator.logic;
 import java.util.Random;
 import java.awt.*;
 
+/**
+ * ParkingPassCar
+ *
+ * @author Hanze
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public class ParkingPassCar extends Car {
     private static final Color COLOR=Color.blue;
 	

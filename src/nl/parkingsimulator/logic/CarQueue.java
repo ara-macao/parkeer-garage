@@ -3,6 +3,13 @@ package nl.parkingsimulator.logic;
 import java.util.LinkedList;
 import java.util.Queue;
 
+
+/**
+ * CarQueue
+ * Holds cars that are queued
+ *
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public class CarQueue {
     private Queue<Car> queue = new LinkedList<>();
 

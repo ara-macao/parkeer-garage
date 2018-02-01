@@ -11,7 +11,7 @@ import java.awt.event.*; // temporaly
 import java.util.Hashtable;
 
 /**
- *
+ * Class that creates the panel with the buttons and slider to control the simulation
  * @author Jeroen Westers
  */
 public class TickController extends AbstractController implements ActionListener, ChangeListener {
@@ -260,6 +260,7 @@ public class TickController extends AbstractController implements ActionListener
     /**
      * Parses the value of an inputfield to an int
      * @param input The input field we need to reed our integes from
+     * @return The integer parsed from an textfield
      */
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());
