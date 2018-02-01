@@ -55,6 +55,7 @@ public class MVCScreen {
         }
     }
     public void injectWindow(JInternalFrame iFrame) {
+        iFrame.setVisible(true);
         workspaceController.injectInternalFrame(iFrame);
     }
 }

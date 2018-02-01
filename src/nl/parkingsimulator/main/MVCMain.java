@@ -28,7 +28,7 @@ public class MVCMain {
     public MVCScreen newScreen;
 
     public MVCMain() {
-        newScreen = new MVCScreen(); // Testing screen
+        //newScreen = new MVCScreen(); // Testing screen
         settings = new Settings();
         model = new CarParkModel(settings);
         
@@ -86,6 +86,13 @@ public class MVCMain {
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
         histogrampanel.setBounds(0, 0, 200, 200);
+        
+        //JInternalFrame test = buildInjectableWindow(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
+        //test.add(pieChartView);
+        //test.add(pieChartController);
+        //newScreen.injectWindow(test);
+        
+        
     }
 
     private void addNewElement(JPanel view, Point pos, Dimension dimension) {
@@ -113,7 +120,7 @@ public class MVCMain {
 
         return frame;
     }
-    private JInternalFrame buildInjectableWindow(String title, Color backgroundColor, Dimension dimension, Point location) {
+    private JInternalFrame buildInjectableWindow(String title, Dimension dimension, Point location) {
         JInternalFrame iFrame = new JInternalFrame(title, false, false, false, false);
         iFrame.setBounds(location.x, location.y, dimension.width, dimension.height);
         return iFrame;
