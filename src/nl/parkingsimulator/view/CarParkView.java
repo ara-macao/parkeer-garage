@@ -5,10 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import nl.parkingsimulator.logic.AbstractModel;
-import nl.parkingsimulator.logic.Car;
-import nl.parkingsimulator.logic.CarParkModel;
-import nl.parkingsimulator.logic.Location;
+import nl.parkingsimulator.logic.*;
 
 /**
  * Carparkview draws the parking garage.
@@ -95,6 +92,9 @@ public class CarParkView extends AbstractView {
         CarParkModel model = (CarParkModel)getModel();
 
         Graphics graphics = carParkImage.getGraphics();
+
+        drawLegend(graphics);
+
         for(int floor = 0; floor < model.getNumberOfFloors(); floor++) {
             for(int row = 0; row < model.getNumberOfRows(); row++) {
                 for(int place = 0; place < model.getNumberOfPlaces(); place++) {
@@ -121,5 +121,52 @@ public class CarParkView extends AbstractView {
         graphics.fillRect(
                 location.getFloor() * spacingBetweenFloors + (borderLeft + (int)Math.floor(location.getRow() * 0.5)) * spacingBetweenRows + (location.getRow() % 2) * parkingSpotWidth,
                 borderTop + location.getPlace() * verticalOffset, parkingSpotWidth - spacingBetweenSpots, parkingSpotHeight  - spacingBetweenSpots); 
+    }
+
+    /**
+     * Paint a legend on the graphic
+     * @param graphics The grapics
+     */
+    private void drawLegend(Graphics graphics){
+        int offsetColor = 75;
+        int offsetString = 100;
+        int colorHeight = 20;
+        int offsetY = 10;
+
+        addToLegend(graphics, Color.red, offsetString, offsetY, colorHeight, offsetColor, "Regulier");
+        offsetString += 100;
+        offsetColor += 100;
+        addToLegend(graphics, Color.blue, offsetString, offsetY, colorHeight, offsetColor, "Pashouder");
+        offsetString += 100;
+        offsetColor += 100;
+        addToLegend(graphics, Color.green, offsetString, offsetY, colorHeight, offsetColor, "Gereserveerd");
+        offsetString += 120;
+        offsetColor += 120;
+        addToLegend(graphics, Color.black, offsetString, offsetY, colorHeight, offsetColor, "Gereserveerde");
+        offsetString += 120;
+        offsetColor += 120;
+        addToLegend(graphics, Color.yellow, offsetString, offsetY, colorHeight, offsetColor, "Fout geparkeerd");
+
+        offsetString += 120;
+        offsetColor += 120;
+
+        addToLegend(graphics, Color.cyan, offsetString, offsetY, colorHeight, offsetColor, "Lege pas plek");
+        offsetString += 120;
+        offsetColor += 120;
+        addToLegend(graphics, Color.pink, offsetString, offsetY, colorHeight, offsetColor, "Lege plek");
+
+        graphics.setColor(Color.blue);
+
+    }
+
+    /**
+     * Paint an item on the graphic
+     * @param graphics The grapics
+     */
+    private void addToLegend(Graphics graphics, Color carColor, int offsetString, int offsetY, int colorHeight, int offsetColor, String carType){
+        graphics.setColor(carColor);
+        graphics.fillRect(offsetColor,offsetY - 16, 20, 20);
+        graphics.setColor(Color.black);
+        graphics.drawString(carType, offsetString, offsetY);
     }
 }
