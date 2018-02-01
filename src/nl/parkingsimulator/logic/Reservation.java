@@ -4,21 +4,32 @@ public class Reservation {
 
     private int id;
     private int carType;
-    private int startTime;
-    private int endTime;
+    private int ticksLeft = Integer.MAX_VALUE;
+    private Location location;
+    private Car car;
 
-    public Reservation(int carType) {
+    public Reservation(Location location, int carType) {
         this.carType = carType;
         this.id = hashCode();
+        this.location = location;
+        ticksLeft = Integer.MAX_VALUE;
         System.out.println("Reservation: " + id + " made for carID: " + carType);
     }
 
-    public Reservation(int carType, int startTime, int endTime) {
-        this.carType = carType;
+    public Reservation(Location location, Car car, int duration) {
+        this.carType = car.getCarType();
         this.id = hashCode();
-        System.out.println("Reservation: " + id + " made for carID: " + carType + "Starting: " + startTime + ", Ending:" + endTime);
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.location = location;
+        this.car = car;
+        ticksLeft = duration;
+        System.out.println("Reservation: " + id + " made for carID: " + carType);
+    }
+
+    public void tick() {
+        ticksLeft--;
+        if (ticksLeft <= 0) {
+            location.setReservation(null);
+        }
     }
 
     public int getCarType() {
