@@ -29,7 +29,7 @@ public class TimeView extends AbstractView {
         
         int borderTop = 20;
         int borderLeft = 0;
-        int offset = 22;
+        int offset = 15;
         int textHeight = 15;
         int textWidth = 300;
 
