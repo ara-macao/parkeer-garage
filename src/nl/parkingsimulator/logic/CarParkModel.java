@@ -59,6 +59,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     private double hourPrice = 0;
     private double pricePerPassHolder = 0;
+    private double reservedPrice = 0;
+    private double badParkedPrice = 0;
+
+
     private double dayRevenue = 0;
     private double revenueNotPaid = 0;
 
@@ -144,7 +148,9 @@ public class CarParkModel extends AbstractModel implements Runnable {
         
         this.hourPrice = settings.getPricePerHour();
         this.pricePerPassHolder = settings.getPricePerPassHolder();
-        
+        this.badParkedPrice = hourPrice * 2;
+        this.reservedPrice = hourPrice;
+
         this.tickPause = settings.getTickPause();
     }
 
@@ -751,8 +757,30 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private float calculatePrice(Car car) {
         if(!car.getHasToPay())
             return 0.0f;
-        
-        return (float)(car.getTotalMinuteParked()) * (float)(hourPrice /60);
+
+        double priceTopay = 0;
+
+        switch (car.getCarType()){
+            case AD_HOC:
+                priceTopay = hourPrice;
+                break;
+            case PASS:
+                priceTopay = pricePerPassHolder;
+                break;
+            case RESERVED:
+                priceTopay = reservedPrice;
+                break;
+            case BAD_PARKING:
+                priceTopay = badParkedPrice;
+                break;
+
+            default:
+                priceTopay = hourPrice;
+                break;
+
+        }
+
+        return (float)(car.getTotalMinuteParked()) * (float)((priceTopay /60) + hourPrice);
     }
 
     /**
