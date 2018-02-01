@@ -15,6 +15,7 @@ import nl.parkingsimulator.logic.CarParkModel;
 import nl.parkingsimulator.logic.Settings;
 
 /**
+ * This class controls all the global settings used in the simulation.
  * 
  * @author Thom van Dijk
  */

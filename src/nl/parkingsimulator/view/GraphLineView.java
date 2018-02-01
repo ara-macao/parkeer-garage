@@ -28,14 +28,18 @@ public class GraphLineView extends AbstractView {
     private boolean occupiedPlacesGraph;
     private boolean totalwaitingCarsGraph;
     private boolean leavingCarsGraph;
+    private boolean regularCarsGraph; 
+    private boolean reservedCarsGraph;
     private boolean passHoldersGraph;
 
     private ArrayList<ArrayList<Integer>> totalCarsGraph;
     private ArrayList<ArrayList<Integer>> totalCarsWaitingGraph;
     private ArrayList<ArrayList<Integer>> totalCarsLeavingGraph;
+    private ArrayList<ArrayList<Integer>> totalRegularCarsGraph;
+    private ArrayList<ArrayList<Integer>> totalReservedSpotsGraph;
     private ArrayList<ArrayList<Integer>> totalPassHoldersGraph;
     
-    private Color[] colors = { Color.RED, Color.ORANGE, Color.CYAN, Color.BLUE }; // Default colors.
+    private Color[] colors = { Color.DARK_GRAY, Color.ORANGE, Color.MAGENTA, Color.RED, Color.GREEN, Color.BLUE, }; // Default colors.
     
     private XYChart graphLine;
     private SwingWrapper<XYChart> swingWrapper;
@@ -43,7 +47,7 @@ public class GraphLineView extends AbstractView {
     private CarParkModel model;
     
     public enum GraphName {
-    	OCCUPIED_PLACES, TOTAL_WAITING_CARS, TOTAL_LEAVING_CARS, PASS_HOLDERS
+    	OCCUPIED_PLACES, TOTAL_WAITING_CARS, TOTAL_LEAVING_CARS, REGULAR_CARS, RESERVED_SPOTS, PASS_HOLDERS
     }
     
     public enum ZoomLevel {
@@ -68,14 +72,18 @@ public class GraphLineView extends AbstractView {
         
         occupiedPlacesGraph = true;
         totalwaitingCarsGraph = true;
-        leavingCarsGraph = false;
-        passHoldersGraph = false;
+        leavingCarsGraph = true;
+        regularCarsGraph = true;
+        reservedCarsGraph = true;
+        passHoldersGraph = true;
         
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
   
         totalCarsGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsWaitingGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsLeavingGraph = new ArrayList<ArrayList<Integer>>();
+        totalRegularCarsGraph = new ArrayList<ArrayList<Integer>>();
+        totalReservedSpotsGraph = new ArrayList<ArrayList<Integer>>();
         totalPassHoldersGraph = new ArrayList<ArrayList<Integer>>();
         
         totalCarsGraph.add(new ArrayList<Integer>());
@@ -84,6 +92,10 @@ public class GraphLineView extends AbstractView {
         totalCarsWaitingGraph.add(new ArrayList<Integer>());
         totalCarsLeavingGraph.add(new ArrayList<Integer>());
         totalCarsLeavingGraph.add(new ArrayList<Integer>());
+        totalRegularCarsGraph.add(new ArrayList<Integer>());
+        totalRegularCarsGraph.add(new ArrayList<Integer>());
+        totalReservedSpotsGraph.add(new ArrayList<Integer>());
+        totalReservedSpotsGraph.add(new ArrayList<Integer>());
         totalPassHoldersGraph.add(new ArrayList<Integer>());
         totalPassHoldersGraph.add(new ArrayList<Integer>());
         
@@ -93,6 +105,10 @@ public class GraphLineView extends AbstractView {
         totalCarsWaitingGraph.get(1).add(0);
         totalCarsLeavingGraph.get(0).add(0);
         totalCarsLeavingGraph.get(1).add(0);
+        totalRegularCarsGraph.get(0).add(0);
+        totalRegularCarsGraph.get(1).add(0);
+        totalReservedSpotsGraph.get(0).add(0);
+        totalReservedSpotsGraph.get(1).add(0);
         totalPassHoldersGraph.get(0).add(0);
         totalPassHoldersGraph.get(1).add(0);
  
@@ -100,8 +116,12 @@ public class GraphLineView extends AbstractView {
         graphLine = new XYChartBuilder().title(this.model.getSettings().getGraphLineName()).xAxisTitle(getTitleXAxis()).yAxisTitle("Aantal auto's").build();
         
         // Default enabled.
-        graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
-        graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
+        graphLine.addSeries("Totaal bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
+        graphLine.addSeries("Wachtende bezoekers", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
+        graphLine.addSeries("Vertrekkende bezoekers", totalCarsLeavingGraph.get(0), totalCarsLeavingGraph.get(1));
+        graphLine.addSeries("Reguliere bezoekers", totalRegularCarsGraph.get(0), totalRegularCarsGraph.get(1));
+        graphLine.addSeries("Gereserveerde plekken", totalReservedSpotsGraph.get(0), totalReservedSpotsGraph.get(1));
+        graphLine.addSeries("Geparkeerde pashouders", totalPassHoldersGraph.get(0), totalPassHoldersGraph.get(1));
         
         activeCharts = graphLine.getSeriesMap().size();
 
@@ -137,6 +157,8 @@ public class GraphLineView extends AbstractView {
     private void addGraphValues() {
         int totalNumberOfCars = model.getNumberOfSpots() - model.getNumberOfOpenSpots();
         int totalNumberOfCarswaiting = model.getEntranceCarQueue() + model.getEntrancePassQueue();
+        int totalRegularCars = model.getCurrentTotalCars(CarParkModel.AD_HOC);
+        int totalPlacesReserved = model.getCurrentTotalCars(CarParkModel.RESERVED);
         int totalCarsLeaving = model.getExitCarQueue() + model.getPaymentCarQueue();
 
         if(model.getTotalTicks() >= lastGraphPosition * horizontalStep) {
@@ -153,6 +175,12 @@ public class GraphLineView extends AbstractView {
         		                             
         		totalCarsLeavingGraph.get(0).remove(0);
         		totalCarsLeavingGraph.get(1).remove(0);
+        		
+        		totalRegularCarsGraph.get(0).remove(0);
+        		totalRegularCarsGraph.get(1).remove(0);
+        		
+        		totalReservedSpotsGraph.get(0).remove(0);
+        		totalReservedSpotsGraph.get(1).remove(0);
         		                             
         		totalPassHoldersGraph.get(0).remove(0);
         		totalPassHoldersGraph.get(1).remove(0);
@@ -167,15 +195,23 @@ public class GraphLineView extends AbstractView {
         	totalCarsLeavingGraph.get(0).add(lastGraphPosition);
             totalCarsLeavingGraph.get(1).add(totalCarsLeaving);
             
+            totalRegularCarsGraph.get(0).add(lastGraphPosition);
+            totalRegularCarsGraph.get(1).add(totalRegularCars);
+                                   
+            totalReservedSpotsGraph.get(0).add(lastGraphPosition);
+            totalReservedSpotsGraph.get(1).add(totalPlacesReserved);
+            
             totalPassHoldersGraph.get(0).add(lastGraphPosition);
             totalPassHoldersGraph.get(1).add(model.getCurrentTotalCars(CarParkModel.PASS));
 
 
         	// Update the graph line.
-        	if(occupiedPlacesGraph) graphLine.updateXYSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1), null);
-        	if(totalwaitingCarsGraph) graphLine.updateXYSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1), null);
-        	if(leavingCarsGraph) graphLine.updateXYSeries("Vertrekkende auto's", totalCarsLeavingGraph.get(0), totalCarsLeavingGraph.get(1), null);
-        	if(passHoldersGraph) graphLine.updateXYSeries("Aantal gearriveerde pashouders", totalPassHoldersGraph.get(0), totalPassHoldersGraph.get(1), null);
+        	if(occupiedPlacesGraph) graphLine.updateXYSeries("Totaal bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1), null);
+        	if(totalwaitingCarsGraph) graphLine.updateXYSeries("Wachtende bezoekers", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1), null);
+        	if(leavingCarsGraph) graphLine.updateXYSeries("Vertrekkende bezoekers", totalCarsLeavingGraph.get(0), totalCarsLeavingGraph.get(1), null);
+        	if(regularCarsGraph) graphLine.updateXYSeries("Reguliere bezoekers", totalRegularCarsGraph.get(0), totalRegularCarsGraph.get(1), null);
+        	if(reservedCarsGraph) graphLine.updateXYSeries("Gereserveerde plekken", totalReservedSpotsGraph.get(0), totalReservedSpotsGraph.get(1), null);
+        	if(passHoldersGraph) graphLine.updateXYSeries("Geparkeerde pashouders", totalPassHoldersGraph.get(0), totalPassHoldersGraph.get(1), null);
 
             swingWrapper.repaintChart();
             
@@ -187,26 +223,38 @@ public class GraphLineView extends AbstractView {
     	switch (name) {
 			case OCCUPIED_PLACES:
 				occupiedPlacesGraph = !occupiedPlacesGraph;
-				if(occupiedPlacesGraph) { graphLine.addSeries("Bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1)); colors[activeCharts] = Color.RED; activeCharts++; }
-				else { graphLine.removeSeries("Bezette plekken"); activeCharts--; }
+				if(occupiedPlacesGraph) { graphLine.addSeries("Totaal bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1)); colors[activeCharts] = Color.DARK_GRAY; activeCharts++; }
+				else { graphLine.removeSeries("Totaal bezette plekken"); activeCharts--; }
 				break;
 			
 			case TOTAL_WAITING_CARS:
 				totalwaitingCarsGraph = !totalwaitingCarsGraph;
-				if(totalwaitingCarsGraph) { graphLine.addSeries("Wachtende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1)); colors[activeCharts] = Color.ORANGE; activeCharts++;}
-				else { graphLine.removeSeries("Wachtende auto's"); activeCharts--; }
+				if(totalwaitingCarsGraph) { graphLine.addSeries("Wachtende bezoekers", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1)); colors[activeCharts] = Color.ORANGE; activeCharts++;}
+				else { graphLine.removeSeries("Wachtende bezoekers"); activeCharts--; }
 				break;
 				
 			case TOTAL_LEAVING_CARS:
 				leavingCarsGraph = !leavingCarsGraph;
-				if(leavingCarsGraph) { graphLine.addSeries("Vertrekkende auto's", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1)); colors[activeCharts] = Color.CYAN; activeCharts++;}
-				else { graphLine.removeSeries("Vertrekkende auto's"); activeCharts--; }
+				if(leavingCarsGraph) { graphLine.addSeries("Vertrekkende bezoekers", totalCarsLeavingGraph.get(0), totalCarsLeavingGraph.get(1)); colors[activeCharts] = Color.MAGENTA; activeCharts++;}
+				else { graphLine.removeSeries("Vertrekkende bezoekers"); activeCharts--; }
+				break;
+				
+			case REGULAR_CARS:
+				regularCarsGraph = !regularCarsGraph;
+				if(regularCarsGraph) { graphLine.addSeries("Reguliere bezoekers", totalRegularCarsGraph.get(0), totalRegularCarsGraph.get(1)); colors[activeCharts] = Color.RED; activeCharts++;}
+				else { graphLine.removeSeries("Reguliere bezoekers"); activeCharts--; }
+				break;
+				
+			case RESERVED_SPOTS:
+				reservedCarsGraph = !reservedCarsGraph;
+				if(reservedCarsGraph) { graphLine.addSeries("Vertrekkende bezoekers", totalReservedSpotsGraph.get(0), totalReservedSpotsGraph.get(1)); colors[activeCharts] = Color.GREEN; activeCharts++;}
+				else { graphLine.removeSeries("Vertrekkende bezoekers"); activeCharts--; }
 				break;
 				
 			case PASS_HOLDERS:
 				passHoldersGraph = !passHoldersGraph;
-				if(passHoldersGraph) { graphLine.addSeries("Aantal gearriveerde pashouders", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1)); colors[activeCharts] = Color.BLUE; activeCharts++;}
-				else { graphLine.removeSeries("Aantal gearriveerde pashouders"); activeCharts--; }
+				if(passHoldersGraph) { graphLine.addSeries("Geparkeerde pashouders", totalPassHoldersGraph.get(0), totalPassHoldersGraph.get(1)); colors[activeCharts] = Color.BLUE; activeCharts++;}
+				else { graphLine.removeSeries("Geparkeerde pashouders"); activeCharts--; }
 				break;
 	
 			default:
@@ -219,6 +267,7 @@ public class GraphLineView extends AbstractView {
     /**
      * Only use 1, 10, 15, 30, 60, 1440 for step.
      * For example 15 == 15 minutes == quarter.
+     * 
      * @param int step
      */
     public void setHorizontalStep(int step) {
@@ -281,6 +330,10 @@ public class GraphLineView extends AbstractView {
     	totalCarsWaitingGraph.get(1).clear();
     	totalCarsLeavingGraph.get(0).clear();
     	totalCarsLeavingGraph.get(1).clear();
+    	totalRegularCarsGraph.get(0).clear();
+    	totalRegularCarsGraph.get(1).clear();            
+    	totalReservedSpotsGraph.get(0).clear();
+    	totalReservedSpotsGraph.get(1).clear();
     	totalPassHoldersGraph.get(0).clear();
     	totalPassHoldersGraph.get(1).clear();
     	
