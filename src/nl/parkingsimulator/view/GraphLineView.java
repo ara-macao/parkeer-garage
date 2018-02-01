@@ -17,6 +17,9 @@ import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
 
 /**
+ * This class creates a JFrame with multiple graph lines witch can be turned on or off.
+ * The graph chart uses an external library called XChart.
+ * 
  * @author Thom van Dijk
  */
 public class GraphLineView extends AbstractView { 
@@ -25,6 +28,9 @@ public class GraphLineView extends AbstractView {
     private int lastGraphPosition;
     private int activeCharts;
     
+    /**
+     * These booleans tell if the graph line is active.
+     */
     private boolean occupiedPlacesGraph;
     private boolean totalwaitingCarsGraph;
     private boolean leavingCarsGraph;
@@ -32,6 +38,9 @@ public class GraphLineView extends AbstractView {
     private boolean reservedCarsGraph;
     private boolean passHoldersGraph;
 
+    /**
+     * This are the array lists witch hold the graph line values.
+     */
     private ArrayList<ArrayList<Integer>> totalCarsGraph;
     private ArrayList<ArrayList<Integer>> totalCarsWaitingGraph;
     private ArrayList<ArrayList<Integer>> totalCarsLeavingGraph;
@@ -39,6 +48,9 @@ public class GraphLineView extends AbstractView {
     private ArrayList<ArrayList<Integer>> totalReservedSpotsGraph;
     private ArrayList<ArrayList<Integer>> totalPassHoldersGraph;
     
+    /**
+     * This are the colors of the different graph lines.
+     */
     private Color[] colors = { Color.DARK_GRAY, Color.ORANGE, Color.MAGENTA, Color.RED, Color.GREEN, Color.BLUE, }; // Default colors.
     
     private XYChart graphLine;
@@ -46,22 +58,31 @@ public class GraphLineView extends AbstractView {
     
     private CarParkModel model;
     
+    /**
+     * This enum is used to in a switch statement to conveniently see witch graph needs to be toggled.
+     */
     public enum GraphName {
     	OCCUPIED_PLACES, TOTAL_WAITING_CARS, TOTAL_LEAVING_CARS, REGULAR_CARS, RESERVED_SPOTS, PASS_HOLDERS
     }
     
+    /**
+     * The different zoom levels.
+     */
     public enum ZoomLevel {
     	DAY, WEEK, MONTH
     }
 
     /**
-     * Constructor for objects of class CarPark
+     * Constructor for the graph line view.
+     * 
+     * @param model This is the CarParkModel class where we get all simulation related values and settings.
      */
     public GraphLineView(AbstractModel model) {
         super(model);
         this.model = (CarParkModel)getModel();
         
         /**
+         * Horizontal step is the relative distance between points.
          * Only use 1, 10, 15, 30, 60, 1440 for horizontalStep.
          * For example 15 == 15 minutes == quarter.
          */
@@ -78,7 +99,10 @@ public class GraphLineView extends AbstractView {
         passHoldersGraph = true;
         
         JFrame.setDefaultLookAndFeelDecorated(this.model.getSettings().getDefaultLookAndFeel());
-  
+        
+        /**
+         * Fill the ArrayLists with something.
+         */
         totalCarsGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsWaitingGraph = new ArrayList<ArrayList<Integer>>();
         totalCarsLeavingGraph = new ArrayList<ArrayList<Integer>>();
@@ -112,10 +136,14 @@ public class GraphLineView extends AbstractView {
         totalPassHoldersGraph.get(0).add(0);
         totalPassHoldersGraph.get(1).add(0);
  
-        // Create Chart.
+        /**
+         * Create Chart.
+         */
         graphLine = new XYChartBuilder().title(this.model.getSettings().getGraphLineName()).xAxisTitle(getTitleXAxis()).yAxisTitle("Aantal auto's").build();
         
-        // Default enabled.
+        /**
+         * Default enabled graph lines.
+         */
         graphLine.addSeries("Totaal bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1));
         graphLine.addSeries("Wachtende bezoekers", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1));
         graphLine.addSeries("Vertrekkende bezoekers", totalCarsLeavingGraph.get(0), totalCarsLeavingGraph.get(1));
@@ -127,7 +155,9 @@ public class GraphLineView extends AbstractView {
 
         Marker[] markers = { SeriesMarkers.NONE }; // Default markers.
 
-        // Customize Chart.
+        /**
+         * Customize the graph line chart.
+         */
         graphLine.getStyler().setYAxisMax((double)this.model.getNumberOfSpots());
         graphLine.getStyler().setPlotContentSize(1.0);
         graphLine.getStyler().setSeriesMarkers(markers);
@@ -135,11 +165,13 @@ public class GraphLineView extends AbstractView {
         graphLine.getStyler().setLegendPosition(LegendPosition.InsideNW);
         graphLine.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
 
-        // Show it
+        /**
+         * Show the graph line chart.
+         */
         swingWrapper = new SwingWrapper<XYChart>(graphLine);
 
         JFrame frame = swingWrapper.displayChart();
-        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getGraphLinePosition().x, this.model.getSettings().getGraphLinePosition().y, this.model.getSettings().getGraphLineDimensions().width, this.model.getSettings().getGraphLineDimensions().height));        
     }
     
@@ -154,6 +186,9 @@ public class GraphLineView extends AbstractView {
         addGraphValues();
     }
     
+    /**
+     * Add graph values and update the graph.
+     */
     private void addGraphValues() {
         int totalNumberOfCars = model.getNumberOfSpots() - model.getNumberOfOpenSpots();
         int totalNumberOfCarswaiting = model.getEntranceCarQueue() + model.getEntrancePassQueue();
@@ -204,7 +239,6 @@ public class GraphLineView extends AbstractView {
             totalPassHoldersGraph.get(0).add(lastGraphPosition);
             totalPassHoldersGraph.get(1).add(model.getCurrentTotalCars(CarParkModel.PASS));
 
-
         	// Update the graph line.
         	if(occupiedPlacesGraph) graphLine.updateXYSeries("Totaal bezette plekken", totalCarsGraph.get(0), totalCarsGraph.get(1), null);
         	if(totalwaitingCarsGraph) graphLine.updateXYSeries("Wachtende bezoekers", totalCarsWaitingGraph.get(0), totalCarsWaitingGraph.get(1), null);
@@ -218,7 +252,12 @@ public class GraphLineView extends AbstractView {
             lastGraphPosition++;
         }
     }
-    
+
+    /**
+     * Here you can toggle a specific graph. With the enum you can only toggle an existing graph.
+     * 
+     * @param name An enum value declared in this class.
+     */
     public void toggleGraph(GraphName name) {
     	switch (name) {
 			case OCCUPIED_PLACES:
@@ -265,7 +304,8 @@ public class GraphLineView extends AbstractView {
     }
     
     /**
-     * Only use 1, 10, 15, 30, 60, 1440 for step.
+     * Horizontal step is the relative distance between points.
+     * Only use 1, 10, 15, 30, 60, 1440 for horizontalStep.
      * For example 15 == 15 minutes == quarter.
      * 
      * @param int step
@@ -276,10 +316,21 @@ public class GraphLineView extends AbstractView {
     	resetGraphs();
     }
     
+    /**
+     * Here you set the height of the graph. Don't use negative values.
+     * 
+     * @param height The height of the graph in number of cars.
+     */
     public void setGraphHeight(int height) {
     	graphLine.getStyler().setYAxisMax((double)height);
     }
     
+	/**
+	 * Here you set the total width of the graph. 
+	 * The amount of time from left to right, so a day a week or a month.
+	 * 
+	 * @param zoom The zoom is the total width to how much time is represented over the x axis.
+	 */
     public void setHorizontalZoom(ZoomLevel zoom) {
     	switch (horizontalStep) {
 			case 1:
@@ -323,6 +374,9 @@ public class GraphLineView extends AbstractView {
 		}
     }
     
+    /**
+     * All graphs are emptied.
+     */
     private void resetGraphs() {
     	totalCarsGraph.get(0).clear();       
     	totalCarsGraph.get(1).clear();       
@@ -340,6 +394,11 @@ public class GraphLineView extends AbstractView {
     	lastGraphPosition = 0;
     }
     
+    /**
+     * Depending on the horizontal step you choose there is a different
+     * 
+     * @return xAxisTitle The title for the x axis.
+     */
     private String getTitleXAxis() {
     	String xAxisTitle = "";
     	
