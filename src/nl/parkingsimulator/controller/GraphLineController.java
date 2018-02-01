@@ -34,9 +34,6 @@ import nl.parkingsimulator.view.GraphLineView.ZoomLevel;
  * @author Thom van Dijk
  */
 public class GraphLineController extends AbstractController implements ActionListener {
-
-	private static final long serialVersionUID = 1L;
-	
 	private JButton toggleOccupiedPlaces;
 	private JButton toggleTotalWaitingCars;
 	private JButton toggleTotalLeavingCars;
@@ -68,7 +65,7 @@ public class GraphLineController extends AbstractController implements ActionLis
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
-        frame.setResizable(false);
+        frame.setResizable(true);
         
         toggleOccupiedPlaces = new JButton("Bezette plekken");
         toggleOccupiedPlaces.setToolTipText("klik om de grafiek aan of uit te zetten.");
@@ -115,8 +112,6 @@ public class GraphLineController extends AbstractController implements ActionLis
         setZoomDay.addActionListener(this);  
         setZoomWeek.addActionListener(this);
         setZoomMonth.addActionListener(this);
-
-        setLayout(null);
         
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));

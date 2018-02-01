@@ -1,12 +1,20 @@
 package nl.parkingsimulator.controller;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -18,7 +26,6 @@ import nl.parkingsimulator.logic.Settings;
 /**
  * 
  * @author Thom van Dijk
- * 
  */
 public class SettingsController extends AbstractController implements ActionListener, ChangeListener {
 	private JTextField weekDayArrivalsField;
@@ -33,15 +40,23 @@ public class SettingsController extends AbstractController implements ActionList
     
     private JButton updateButton;
 
+    private CarParkModel model;
+    
     /**
      * Constructor for objects of class CarPark
      * 
-     * @param model The model where to data comes from
+     * @param model 		The model where to data comes from.
+     * @param dimensions 	The Dimension how big the JFrame should be.
      */
-    public SettingsController(AbstractModel model, Dimension dimensions) {
+    public SettingsController(AbstractModel model, Dimension dimensions, Point position) {
         super(model);
-        setSize(dimensions);
-        setBackground(Color.yellow);
+        this.model = (CarParkModel) model;
+        
+        JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(dimensions);
+        frame.setLocation(position);
+        frame.setResizable(true);
 
         weekDayArrivalsField = new JTextField();
         weekDayArrivalsField.setText("100");
@@ -65,36 +80,71 @@ public class SettingsController extends AbstractController implements ActionList
         updateButton.setToolTipText("klik om de waardes door te voeren.");
 
         this.setLayout(null);
-
-        add(weekDayArrivalsField);
-        add(weekendArrivalsField);
-        add(weekDayPassArrivalsField);
-        add(weekendPassArrivalsField);
         
-        add(weekDayArrivalsLabel);
-        add(weekendArrivalsLabel);
-        add(weekDayPassArrivalsLabel);
-        add(weekendPassArrivalsLabel);
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        int offset = 5;
+        int groupOffset = 20;
+
+        container.add(weekDayArrivalsLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekDayArrivalsField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
         
-        add(updateButton);
-
-        int xPos = 10;
-        int yPos = 10;
-        int offset = 10;
-
-        weekDayArrivalsField.setBounds(xPos, yPos, 120, 30);
-        weekendArrivalsField.setBounds(xPos, yPos + (30 + offset), 120, 30);
-        weekDayPassArrivalsField.setBounds(xPos, yPos + 2 * (30 + offset), 120, 30);
-        weekendPassArrivalsField.setBounds(xPos, yPos + 3 * (30 + offset), 120, 30);
-          
-		weekDayArrivalsLabel.setBounds(xPos + offset + 120, yPos, 200, 30);
-		weekendArrivalsLabel.setBounds(xPos + offset + 120, yPos + (30 + offset), 200, 30);
-		weekDayPassArrivalsLabel.setBounds(xPos + offset + 120, yPos + 2 * (30 + offset), 200, 30);
-		weekendPassArrivalsLabel.setBounds(xPos + offset + 120, yPos + 3 * (30 + offset), 200, 30);
+        container.add(weekendArrivalsLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekendArrivalsField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
         
-        updateButton.setBounds(xPos, yPos + 4 * (30 + offset), 120, 30);
+        container.add(weekDayPassArrivalsLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekDayPassArrivalsField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        
+        container.add(weekendPassArrivalsLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekendPassArrivalsField);
+        container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
-        setVisible(true);
+        container.add(updateButton);
+        
+        weekDayArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekDayPassArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendPassArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+                                
+        weekDayArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekDayPassArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendPassArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        updateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        int maxButtonWidth = Short.MAX_VALUE;
+        int maxButtonHeight = Short.MAX_VALUE;
+
+        weekDayArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekendArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekDayPassArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekendPassArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+        weekDayArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekendArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekDayPassArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekendPassArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        updateButton.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        int scrollSpeed = 16;
+
+        JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(scrollSpeed);
+        
+        frame.getContentPane().add(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     /**

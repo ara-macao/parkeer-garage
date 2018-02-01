@@ -52,6 +52,7 @@ public class MVCMain {
         tickController = new TickController(model);
         pieChartController = new PieChartController(model);
         graphLineController = new GraphLineController(model, settings.getGraphLineControllerDimensions(), settings.getGraphLineControllerPosition(), (GraphLineView) graphLineView);
+        settingsController = new SettingsController(model, settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());
 
         /**
          * Add elements to the main screen.
@@ -78,12 +79,7 @@ public class MVCMain {
         //JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
         //reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
         //reservationsFrame.add(reservationController);
-
-        JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());
-        //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        settingsController = new SettingsController(model, settingsFrame.getContentPane().getSize());
-        settingsFrame.add(settingsController);
-
+        
         //Frame histogramFrame = windowBuilder(settings.getHistogramName(), settings.getHistogramDimensions(), settings.getHistogramPosition()); this is adding an additional panel unnecessary
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
