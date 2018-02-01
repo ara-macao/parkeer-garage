@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -45,6 +47,12 @@ public class SettingsController extends AbstractController implements ActionList
                          
     private JLabel weekendReservedLabel;
     private JTextField weekendReservedField;
+    
+    private JLabel setPricePerHourLabel;
+    private JTextField setPricePerHourField;
+    
+    private JLabel setPricePassHolderLabel;
+    private JTextField setPricePassHolderField;
 
     private JButton updateButton;
 
@@ -89,6 +97,14 @@ public class SettingsController extends AbstractController implements ActionList
         weekendReservedLabel = new JLabel("Reserveringen weekend");
         weekendReservedField = new JTextField();
         weekendReservedField.setText("35");
+
+        setPricePerHourLabel = new JLabel("Prijs per uur");         
+        setPricePerHourField = new JTextField();
+        setPricePerHourField.setText("1,50");
+        
+        setPricePassHolderLabel = new JLabel("Prijs per abonnementhouder");        
+		setPricePassHolderField = new JTextField();
+		setPricePassHolderField.setText("60,00");
         
         updateButton = new JButton("Update");
         updateButton.addActionListener(this);
@@ -131,6 +147,16 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(weekendReservedLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(weekendReservedField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        
+        container.add(setPricePerHourLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setPricePerHourField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        
+        container.add(setPricePassHolderLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(setPricePassHolderField);
         container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
         container.add(updateButton);
@@ -152,6 +178,12 @@ public class SettingsController extends AbstractController implements ActionList
         
         weekendReservedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         weekendReservedField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        setPricePerHourLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		setPricePerHourField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		                       
+		setPricePassHolderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		setPricePassHolderField.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         updateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -175,6 +207,12 @@ public class SettingsController extends AbstractController implements ActionList
                             
         weekendReservedLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         weekendReservedField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        setPricePerHourLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setPricePerHourField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+                                
+        setPricePassHolderLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        setPricePassHolderField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
         updateButton.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         
@@ -207,6 +245,8 @@ public class SettingsController extends AbstractController implements ActionList
             settings.setWeekendPassArrivals(parseIntValue(weekendPassArrivalsField));
             settings.setWeekDayReserved(parseIntValue(weekDayReservedField));
             settings.setWeekendReserved(parseIntValue(weekendReservedField));
+            settings.setPricePerHour(parseFloatValue(setPricePerHourField));
+            settings.setPricePerPassHolder(parseFloatValue(setPricePassHolderField));
 
             parkModel.setSettings(settings);
         }
@@ -225,5 +265,15 @@ public class SettingsController extends AbstractController implements ActionList
      */
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());
+    }
+    
+    /**
+     * Parses the value of an input field to an int
+     * @param input The input field we need to reed our integers from
+     */
+    private float parseFloatValue(JTextField input) throws NumberFormatException {
+    	String str = input.getText().replace(',', '.');
+    	
+        return Float.parseFloat(str);
     }
 }
