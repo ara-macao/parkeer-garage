@@ -22,6 +22,7 @@ public abstract class Car {
 
     /**
      * Constructor for objects of class Car
+     * @param carType The cartype
      */
     public Car(int carType) {
         this.carType = carType;

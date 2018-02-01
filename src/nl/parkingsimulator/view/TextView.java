@@ -52,7 +52,7 @@ public class TextView extends AbstractView {
     }
 
     /**
-     * Overidden. Tells to update the labels and updates the view
+     * Overridden. Tells to update the labels and updates the view
      */
     @Override
     public void updateView() {

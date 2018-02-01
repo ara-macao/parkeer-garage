@@ -35,6 +35,8 @@ public class CarParkView extends AbstractView {
     
     /**
      * Constructor for objects of class CarPark
+     * @param model The model we get our data from
+     * @param dimensions The dimension of the view
      */
     public CarParkView(AbstractModel model, Dimension dimensions) {
         super(model);
@@ -57,7 +59,6 @@ public class CarParkView extends AbstractView {
     /**
      * Overridden. The car park view component needs to be redisplayed. Copy the
      * internal image to screen.
-     * @Override
      */
     public void paintComponent(Graphics g) {
         if (carParkImage == null) {
@@ -76,7 +77,6 @@ public class CarParkView extends AbstractView {
 
     /**
      * Overridden. Tells to update the labels and updates the view
-     * @Override
      */
     public void updateView() {
         // Create a new car park image if the size has changed.

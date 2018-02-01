@@ -19,6 +19,7 @@ public class TimeView extends AbstractView {
     /**
      * Constructor for objects of class TimeView
      * @param model The model where to data comes from
+     * @param dimensions The dimension of the model
      */
     public TimeView(AbstractModel model, Dimension dimensions) {
         super(model);
