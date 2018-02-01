@@ -664,13 +664,13 @@ public class CarParkModel extends AbstractModel implements Runnable {
         int totalWeekNumbers = (int)(settings.getWeekDayArrivals() * eventMultiplier);
         int totalWeekendNumbers = (int)(settings.getWeekendArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, AD_HOC);
-    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals()); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
+    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals() * eventMultiplier, settings.getWeekendPassArrivals() * eventMultiplier); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
         totalWeekNumbers += (int)(settings.getWeekDayPassArrivals()); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
         totalWeekendNumbers += (int)(settings.getWeekendPassArrivals()); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
         addArrivingCars(numberOfCars, PASS);
         numberOfCars = getNumberOfCars(settings.getWeekDayReserved()* eventMultiplier, settings.getWeekendReserved()* eventMultiplier);
         addArrivingCars(numberOfCars, RESERVED);
-        numberOfCars = getNumberOfCars(totalWeekNumbers / 8, totalWeekendNumbers / 88);
+        numberOfCars = getNumberOfCars((totalWeekNumbers / 8) * eventMultiplier, (totalWeekendNumbers / 88) * eventMultiplier);
         addArrivingCars(numberOfCars, BAD_PARKING);
     }
 
