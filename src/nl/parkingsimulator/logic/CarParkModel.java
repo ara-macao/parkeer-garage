@@ -57,7 +57,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int currentTick = 0;
     private Settings settings;
 
-    private double hourPrice = 1.2;
+    private double hourPrice = 0;
+    private double pricePerPassHolder = 0;
     private double dayRevenue = 0;
     private double revenueNotPayed = 0;
 
@@ -104,8 +105,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         running = false;
         pause = false;
         currentTick = 0;
-        hourPrice = 1.2;
-        dayRevenue = 0;
+
+        dayRevenue = (settings.getPricePerPassHolder() * (settings.getWeekDayPassArrivals() + settings.getWeekendPassArrivals())) / 30.436875; // 30.436875 average number of days in a month.;
         revenueNotPayed = 0;
         weekRevenue = new HashMap<Integer, Double>();
         missedCarsMinute = 0;
@@ -124,6 +125,27 @@ public class CarParkModel extends AbstractModel implements Runnable {
         generateParkingLot();
         initializeQueues();
 
+    }
+    
+    /**
+     * Applies new settings to the model
+     * @param settings The settings that are going to be applied
+     */
+    private void ApplySettings(Settings settings) {
+        this.settings = settings;
+
+        this.numberOfFloors = settings.getParkingFloors();
+        this.numberOfRows = settings.getParkingRows();
+        this.numberOfPlaces = settings.getParkingPlacesPerRow();
+
+        this.enterSpeed = settings.getEnterSpeed();
+        this.paymentSpeed = settings.getPaymentSpeed();
+        this.exitSpeed = settings.getExitSpeed();
+        
+        this.hourPrice = settings.getPricePerHour();
+        this.pricePerPassHolder = settings.getPricePerPassHolder();
+        
+        this.tickPause = settings.getTickPause();
     }
 
     /**
@@ -179,9 +201,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * @param type The type of car
      * @return The current amount of cars
      */
-    public int getCurrentTotalCars(int type){
-
-        if(currentTotalCars.containsKey(type)){
+    public int getCurrentTotalCars(int type) {
+        if(currentTotalCars.containsKey(type)) {
             return currentTotalCars.get(type);
         }
 
@@ -191,7 +212,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     /**
      * Resets the simulation to init variables
      */
-    public void resetSimulation(){
+    public void resetSimulation() {
         if(simThread.isAlive())
             stopSimulation();
 
@@ -201,22 +222,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         notifyViews();
     }
 
-    /**
-     * Applies new settings to the model
-     * @param settings The settings that are going to be applied
-     */
-    private void ApplySettings(Settings settings){
-        this.settings = settings;
-
-        this.numberOfFloors = settings.getParkingFloors();
-        this.numberOfRows = settings.getParkingRows();
-        this.numberOfPlaces = settings.getParkingPlacesPerRow();
-
-        this.enterSpeed = settings.getEnterSpeed();
-        this.paymentSpeed = settings.getPaymentSpeed();
-        this.exitSpeed = settings.getExitSpeed();
-    }
-
+    
     /**
      * Starts the simulation thread
      */
@@ -281,7 +287,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Gets the missed cars per minute
      * @return missed cars per minute
      */
-    public int getMissedCarsMinute(){
+    public int getMissedCarsMinute() {
         return missedCarsMinute;
     }
 
@@ -289,7 +295,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Gets the missed cars per hour
      * @return missed cars per hour
      */
-    public  int getMissedCarsHour(){
+    public  int getMissedCarsHour() {
         return missedCarsHour;
     }
 
@@ -297,7 +303,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Gets the missed cars per day
      * @return missed cars per day
      */
-    public int getMissedCarsDay(){
+    public int getMissedCarsDay() {
         return missedCarsDay;
     }
 
@@ -658,15 +664,14 @@ public class CarParkModel extends AbstractModel implements Runnable {
         int totalWeekNumbers = (int)(settings.getWeekDayArrivals() * eventMultiplier);
         int totalWeekendNumbers = (int)(settings.getWeekendArrivals()* eventMultiplier);
         addArrivingCars(numberOfCars, AD_HOC);
-    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals()* eventMultiplier, settings.getWeekendPassArrivals()* eventMultiplier);
-        totalWeekNumbers += (int)(settings.getWeekDayPassArrivals() * eventMultiplier);
-        totalWeekendNumbers += (int)(settings.getWeekendPassArrivals()* eventMultiplier);
+    	numberOfCars = getNumberOfCars(settings.getWeekDayPassArrivals(), settings.getWeekendPassArrivals()); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
+        totalWeekNumbers += (int)(settings.getWeekDayPassArrivals()); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
+        totalWeekendNumbers += (int)(settings.getWeekendPassArrivals()); // Don't multiply the weekDay and weekend pass arrivals because that number is fixed!
         addArrivingCars(numberOfCars, PASS);
         numberOfCars = getNumberOfCars(settings.getWeekDayReserved()* eventMultiplier, settings.getWeekendReserved()* eventMultiplier);
         addArrivingCars(numberOfCars, RESERVED);
         numberOfCars = getNumberOfCars(totalWeekNumbers / 8, totalWeekendNumbers / 88);
         addArrivingCars(numberOfCars, BAD_PARKING);
-
     }
 
     /**
@@ -742,7 +747,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private float calculatePrice(Car car) {
         if(!car.getHasToPay())
             return 0.0f;
-
+        
         return (float)(car.getTotalMinuteParked()) * (float)(hourPrice /60);
     }
 
@@ -939,7 +944,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
             weekRevenue.clear();
 
         weekRevenue.put(day, dayRevenue);
-        dayRevenue = 0;
+        
+        dayRevenue = (settings.getPricePerPassHolder() * (settings.getWeekDayPassArrivals() + settings.getWeekendPassArrivals())) / 30.436875; // 30.436875 average number of days in a month.
     }
 
     /**

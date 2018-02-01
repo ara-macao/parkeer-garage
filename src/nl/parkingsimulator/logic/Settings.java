@@ -35,6 +35,9 @@ public class Settings {
     private int enterSpeed = 3; // number of cars that can enter per minute
     private int paymentSpeed = 7; // number of cars that can pay per minute
     private int exitSpeed = 5; // number of cars that can leave per minute
+    
+    private float pricePerHour = 1.5f; // This is the price a customer pays per hour.
+    private float pricePerPassHolder = 60f; // This is the price a passholder pays per month.
 
     /**
      *  Settings of the main screen.
@@ -74,7 +77,7 @@ public class Settings {
     private Point textViewPosition = new Point(50, 0);
     private Dimension textViewDimensions = new Dimension(300, 100);
 
-    private Point timeViewPosition = new Point(410, 0);
+    private Point timeViewPosition = new Point(310, 14);
     private Dimension timeViewDimensions = new Dimension(600, 100);
 
     private Point pieChartPosition = new Point(settingsControllerPosition.x + settingsControllerDimensions.width, settingsControllerPosition.y);
@@ -105,6 +108,9 @@ public class Settings {
     public int getEnterSpeed() { return enterSpeed; } // number of cars that can enter per minute
     public int getPaymentSpeed() { return paymentSpeed; } // number of cars that can pay per minute
     public int getExitSpeed() { return exitSpeed; } // number of cars that can leave per minute
+    
+    public float getPricePerHour() { return pricePerHour; }
+    public float getPricePerPassHolder() { return pricePerPassHolder; }
     
     /**
      *  Getters for main screen.
@@ -166,5 +172,8 @@ public class Settings {
     public void setWeekendPassArrivals(int weekendPassArrivals) { this.weekendPassArrivals = weekendPassArrivals; } // average number of arriving cars per hour
     public void setWeekDayReserved(int weekDayReserved) { this.weekDayReserved = weekDayReserved; } // average number of arriving cars per hour
     public void setWeekendReserved(int weekendReserved) { this.weekendReserved = weekendReserved; } // average number of arriving cars per hour
+    
+    public void setPricePerHour(float pricePerHour) { this.pricePerHour = pricePerHour; }
+    public void setPricePerPassHolder(float pricePerPassHolder) { this.pricePerPassHolder = pricePerPassHolder; }
 }
 
