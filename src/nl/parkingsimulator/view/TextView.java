@@ -69,13 +69,11 @@ public class TextView extends AbstractView {
         if(model != null){
             missedCars.setText("Gemiste auto's: " + model.getMissedCarsMinute()); // get missed cars
 
-            String totalRevenue = formatMoney(model.getRevenue()); // get revenue
             totalRevenueLabel.setText("Opbrengst vandaag: " + NumberFormat.getCurrencyInstance(new Locale("nl", "NL"))
-        .format(Double.parseDouble(totalRevenue))); // show revenue
+        .format(model.getRevenue())); // show revenue
 
-            String revenueNotPayed = formatMoney(model.getRevenueNotPayed()); // get not payed revenue
             notPayedRevenueLabel.setText("Nog te betalen: " + NumberFormat.getCurrencyInstance(new Locale("nl", "NL"))
-        .format(Double.parseDouble(revenueNotPayed))); // show not payed revenue
+        .format(model.getRevenueNotPayed())); // show not payed revenue
 
             currentEvent.setText("Huidige event: " + model.getEventTitle()); // Set current event
         }
