@@ -179,9 +179,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * @param type The type of car
      * @return The current amount of cars
      */
-    public int getCurrentTotalCars(int type){
-
-        if(currentTotalCars.containsKey(type)){
+    public int getCurrentTotalCars(int type) {
+        if(currentTotalCars.containsKey(type)) {
             return currentTotalCars.get(type);
         }
 
@@ -191,7 +190,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     /**
      * Resets the simulation to init variables
      */
-    public void resetSimulation(){
+    public void resetSimulation() {
         if(simThread.isAlive())
             stopSimulation();
 
@@ -205,7 +204,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Applies new settings to the model
      * @param settings The settings that are going to be applied
      */
-    private void ApplySettings(Settings settings){
+    private void ApplySettings(Settings settings) {
         this.settings = settings;
 
         this.numberOfFloors = settings.getParkingFloors();
@@ -215,6 +214,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
         this.enterSpeed = settings.getEnterSpeed();
         this.paymentSpeed = settings.getPaymentSpeed();
         this.exitSpeed = settings.getExitSpeed();
+        
+        this.tickPause = settings.getTickPause();
     }
 
     /**
@@ -281,7 +282,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Gets the missed cars per minute
      * @return missed cars per minute
      */
-    public int getMissedCarsMinute(){
+    public int getMissedCarsMinute() {
         return missedCarsMinute;
     }
 
@@ -289,7 +290,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Gets the missed cars per hour
      * @return missed cars per hour
      */
-    public  int getMissedCarsHour(){
+    public  int getMissedCarsHour() {
         return missedCarsHour;
     }
 
@@ -297,7 +298,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Gets the missed cars per day
      * @return missed cars per day
      */
-    public int getMissedCarsDay(){
+    public int getMissedCarsDay() {
         return missedCarsDay;
     }
 
@@ -654,7 +655,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
         addArrivingCars(numberOfCars, RESERVED);
         numberOfCars = getNumberOfCars(totalWeekNumbers / 8, totalWeekendNumbers / 88);
         addArrivingCars(numberOfCars, BAD_PARKING);
-
     }
 
     /**
