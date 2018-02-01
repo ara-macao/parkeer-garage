@@ -165,12 +165,12 @@ public class SettingsController extends AbstractController implements ActionList
 
         container.add(weekDayBadParkersLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
-        container.add(weekDayReservedField);
+        container.add(weekDayBadParkersField);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
 
         container.add(weekendBadParkersLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
-        container.add(weekendReservedField);
+        container.add(weekendBadParkersField);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
 
         container.add(setPricePerHourLabel);
