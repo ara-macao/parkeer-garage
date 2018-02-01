@@ -178,7 +178,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     /**
      * Returns the total cars
-     * @param type The type of car you wan't to know the amount of
+     * @param type The type of car
+     * @return The current amount of cars
      */
     public int getCurrentTotalCars(int type){
 
@@ -523,7 +524,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     /**
      * Returns the first free location if exist
-     * @param  car
+     * @param  car -
      * @return The first free location found
      */
     public Location getFirstFreeLocation(Car car) {
@@ -633,6 +634,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     /**
      * Get boolean to check if the simulation has been reset
+     * @return the bool if it has been reset
      */
     public boolean getHasReset(){
         return hasReset;
@@ -717,6 +719,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     /**
      * Calculate the prices
      * @param  car The car that has too pay
+     * @return The price
      */
     private float calculatePrice(Car car) {
         if(!car.getHasToPay())
@@ -762,7 +765,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
     /**
      * Gets the number of cars
      * @param weekDay Amount of cars on a weekday
-     *  @param weekend Amount of cars in the weekend
+     * @param weekend Amount of cars in the weekend
+     * @return Number of cars
      */
     private int getNumberOfCars(float weekDay, float weekend){
         Random random = new Random();
