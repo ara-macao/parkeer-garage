@@ -106,7 +106,7 @@ public class TimeView extends AbstractView {
     /**
      * Parses the value of an inputfield to an int
      * @param number The number to convert
-     * @param max The maxium value of number
+     * @param max The maximum value of number
      */
     private String getDoubleTime(int number, int max){
         if(number < max){
