@@ -31,7 +31,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int paymentSpeed; // number of cars that can pay per minute
     private int exitSpeed; // number of cars that can leave per minute
     
-    
     private int numberOfOpenSpots;
     private Car[][][] cars;
     public Location[][][] locations;
@@ -73,7 +72,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
     private HashMap<Integer, Integer> currentTotalCars = new HashMap<Integer, Integer>();
     private boolean hasReset = false;
-
 
     /**
      * Constructor for objects of class CarParkModel

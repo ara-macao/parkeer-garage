@@ -28,16 +28,24 @@ import nl.parkingsimulator.logic.Settings;
  * @author Thom van Dijk
  */
 public class SettingsController extends AbstractController implements ActionListener, ChangeListener {
+	private JLabel weekDayArrivalsLabel;
 	private JTextField weekDayArrivalsField;
+	
+	private JLabel weekendArrivalsLabel;
     private JTextField weekendArrivalsField;
-    private JTextField weekDayPassArrivalsField;
-    private JTextField weekendPassArrivalsField;
     
-    private JLabel weekDayArrivalsLabel;
-    private JLabel weekendArrivalsLabel;
     private JLabel weekDayPassArrivalsLabel;
-    private JLabel weekendPassArrivalsLabel;
+    private JTextField weekDayPassArrivalsField;
     
+    private JLabel weekendPassArrivalsLabel;
+    private JTextField weekendPassArrivalsField;
+
+    private JLabel weekDayReservedLabel;
+    private JTextField weekDayReservedField;
+                         
+    private JLabel weekendReservedLabel;
+    private JTextField weekendReservedField;
+
     private JButton updateButton;
 
     private CarParkModel model;
@@ -58,22 +66,29 @@ public class SettingsController extends AbstractController implements ActionList
         frame.setLocation(position);
         frame.setResizable(true);
 
+        weekDayArrivalsLabel = new JLabel("Doordeweekse bezoekers");
         weekDayArrivalsField = new JTextField();
         weekDayArrivalsField.setText("100");
         
+        weekendArrivalsLabel = new JLabel("Weekend bezoekers");
         weekendArrivalsField = new JTextField();
         weekendArrivalsField.setText("200");
         
+        weekDayPassArrivalsLabel = new JLabel("Pashouders door de weeks");
         weekDayPassArrivalsField = new JTextField();
         weekDayPassArrivalsField.setText("50");
         
+        weekendPassArrivalsLabel = new JLabel("Pashouders weekend");
         weekendPassArrivalsField = new JTextField();
         weekendPassArrivalsField.setText("5");
         
-        weekDayArrivalsLabel = new JLabel("Doordeweekse bezoekers");
-        weekendArrivalsLabel = new JLabel("Weekend bezoekers");
-        weekDayPassArrivalsLabel = new JLabel("Pashouders door de weeks");
-        weekendPassArrivalsLabel = new JLabel("Pashouders weekend");
+        weekDayReservedLabel = new JLabel("Reserveringen door de weeks");
+        weekDayReservedField = new JTextField();
+        weekDayReservedField.setText("25");
+        
+        weekendReservedLabel = new JLabel("Reserveringen weekend");
+        weekendReservedField = new JTextField();
+        weekendReservedField.setText("35");
         
         updateButton = new JButton("Update");
         updateButton.addActionListener(this);
@@ -106,35 +121,61 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(weekendPassArrivalsLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(weekendPassArrivalsField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        
+        container.add(weekDayReservedLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekDayReservedField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        
+        container.add(weekendReservedLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekendReservedField);
         container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
         container.add(updateButton);
         
-        weekDayArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        weekendArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        weekDayPassArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        weekendPassArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
-                                
         weekDayArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekDayArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         weekendArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         weekDayPassArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekDayPassArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         weekendPassArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendPassArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        weekDayReservedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekDayReservedField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        weekendReservedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendReservedField.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         updateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         int maxButtonWidth = Short.MAX_VALUE;
         int maxButtonHeight = Short.MAX_VALUE;
 
+        weekDayArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         weekDayArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        weekendArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         weekendArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        weekDayPassArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         weekDayPassArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        
+        weekendPassArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         weekendPassArrivalsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
-        weekDayArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
-        weekendArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
-        weekDayPassArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
-        weekendPassArrivalsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
-        
+        weekDayReservedLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekDayReservedField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+                            
+        weekendReservedLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekendReservedField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
         updateButton.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         
         int scrollSpeed = 16;
@@ -164,6 +205,8 @@ public class SettingsController extends AbstractController implements ActionList
             settings.setWeekendArrivals(parseIntValue(weekendArrivalsField));
             settings.setWeekDayPassArrivals(parseIntValue(weekDayPassArrivalsField));
             settings.setWeekendPassArrivals(parseIntValue(weekendPassArrivalsField));
+            settings.setWeekDayReserved(parseIntValue(weekDayReservedField));
+            settings.setWeekendReserved(parseIntValue(weekendReservedField));
 
             parkModel.setSettings(settings);
         }

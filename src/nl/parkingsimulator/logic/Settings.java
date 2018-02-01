@@ -29,8 +29,8 @@ public class Settings {
     private int weekendArrivals = 200; // average number of arriving cars per hour
     private int weekDayPassArrivals = 50; // average number of arriving cars per hour
     private int weekendPassArrivals = 5; // average number of arriving cars per hour
-    private int weekDayReservated = 25; // average number of arriving cars per hour
-    private int weekendReservated = 35; // average number of arriving cars per hour
+    private int weekDayReserved = 25; // average number of arriving cars per hour
+    private int weekendReserved = 35; // average number of arriving cars per hour
 
     private int enterSpeed = 3; // number of cars that can enter per minute
     private int paymentSpeed = 7; // number of cars that can pay per minute
@@ -99,8 +99,8 @@ public class Settings {
     public int getWeekendArrivals() { return weekendArrivals; } // average number of arriving cars per hour
     public int getWeekDayPassArrivals() { return weekDayPassArrivals; } // average number of arriving cars per hour
     public int getWeekendPassArrivals() { return weekendPassArrivals; } // average number of arriving cars per hour
-    public int getWeekDayReserved() { return weekDayReservated; } // average number of arriving cars per hour
-    public int getWeekendReserved() { return weekendReservated; } // average number of arriving cars per hour
+    public int getWeekDayReserved() { return weekDayReserved; } // average number of arriving cars per hour
+    public int getWeekendReserved() { return weekendReserved; } // average number of arriving cars per hour
 
     public int getEnterSpeed() { return enterSpeed; } // number of cars that can enter per minute
     public int getPaymentSpeed() { return paymentSpeed; } // number of cars that can pay per minute
@@ -158,10 +158,13 @@ public class Settings {
     /**
      * Setters for CarParkModel settings.
      */
+    public  void setTickPause(int tickPause){this.tickPause = tickPause; } // Set tickpause
+    
     public void setWeekDayArrivals(int weekDayArrivals) { this.weekDayArrivals = weekDayArrivals; } // average number of arriving cars per hour
     public void setWeekendArrivals(int weekendArrivals) { this.weekendArrivals = weekendArrivals; } // average number of arriving cars per hour
     public void setWeekDayPassArrivals(int weekDayPassArrivals) { this.weekDayPassArrivals = weekDayPassArrivals; } // average number of arriving cars per hour
     public void setWeekendPassArrivals(int weekendPassArrivals) { this.weekendPassArrivals = weekendPassArrivals; } // average number of arriving cars per hour
-    public  void setTickPause(int tickPause){this.tickPause = tickPause; } // Set tickpause
+    public void setWeekDayReserved(int weekDayReserved) { this.weekDayReserved = weekDayReserved; } // average number of arriving cars per hour
+    public void setWeekendReserved(int weekendReserved) { this.weekendReserved = weekendReserved; } // average number of arriving cars per hour
 }
 
