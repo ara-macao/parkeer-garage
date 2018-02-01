@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * CarParkModel
+ * This model contains all data used for the simulation.
+ *
+ * @author Hanze
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public class CarParkModel extends AbstractModel implements Runnable {
 
     public static void numberOfOpenSpots() {

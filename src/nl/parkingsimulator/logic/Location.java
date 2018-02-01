@@ -2,6 +2,12 @@ package nl.parkingsimulator.logic;
 
 import java.awt.*;
 
+/**
+ * Location
+ * Holds information about the place
+ *
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public class Location {
 
     private int floor;

@@ -14,6 +14,7 @@ import nl.parkingsimulator.logic.Location;
  * Carparkview draws the parking garage.
  * 
  * @author Hanze
+ * @author Jeroen Westers (Refactored to mvc)
  * @author Thom van Dijk (removed hardcoded values)
  */
 public class CarParkView extends AbstractView {

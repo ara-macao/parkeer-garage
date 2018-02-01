@@ -3,6 +3,12 @@ package nl.parkingsimulator.logic;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Abstract Car
+ *
+ * @author Hanze
+ * @author Jeroen Westers (Refactored to mvc)
+ */
 public abstract class Car {
 
     private Location location;
