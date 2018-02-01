@@ -106,7 +106,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         pause = false;
         currentTick = 0;
 
-        dayRevenue = 0;
+        dayRevenue = (settings.getPricePerPassHolder() * (settings.getWeekDayPassArrivals() + settings.getWeekendPassArrivals())) / 30.436875; // 30.436875 average number of days in a month.;
         revenueNotPayed = 0;
         weekRevenue = new HashMap<Integer, Double>();
         missedCarsMinute = 0;
