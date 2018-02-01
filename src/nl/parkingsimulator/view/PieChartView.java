@@ -116,7 +116,7 @@ public class PieChartView extends AbstractView {
             //percReserved = (reserved * 100.0f ) / totalCarsWaiting;
 
             //Check whether overview or queues should be shown on screen
-            if(totalCarsWaiting > 75 && chartType == "overview"){
+            /**if(totalCarsWaiting > 75 && chartType == "overview"){
                 //System.out.println("Switching to queues");
                 chartType = "queues";
                 pieChart.removeSeries("Vrije plekken");
@@ -129,7 +129,7 @@ public class PieChartView extends AbstractView {
                 pieChart.addSeries("Wachtend uitgang", percQueueExit);
                 pieChart.addSeries("Betalen uitgang", percQueuePayment);
             }
-            if(totalCarsWaiting < 10 && chartType == "queues"){
+            if(totalCarsWaiting (lessthan) 10 && chartType == "queues"){
                 //System.out.println("Switching to overview");
                 chartType = "overview";
                 pieChart.removeSeries("Totaal wachtend");
@@ -141,7 +141,7 @@ public class PieChartView extends AbstractView {
                 pieChart.addSeries("Gewone bezoekers", percRegUser);
                 pieChart.addSeries("Gereserveerd", percReserved);
                 pieChart.addSeries("Verkeerd geparkeerd", percBadPark);
-            }
+            }*/
         }
     }
     
