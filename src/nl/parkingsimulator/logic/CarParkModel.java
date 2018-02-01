@@ -57,7 +57,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private int currentTick = 0;
     private Settings settings;
 
-    private double hourPrice = 1.2;
+    private double hourPrice = 0;
+    private double pricePerPassHolder = 0;
     private double dayRevenue = 0;
     private double revenueNotPayed = 0;
 
@@ -104,7 +105,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         running = false;
         pause = false;
         currentTick = 0;
-        hourPrice = 1.2;
+
         dayRevenue = 0;
         revenueNotPayed = 0;
         weekRevenue = new HashMap<Integer, Double>();
@@ -124,6 +125,27 @@ public class CarParkModel extends AbstractModel implements Runnable {
         generateParkingLot();
         initializeQueues();
 
+    }
+    
+    /**
+     * Applies new settings to the model
+     * @param settings The settings that are going to be applied
+     */
+    private void ApplySettings(Settings settings) {
+        this.settings = settings;
+
+        this.numberOfFloors = settings.getParkingFloors();
+        this.numberOfRows = settings.getParkingRows();
+        this.numberOfPlaces = settings.getParkingPlacesPerRow();
+
+        this.enterSpeed = settings.getEnterSpeed();
+        this.paymentSpeed = settings.getPaymentSpeed();
+        this.exitSpeed = settings.getExitSpeed();
+        
+        this.hourPrice = settings.getPricePerHour();
+        this.pricePerPassHolder = settings.getPricePerPassHolder();
+        
+        this.tickPause = settings.getTickPause();
     }
 
     /**
@@ -200,24 +222,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         notifyViews();
     }
 
-    /**
-     * Applies new settings to the model
-     * @param settings The settings that are going to be applied
-     */
-    private void ApplySettings(Settings settings) {
-        this.settings = settings;
-
-        this.numberOfFloors = settings.getParkingFloors();
-        this.numberOfRows = settings.getParkingRows();
-        this.numberOfPlaces = settings.getParkingPlacesPerRow();
-
-        this.enterSpeed = settings.getEnterSpeed();
-        this.paymentSpeed = settings.getPaymentSpeed();
-        this.exitSpeed = settings.getExitSpeed();
-        
-        this.tickPause = settings.getTickPause();
-    }
-
+    
     /**
      * Starts the simulation thread
      */
