@@ -9,43 +9,27 @@ import nl.parkingsimulator.view.*;
 import java.awt.*;
 
 public class MVCMain {
+	private Settings settings;
     private AbstractModel model;
     private JFrame screen;
-
-    private AbstractController tickController;
-    private SettingsController settingsController;
-    private GraphLineController graphLineController;
-    private AbstractController pieChartController;
-    private AbstractController reservationController;
-
+    
     private AbstractView carParkView;
+    private AbstractView textView;
     private AbstractView timeView;
-    private AbstractView graphLineView;
     private AbstractView reservationView;
-    private TextView textView;
+    private AbstractView graphLineView;
     private PieChartView pieChartView;
 
-    private Settings settings;
+    private AbstractController tickController;
+    private AbstractController pieChartController;
+    private GraphLineController graphLineController;
+    private SettingsController settingsController;
+    private AbstractController reservationController;
 
     public MVCMain() {
-
-        new MVCScreen(); // Testing screen
-
         settings = new Settings();
-
         model = new CarParkModel(settings);
-        tickController = new TickController(model);
-        pieChartController = new PieChartController(model);
-
-        carParkView = new CarParkView(model);
-        textView = new TextView(model);
-        timeView = new TimeView(model);
-        reservationView = new ReservationView(model);
-        graphLineView = new GraphLineView(model);
-        pieChartView = new PieChartView(model);
         
-        graphLineController = new GraphLineController(model, settings.getGraphLineControllerDimensions(), settings.getGraphLineControllerPosition(), (GraphLineView) graphLineView);
-
         /**
          * Creating the main screen...
          */
@@ -54,9 +38,20 @@ public class MVCMain {
         screen.setSize(settings.getScreenDimension());
         screen.setResizable(settings.getScreenIsResizable());
         screen.setLayout(null);
-        screen.setLocation(settings.getCarParkViewPosition());
+        screen.setLocation(settings.getScreenPosition());
         screen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
+        
+        carParkView = new CarParkView(model);
+        textView = new TextView(model);
+        timeView = new TimeView(model);
+        reservationView = new ReservationView(model);
+        graphLineView = new GraphLineView(model);
+        pieChartView = new PieChartView(model);
+        
+        tickController = new TickController(model);
+        pieChartController = new PieChartController(model);
+        graphLineController = new GraphLineController(model, settings.getGraphLineControllerDimensions(), settings.getGraphLineControllerPosition(), (GraphLineView) graphLineView);
 
         /**
          * Add elements to the main screen.
@@ -80,15 +75,9 @@ public class MVCMain {
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
 
-        //JFrame graphLineControllerFrame = windowBuilder(settings.getGraphLineControllerName(), settings.getGraphLineControllerDimensions() , settings.getGraphLineControllerPosition());
-        //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.
-        //graphLineController = new GraphLineController(model, graphLineControllerFrame.getContentPane().getSize(), (GraphLineView) graphLineView, graphLineControllerFrame);
-        
-        //graphLineControllerFrame.add(graphLineController);
-
-        JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
-        reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
-        reservationsFrame.add(reservationController);
+        //JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
+        //reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
+        //reservationsFrame.add(reservationController);
 
         JFrame settingsFrame = windowBuilder(settings.getSettingsControllerName(), settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());
         //When giving the content pane size directly to the constructor of the settings controller the content inside the JFrame will have the correct dimensions.

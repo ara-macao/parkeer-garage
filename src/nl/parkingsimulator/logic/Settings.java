@@ -40,6 +40,7 @@ public class Settings {
      *  Settings of the main screen.
      */
     private Dimension screenDimension = new Dimension(880, 500);
+    private Point screenPosition = new Point(0, 0);
     private boolean screenIsResizable = false;
     private String screenName = "Parkeer Simulator";
     private boolean defaultLookAndFeel = true;
@@ -50,24 +51,24 @@ public class Settings {
     private Point carParkViewPosition = new Point(0, 50); // positions all elements
     private Dimension carParkViewDimensions = new Dimension(screenDimension.width, screenDimension.height);
 
-    private Point tickControllerPosition = new Point(carParkViewPosition.x + carParkViewDimensions.width, carParkViewPosition.y);
-    private Dimension tickControllerDimensions = new Dimension(750, 200);
+    private Point tickControllerPosition = new Point(screenPosition.x + screenDimension.width, screenPosition.y);
+    private Dimension tickControllerDimensions = new Dimension(705, 185);
     private String tickControllerName = "Start";
 
     private Point reservationsPosition = new Point(carParkViewPosition.x + carParkViewDimensions.width, carParkViewPosition.y + getTickControllerDimensions().height);
     private Dimension reservationsDimensions = new Dimension(350, 300);
     private String reservationsName = "Reserveringen";
     
-    private Point settingsControllerPosition = new Point(reservationsPosition.x + reservationsDimensions.width, reservationsPosition.y);
-    private Dimension settingsControllerDimensions = new Dimension(400, reservationsDimensions.height);
+    private Point settingsControllerPosition = new Point(tickControllerPosition.x, tickControllerPosition.y + tickControllerDimensions.height);
+    private Dimension settingsControllerDimensions = new Dimension(230, (screenDimension.height + 450 - tickControllerDimensions.height) / 2);
     private String settingsControllerName = "Instellingen";
     
-    private Point graphLinePosition = new Point(carParkViewPosition.x, carParkViewPosition.y + carParkViewDimensions.height);
-    private Dimension graphLineDimensions = new Dimension(880, 400);
+    private Point graphLinePosition = new Point(screenPosition.x, screenPosition.y + screenDimension.height);
+    private Dimension graphLineDimensions = new Dimension(screenDimension.width, 450);
     private String graphLineName = "Grafiek";
     
-    private Point graphLineControllerPosition = new Point(graphLinePosition.x + graphLineDimensions.width, carParkViewPosition.y + carParkViewDimensions.height);
-    private Dimension graphLineControllerDimensions = new Dimension(230, graphLineDimensions.height);
+    private Point graphLineControllerPosition = new Point(settingsControllerPosition.x, settingsControllerPosition.y + settingsControllerDimensions.height);
+    private Dimension graphLineControllerDimensions = new Dimension(settingsControllerDimensions.width, settingsControllerDimensions.height);
     private String graphLineControllerName = "Grafiek Settings";
 
     private Point textViewPosition = new Point(50, 0);
@@ -76,12 +77,12 @@ public class Settings {
     private Point timeViewPosition = new Point(400, 0);
     private Dimension timeViewDimensions = new Dimension(300, 120);
 
-    private Point pieChartPosition = new Point(graphLineControllerPosition.x + graphLineControllerDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
-    private Dimension pieChartDimensions = new Dimension(400, 400);
+    private Point pieChartPosition = new Point(settingsControllerPosition.x + settingsControllerDimensions.width, settingsControllerPosition.y);
+    private Dimension pieChartDimensions = new Dimension(tickControllerDimensions.width - settingsControllerDimensions.width, settingsControllerDimensions.height);
     private String pieChartName = "Taart Grafiek";
 
-    private Point histogramPosition = new Point(pieChartPosition.x + pieChartDimensions.width, carParkViewPosition.y +carParkViewDimensions.height);
-    private Dimension histogramDimensions = new Dimension(400, 300);
+    private Point histogramPosition = new Point(pieChartPosition.x, pieChartPosition.y + pieChartDimensions.height);
+    private Dimension histogramDimensions = new Dimension(pieChartDimensions);
     private String histogramName = "Wachtrijen";
     
     /**
@@ -109,6 +110,7 @@ public class Settings {
      *  Getters for main screen.
      */
     public Dimension getScreenDimension() { return screenDimension; }
+    public Point getScreenPosition() { return screenPosition; }
     public boolean getScreenIsResizable() { return screenIsResizable; }
     public String getScreenName() { return screenName; }
     public boolean getDefaultLookAndFeel() { return defaultLookAndFeel; }

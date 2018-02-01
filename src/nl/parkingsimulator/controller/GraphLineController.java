@@ -65,7 +65,7 @@ public class GraphLineController extends AbstractController implements ActionLis
         this.model = (CarParkModel) model;
  
         JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
         frame.setResizable(false);
