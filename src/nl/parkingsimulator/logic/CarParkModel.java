@@ -765,7 +765,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
                 priceTopay = hourPrice;
                 break;
             case PASS:
-                priceTopay = pricePerPassHolder;
+                priceTopay = 0;
                 break;
             case RESERVED:
                 priceTopay = reservedPrice;
