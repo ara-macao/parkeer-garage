@@ -3,12 +3,16 @@ package nl.parkingsimulator.logic;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * BadParkedCar
+ *
+ * @author Emiel van Essen
+ */
 public class BadParkedCar extends Car {
 
     /**
-     * Constructor for objects of class Car
-     *
-     * @param carType
+     * Constructor for objects of class BadParkedCar
+     * @param carType the type of the car
      */
     public BadParkedCar(int carType) {
         super(carType);

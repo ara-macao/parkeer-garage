@@ -125,7 +125,7 @@ public class CarParkView extends AbstractView {
 
     /**
      * Paint a legend on the graphic
-     * @param graphics The grapics
+     * @param graphics The graphics
      */
     private void drawLegend(Graphics graphics){
         int offsetColor = 75;
@@ -145,7 +145,7 @@ public class CarParkView extends AbstractView {
         addToLegend(graphics, Color.yellow, offsetString, offsetY, colorHeight, offsetColor, "Fout geparkeerd");
         offsetString += 130;
         offsetColor += 130;
-        addToLegend(graphics, Color.gray, offsetString, offsetY, colorHeight, offsetColor, "Reservering");
+        addToLegend(graphics, new Color(200,255,200, 255), offsetString, offsetY, colorHeight, offsetColor, "Reservering");
         offsetString += 110;
         offsetColor += 110;
         addToLegend(graphics, Color.cyan, offsetString, offsetY, colorHeight, offsetColor, "Lege pas plek");
