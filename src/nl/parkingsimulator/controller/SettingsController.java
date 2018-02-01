@@ -75,7 +75,7 @@ public class SettingsController extends AbstractController implements ActionList
         super(model);
         this.model = (CarParkModel) model;
         
-        JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
+        JFrame frame = new JFrame(this.model.getSettings().getSettingsControllerName());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
@@ -89,7 +89,7 @@ public class SettingsController extends AbstractController implements ActionList
         weekendArrivalsField = new JTextField();
         weekendArrivalsField.setText("200");
         
-        weekDayPassArrivalsLabel = new JLabel("Pashouders door de weeks");
+        weekDayPassArrivalsLabel = new JLabel("Pashouders doordeweeks");
         weekDayPassArrivalsField = new JTextField();
         weekDayPassArrivalsField.setText("50");
         
@@ -97,7 +97,7 @@ public class SettingsController extends AbstractController implements ActionList
         weekendPassArrivalsField = new JTextField();
         weekendPassArrivalsField.setText("5");
         
-        weekDayReservedLabel = new JLabel("Reserveringen door de weeks");
+        weekDayReservedLabel = new JLabel("Reserveringen doordeweeks");
         weekDayReservedField = new JTextField();
         weekDayReservedField.setText("25");
         
@@ -105,11 +105,11 @@ public class SettingsController extends AbstractController implements ActionList
         weekendReservedField = new JTextField();
         weekendReservedField.setText("35");
 
-        weekDayBadParkersLabel = new JLabel("Dubbel geparkeerden door de weeks");
+        weekDayBadParkersLabel = new JLabel("Dubbel geparkeerd wekelijks");
         weekDayBadParkersField = new JTextField();
         weekDayBadParkersField.setText("20");
 
-        weekendBadParkersLabel = new JLabel("Dubbel geparkeerden weekend");
+        weekendBadParkersLabel = new JLabel("Dubbel geparkeerd weekend");
         weekendBadParkersField = new JTextField();
         weekendBadParkersField.setText("20");
 
@@ -121,10 +121,8 @@ public class SettingsController extends AbstractController implements ActionList
 		setPricePassHolderField = new JTextField();
 		setPricePassHolderField.setText("60,00");
 
-
-
         CarParkModel parkModel = (CarParkModel)model;
-        if(parkModel != null){
+        if(parkModel != null) {
             Settings settings = parkModel.getSettings();
             setParkingFloorsLabel= new JLabel("Aantal verdiepingen");
             setParkingFloorsField = new JTextField();
@@ -142,9 +140,7 @@ public class SettingsController extends AbstractController implements ActionList
             setAmountPassRowsField = new JTextField();
             setAmountPassRowsField.setText(String.valueOf(settings.getParkingPassRows()));
         }
-
-
-        
+ 
         updateButton = new JButton("Update");
         updateButton.addActionListener(this);
         updateButton.setToolTipText("klik om de waardes door te voeren.");
@@ -196,7 +192,7 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(weekendBadParkersLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(weekendBadParkersField);
-        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
         container.add(setPricePerHourLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
@@ -208,7 +204,7 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(setPricePassHolderField);
         container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
-        if(parkModel != null){
+        if(parkModel != null) {
             container.add(setParkingFloorsLabel);
             container.add(Box.createRigidArea(new Dimension(0, offset)));
             container.add(setParkingFloorsField);
@@ -227,8 +223,7 @@ public class SettingsController extends AbstractController implements ActionList
             container.add(setAmountPassRowsLabel);
             container.add(Box.createRigidArea(new Dimension(0, offset)));
             container.add(setAmountPassRowsField);
-            container.add(Box.createRigidArea(new Dimension(0, offset)));
-
+            container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
         }
 
         container.add(updateButton);
@@ -310,7 +305,7 @@ public class SettingsController extends AbstractController implements ActionList
         setPricePassHolderLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setPricePassHolderField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
-        if(parkModel != null){
+        if(parkModel != null) {
             setParkingFloorsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
             setParkingFloorsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
@@ -323,7 +318,6 @@ public class SettingsController extends AbstractController implements ActionList
             setAmountPassRowsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
             setAmountPassRowsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         }
-
 
         updateButton.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         
