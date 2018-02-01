@@ -175,5 +175,9 @@ public class Settings {
     
     public void setPricePerHour(float pricePerHour) { this.pricePerHour = pricePerHour; }
     public void setPricePerPassHolder(float pricePerPassHolder) { this.pricePerPassHolder = pricePerPassHolder; }
+
+    public void setParkingFloors(int parkingFloors) { this.parkingFloors = parkingFloors; }
+    public void setParkingRows(int parkingRows) { this.parkingRows = parkingRows; }
+    public void setParkingPlacesPerRow(int parkingPlacesPerRow) { this.parkingPlacesPerRow = parkingPlacesPerRow; }
 }
 

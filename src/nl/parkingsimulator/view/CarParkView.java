@@ -79,6 +79,13 @@ public class CarParkView extends AbstractView {
      * Overridden. Tells to update the labels and updates the view
      */
     public void updateView() {
+
+        CarParkModel parkModel = (CarParkModel)model;
+        if(parkModel != null){
+            if(parkModel.getHasReset())
+                carParkImage = createImage(size.width, size.height);
+        }
+
         // Create a new car park image if the size has changed.
         if (!size.equals(getSize())) {
             size = getSize();

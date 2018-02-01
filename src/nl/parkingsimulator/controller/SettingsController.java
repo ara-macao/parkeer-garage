@@ -1,23 +1,12 @@
 package nl.parkingsimulator.controller;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -53,6 +42,15 @@ public class SettingsController extends AbstractController implements ActionList
     
     private JLabel setPricePassHolderLabel;
     private JTextField setPricePassHolderField;
+
+    private JLabel setParkingFloorsLabel;
+    private JTextField setParkingFloorsField;
+
+    private JLabel setParkingRowsLabel;
+    private JTextField setParkingRowsField;
+
+    private JLabel setParkingPlacesPerRowLabel;
+    private JTextField setParkingPlacesPerRowField;
 
     private JButton updateButton;
 
@@ -105,6 +103,29 @@ public class SettingsController extends AbstractController implements ActionList
         setPricePassHolderLabel = new JLabel("Prijs per abonnementhouder");        
 		setPricePassHolderField = new JTextField();
 		setPricePassHolderField.setText("60,00");
+
+
+
+        CarParkModel parkModel = (CarParkModel)model;
+        if(parkModel != null){
+            Settings settings = parkModel.getSettings();
+            setParkingFloorsLabel= new JLabel("Aantal verdiepingen");
+            setParkingFloorsField = new JTextField();
+            setParkingFloorsField.setText(String.valueOf(settings.getParkingFloors()));
+
+            setParkingRowsLabel= new JLabel("Aantal rijen:");
+            setParkingRowsField = new JTextField();;
+            setParkingRowsField.setText(String.valueOf(settings.getParkingRows()));
+
+            setParkingPlacesPerRowLabel = new JLabel("Aantal plek per rij:");
+            setParkingPlacesPerRowField = new JTextField();
+            setParkingPlacesPerRowField.setText(String.valueOf(settings.getParkingPlacesPerRow()));
+        }
+
+
+
+
+
         
         updateButton = new JButton("Update");
         updateButton.addActionListener(this);
@@ -159,6 +180,23 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(setPricePassHolderField);
         container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
+        if(parkModel != null){
+            container.add(setParkingFloorsLabel);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+            container.add(setParkingFloorsField);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+
+            container.add(setParkingRowsLabel);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+            container.add(setParkingRowsField);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+
+            container.add(setParkingPlacesPerRowLabel);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+            container.add(setParkingPlacesPerRowField);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+        }
+
         container.add(updateButton);
         
         weekDayArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -181,10 +219,19 @@ public class SettingsController extends AbstractController implements ActionList
         
         setPricePerHourLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		setPricePerHourField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		                       
+
 		setPricePassHolderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		setPricePassHolderField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
+        setParkingFloorsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setParkingFloorsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        setParkingRowsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setParkingRowsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        setParkingPlacesPerRowLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setParkingPlacesPerRowField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         updateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         int maxButtonWidth = Short.MAX_VALUE;
@@ -213,6 +260,19 @@ public class SettingsController extends AbstractController implements ActionList
                                 
         setPricePassHolderLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setPricePassHolderField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+
+        if(parkModel != null){
+            setParkingFloorsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+            setParkingFloorsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+            setParkingRowsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+            setParkingRowsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+            setParkingPlacesPerRowLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+            setParkingPlacesPerRowField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        }
+
 
         updateButton.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         
@@ -247,8 +307,11 @@ public class SettingsController extends AbstractController implements ActionList
             settings.setWeekendReserved(parseIntValue(weekendReservedField));
             settings.setPricePerHour(parseFloatValue(setPricePerHourField));
             settings.setPricePerPassHolder(parseFloatValue(setPricePassHolderField));
-
+            settings.setParkingFloors(parseIntValue(setParkingFloorsField));
+            settings.setParkingRows(parseIntValue(setParkingRowsField));
+            settings.setParkingPlacesPerRow(parseIntValue(setParkingPlacesPerRowField));
             parkModel.setSettings(settings);
+            parkModel.resetSimulation();
         }
     }
     
