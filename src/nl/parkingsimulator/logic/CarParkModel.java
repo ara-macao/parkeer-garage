@@ -758,7 +758,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     /**
      * Calculate how many revenue not have been payed yet
      */
-    private void calculateRevenueNotPayed() {
+    private void calculateRevenueNotPaid() {
         revenueNotPaid = 0;
 
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
@@ -906,7 +906,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     public void tick(){
         advanceTime();
     	handleExit();
-        calculateRevenueNotPayed();
+        calculateRevenueNotPaid();
         updateViews();
         missedCarsMinute = 0;
 
