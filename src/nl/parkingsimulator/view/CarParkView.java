@@ -142,13 +142,10 @@ public class CarParkView extends AbstractView {
         addToLegend(graphics, Color.green, offsetString, offsetY, colorHeight, offsetColor, "Gereserveerd");
         offsetString += 120;
         offsetColor += 120;
-        addToLegend(graphics, Color.black, offsetString, offsetY, colorHeight, offsetColor, "Gereserveerde");
-        offsetString += 120;
-        offsetColor += 120;
         addToLegend(graphics, Color.yellow, offsetString, offsetY, colorHeight, offsetColor, "Fout geparkeerd");
 
-        offsetString += 120;
-        offsetColor += 120;
+        offsetString += 201;
+        offsetColor += 201;
 
         addToLegend(graphics, Color.cyan, offsetString, offsetY, colorHeight, offsetColor, "Lege pas plek");
         offsetString += 120;
