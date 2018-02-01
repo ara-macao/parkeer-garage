@@ -101,6 +101,10 @@ public class Location {
         this.color = color;
     }
 
+    /**
+     * Sets a location and applies the color of the reservation to the location.
+     * @param reservation the reservation to add.
+     */
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
         if(reservation != null) {
@@ -109,7 +113,7 @@ public class Location {
                     setColor(Color.CYAN);
                     break;
                 case RESERVED:
-                    setColor(Color.GRAY);
+                    setColor(new Color(200,255,200, 255));
                     break;
             }
         }
