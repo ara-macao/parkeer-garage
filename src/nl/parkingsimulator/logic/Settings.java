@@ -48,8 +48,8 @@ public class Settings {
     /**
      *  Default position and size values for the screens.
      */
-    private Point carParkViewPosition = new Point(0, 50); // positions all elements
-    private Dimension carParkViewDimensions = new Dimension(screenDimension.width, screenDimension.height);
+    private Point carParkViewPosition = new Point(0, 100); // positions all elements
+    private Dimension carParkViewDimensions = new Dimension(screenDimension.width, screenDimension.height - 100);
 
     private Point tickControllerPosition = new Point(screenPosition.x + screenDimension.width, screenPosition.y);
     private Dimension tickControllerDimensions = new Dimension(705, 185);
@@ -72,10 +72,10 @@ public class Settings {
     private String graphLineControllerName = "Grafiek Settings";
 
     private Point textViewPosition = new Point(50, 0);
-    private Dimension textViewDimensions = new Dimension(300, 150);
+    private Dimension textViewDimensions = new Dimension(300, 100);
 
-    private Point timeViewPosition = new Point(400, 0);
-    private Dimension timeViewDimensions = new Dimension(300, 120);
+    private Point timeViewPosition = new Point(410, 0);
+    private Dimension timeViewDimensions = new Dimension(600, 100);
 
     private Point pieChartPosition = new Point(settingsControllerPosition.x + settingsControllerDimensions.width, settingsControllerPosition.y);
     private Dimension pieChartDimensions = new Dimension(tickControllerDimensions.width - settingsControllerDimensions.width, settingsControllerDimensions.height);

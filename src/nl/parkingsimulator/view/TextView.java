@@ -7,8 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Textview creates labels showing how many cars are missed, which event is happening, how many money there is earned and how many money you still get.
+ * Textview creates labels showing how many cars are missed, which event is happening, 
+ * how many money there is earned and how many money you still get.
+ * 
  * @author Jeroen Westers
+ * @author Thom van Dijk (repositioning of labels and removed hardcoded values)
  */
 public class TextView extends AbstractView {
 
@@ -27,26 +30,25 @@ public class TextView extends AbstractView {
         setSize(getPreferredSize());
         setLayout(null);
 
+        missedCars = new JLabel();
         totalRevenueLabel = new JLabel();
         notPayedRevenueLabel = new JLabel();
         currentEvent = new JLabel();
+        
+        int borderTop = 20;
+        int borderLeft = 25;
+        int offset = 15;
+        int textHeight = 15;
 
-        missedCars = new JLabel();
-        missedCars.setBounds(0, 10, 200, 10);
+        missedCars.setBounds			(borderLeft, borderTop, 200, textHeight);
+        totalRevenueLabel.setBounds		(borderLeft, borderTop + offset, 200, textHeight);
+        notPayedRevenueLabel.setBounds	(borderLeft, borderTop + (offset * 2), 200, textHeight);
+        currentEvent.setBounds			(borderLeft, borderTop + (offset * 3), 200, textHeight);
+
         add(missedCars);
-
-
-        totalRevenueLabel.setBounds(0, 20, 200, 10);
-        notPayedRevenueLabel.setBounds(0, 30, 200, 10);
-
         add(totalRevenueLabel);
         add(notPayedRevenueLabel);
-
-
-        currentEvent.setBounds(0, 40, 200, 10);
         add(currentEvent);
-
-
     }
 
     /**

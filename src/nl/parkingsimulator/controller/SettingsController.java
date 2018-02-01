@@ -21,9 +21,6 @@ import nl.parkingsimulator.logic.Settings;
  * 
  */
 public class SettingsController extends AbstractController implements ActionListener, ChangeListener {
-
-	private static final long serialVersionUID = 1L;
-	
 	private JTextField weekDayArrivalsField;
     private JTextField weekendArrivalsField;
     private JTextField weekDayPassArrivalsField;

@@ -20,8 +20,6 @@ import nl.parkingsimulator.logic.CarParkModel;
  * @author Thom van Dijk
  */
 public class GraphLineView extends AbstractView { 
-	private static final long serialVersionUID = 1L;
-	
     private int horizontalStep;
     private int graphZoom;
     private int lastGraphPosition;

@@ -42,9 +42,9 @@ public class MVCMain {
         screen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // JFrame.DISPOSE_ON_CLOSE
         screen.setVisible(true);
         
-        carParkView = new CarParkView(model);
+        carParkView = new CarParkView(model, settings.getCarParkViewDimensions());
         textView = new TextView(model);
-        timeView = new TimeView(model);
+        timeView = new TimeView(model, settings.getTimeViewDimensions());
         reservationView = new ReservationView(model);
         graphLineView = new GraphLineView(model);
         pieChartView = new PieChartView(model);
@@ -56,9 +56,9 @@ public class MVCMain {
         /**
          * Add elements to the main screen.
          */
-        addNewElement(carParkView, settings.getCarParkViewPosition().x, settings.getCarParkViewPosition().y, settings.getCarParkViewDimensions().width, settings.getCarParkViewDimensions().height);
-        addNewElement(textView, settings.getTextViewPosition().x, settings.getTextViewPosition().y, settings.getTextViewDimensions().width, settings.getTextViewDimensions().height);
-        addNewElement(timeView, settings.getTimeViewPosition().x, settings.getTimeViewPosition().y, settings.getTimeViewDimensions().width, settings.getTimeViewDimensions().height);
+        addNewElement(carParkView, settings.getCarParkViewPosition(), settings.getCarParkViewDimensions());
+        addNewElement(textView, settings.getTextViewPosition(), settings.getTextViewDimensions());
+        addNewElement(timeView, settings.getTimeViewPosition(), settings.getTimeViewDimensions());
 
         /**
          * Prevents drawing glitch, should be looked into!
@@ -90,9 +90,9 @@ public class MVCMain {
         histogrampanel.setBounds(0, 0, 200, 200);
     }
 
-    private void addNewElement(JPanel view, int x, int y, int width, int height) {
+    private void addNewElement(JPanel view, Point pos, Dimension dimension) {
+        view.setBounds(pos.x, pos.y, dimension.width, dimension.height);
         screen.getContentPane().add(view);
-        view.setBounds(x,y,width, height);
     }
 
     /**
@@ -106,12 +106,11 @@ public class MVCMain {
     private JFrame windowBuilder(String title, Dimension dimension, Point location) {
         JFrame.setDefaultLookAndFeelDecorated(settings.getDefaultLookAndFeel());
         JFrame frame = new JFrame(title);
-        //frame.setLayout(null); // This setting creates problems with adding scroll bars...
+        
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setBackground(Color.GRAY);
         frame.setSize(dimension);
         frame.setVisible(true);
-
         frame.setLocation(location);
 
         return frame;

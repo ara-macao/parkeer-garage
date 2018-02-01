@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.Car;
 import nl.parkingsimulator.logic.CarParkModel;
@@ -11,33 +12,53 @@ import nl.parkingsimulator.logic.Location;
 
 /**
  * Carparkview draws the parking garage.
+ * 
+ * @author Hanze
+ * @author Thom van Dijk (removed hardcoded values)
  */
 public class CarParkView extends AbstractView {
-    private Dimension size;
+	private Dimension size;
     private Image carParkImage;
 
+    private int borderTop;
+    private int borderLeft;
+    
+    private int spacingBetweenFloors;
+    private int spacingBetweenRows;
+    private int spacingBetweenSpots;
+    
+    private int verticalOffset;
+    
+    private int parkingSpotWidth;
+    private int parkingSpotHeight;
+    
     /**
      * Constructor for objects of class CarPark
      */
-    public CarParkView(AbstractModel model) {
+    public CarParkView(AbstractModel model, Dimension dimensions) {
         super(model);
+        setSize(dimensions);
+        
         size = new Dimension(0, 0);
+        
+        borderTop = 20;
+        borderLeft = 1;
+        
+        spacingBetweenFloors = 260;
+        spacingBetweenRows = 75;
+        spacingBetweenSpots = 1;
+        
+        verticalOffset = 10;
+        parkingSpotWidth = 20;
+        parkingSpotHeight = 10;        
     }
 
     /**
-     * Overridden. Tell the GUI manager how big we would like to be.
-     */
-    public Dimension getPreferredSize() {
-        return new Dimension(800, 500);
-    }
-
-    /**
-     * Overriden. The car parf view component needs to be redisplayed. Copy the
+     * Overridden. The car park view component needs to be redisplayed. Copy the
      * internal image to screen.
+     * @Override
      */
-    @Override
     public void paintComponent(Graphics g) {
-
         if (carParkImage == null) {
             return;
         }
@@ -53,9 +74,9 @@ public class CarParkView extends AbstractView {
     }
 
     /**
-     * Overidden. Tells to update the labels and updates the view
+     * Overridden. Tells to update the labels and updates the view
+     * @Override
      */
-    @Override
     public void updateView() {
         // Create a new car park image if the size has changed.
         if (!size.equals(getSize())) {
@@ -63,7 +84,7 @@ public class CarParkView extends AbstractView {
             carParkImage = createImage(size.width, size.height);
         }
 
-         CarParkModel model = (CarParkModel)getModel();
+        CarParkModel model = (CarParkModel)getModel();
 
         Graphics graphics = carParkImage.getGraphics();
         for(int floor = 0; floor < model.getNumberOfFloors(); floor++) {
@@ -79,7 +100,6 @@ public class CarParkView extends AbstractView {
 
         // Update the view (repaint)
         super.updateView();
-
     }
 
     /**
@@ -88,9 +108,7 @@ public class CarParkView extends AbstractView {
     private void drawPlace(Graphics graphics, Location location, Color color) {
         graphics.setColor(color);
         graphics.fillRect(
-                location.getFloor() * 260 + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20,
-                60 + location.getPlace() * 10,
-                20 - 1,
-                10 - 1); // TODO use dynamic size or constants
+                location.getFloor() * spacingBetweenFloors + (borderLeft + (int)Math.floor(location.getRow() * 0.5)) * spacingBetweenRows + (location.getRow() % 2) * parkingSpotWidth,
+                borderTop + location.getPlace() * verticalOffset, parkingSpotWidth - spacingBetweenSpots, parkingSpotHeight  - spacingBetweenSpots); 
     }
 }

@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
  * @author Jeroen Westers
+ * @author Thom van Dijk (repositioning of labels and removed hardcoded values)
  */
 public class TimeView extends AbstractView {
 
@@ -20,17 +20,25 @@ public class TimeView extends AbstractView {
      * Constructor for objects of class TimeView
      * @param model The model where to data comes from
      */
-    public TimeView(AbstractModel model) {
+    public TimeView(AbstractModel model, Dimension dimensions) {
         super(model);
-        setSize(getPreferredSize());
+        setSize(dimensions);
         setLayout(null);
+        
+        int borderTop = 20;
+        int borderLeft = 0;
+        int offset = 22;
+        int textHeight = 15;
+        int textWidth = 300;
+        int barHeight = 15;
+        int barWidth = 300;
 
         // Create components
-        progressBar = (JProgressBar)addComponent(new JProgressBar(), 0, 5, 300, 15);
+        progressBar = (JProgressBar)addComponent(new JProgressBar(), borderLeft, borderTop, barWidth, barHeight);
         progressBar.setMinimum(0);
 
-        dayLabel = (JLabel)addComponent(new JLabel(), 0, 9, 140, 40);
-        timeLabel = (JLabel)addComponent(new JLabel(), 0, 22, 140, 40);
+        dayLabel = (JLabel)addComponent(new JLabel(), borderLeft, borderTop + offset, textWidth, textHeight);
+        timeLabel = (JLabel)addComponent(new JLabel(), borderLeft, borderTop + (offset * 2), textWidth, textHeight);
     }
 
     /**
@@ -83,13 +91,6 @@ public class TimeView extends AbstractView {
         }
 
         super.updateView();
-    }
-
-    /**
-     * Overridden. Tell the GUI manager how big we would like to be.
-     */
-    public Dimension getPreferredSize() {
-        return new Dimension(400, 110);
     }
 
     /**
