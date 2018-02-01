@@ -16,6 +16,7 @@ import java.util.Locale;
  */
 public class TextView extends AbstractView {
 
+    private JLabel informationLabel;
     private JLabel totalRevenueLabel;
     private JLabel notPayedRevenueLabel;
     private JLabel missedCars;
@@ -31,6 +32,7 @@ public class TextView extends AbstractView {
         setSize(getPreferredSize());
         setLayout(null);
 
+        informationLabel = new JLabel();
         missedCars = new JLabel();
         totalRevenueLabel = new JLabel();
         notPayedRevenueLabel = new JLabel();
@@ -41,15 +43,20 @@ public class TextView extends AbstractView {
         int offset = 15;
         int textHeight = 15;
 
-        missedCars.setBounds			(borderLeft, borderTop, 200, textHeight);
-        totalRevenueLabel.setBounds		(borderLeft, borderTop + offset, 200, textHeight);
-        notPayedRevenueLabel.setBounds	(borderLeft, borderTop + (offset * 2), 200, textHeight);
-        currentEvent.setBounds			(borderLeft, borderTop + (offset * 3), 200, textHeight);
+        informationLabel.setFont(new Font(informationLabel.getFont().getFontName(), Font.PLAIN, 15));
+        informationLabel.setBounds(borderLeft, borderTop, 100, textHeight);
+        missedCars.setBounds(borderLeft, borderTop + offset, 200, textHeight);
+        totalRevenueLabel.setBounds(borderLeft, borderTop + (offset * 2), 200, textHeight);
+        notPayedRevenueLabel.setBounds(borderLeft, borderTop + (offset * 3), 200, textHeight);
+        currentEvent.setBounds(borderLeft, borderTop + (offset * 4), 200, textHeight);
 
+        add(informationLabel);
         add(missedCars);
         add(totalRevenueLabel);
         add(notPayedRevenueLabel);
         add(currentEvent);
+
+        informationLabel.setText("Informatie:");
     }
 
     /**
@@ -60,7 +67,7 @@ public class TextView extends AbstractView {
 
         CarParkModel model = (CarParkModel) getModel();
         if(model != null){
-            missedCars.setText("Missed cars: " + model.getMissedCarsMinute()); // get missed cars
+            missedCars.setText("Gemiste auto's: " + model.getMissedCarsMinute()); // get missed cars
 
             String totalRevenue = formatMoney(model.getRevenue()); // get revenue
             totalRevenueLabel.setText("Opbrengst vandaag: " + NumberFormat.getCurrencyInstance(new Locale("nl", "NL"))

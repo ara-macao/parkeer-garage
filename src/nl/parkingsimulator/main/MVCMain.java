@@ -25,10 +25,10 @@ public class MVCMain {
     private GraphLineController graphLineController;
     private SettingsController settingsController;
     private AbstractController reservationController;
+    
     public MVCScreen newScreen;
 
     public MVCMain() {
-        //newScreen = new MVCScreen(); // Testing screen
         settings = new Settings();
         model = new CarParkModel(settings);
         
@@ -77,22 +77,10 @@ public class MVCMain {
          */
         JFrame controllerFrame = windowBuilder(settings.getTickControllerName(), settings.getTickControllerDimensions(), settings.getTickControllerPosition());
         controllerFrame.add(tickController);
-
-        //JFrame reservationsFrame = windowBuilder(settings.getReservationsName(), settings.getReservationsDimensions(), settings.getReservationsPosition());
-        //reservationController = new ReservationsController(model, reservationsFrame.getContentPane().getSize());
-        //reservationsFrame.add(reservationController);
         
-        //Frame histogramFrame = windowBuilder(settings.getHistogramName(), settings.getHistogramDimensions(), settings.getHistogramPosition()); this is adding an additional panel unnecessary
         HistogramView histogrampanel;
         histogrampanel = new HistogramView(model);
         histogrampanel.setBounds(0, 0, 200, 200);
-        
-        //JInternalFrame test = buildInjectableWindow(settings.getPieChartName(), settings.getPieChartDimensions(), settings.getPieChartPosition());
-        //test.add(pieChartView);
-        //test.add(pieChartController);
-        //newScreen.injectWindow(test);
-        
-        
     }
 
     private void addNewElement(JPanel view, Point pos, Dimension dimension) {
@@ -120,6 +108,7 @@ public class MVCMain {
 
         return frame;
     }
+    
     private JInternalFrame buildInjectableWindow(String title, Dimension dimension, Point location) {
         JInternalFrame iFrame = new JInternalFrame(title, false, false, false, false);
         iFrame.setBounds(location.x, location.y, dimension.width, dimension.height);

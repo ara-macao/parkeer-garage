@@ -77,7 +77,7 @@ public class Settings {
     private Point textViewPosition = new Point(50, 0);
     private Dimension textViewDimensions = new Dimension(300, 100);
 
-    private Point timeViewPosition = new Point(410, 0);
+    private Point timeViewPosition = new Point(310, 14);
     private Dimension timeViewDimensions = new Dimension(600, 100);
 
     private Point pieChartPosition = new Point(settingsControllerPosition.x + settingsControllerDimensions.width, settingsControllerPosition.y);
