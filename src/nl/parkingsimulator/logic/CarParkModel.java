@@ -149,7 +149,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         this.hourPrice = settings.getPricePerHour();
         this.pricePerPassHolder = settings.getPricePerPassHolder();
         this.badParkedPrice = hourPrice * 2;
-        this.reservedPrice = hourPrice;
+        this.reservedPrice = hourPrice * 1.5f;
 
         this.tickPause = settings.getTickPause();
     }
@@ -780,7 +780,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
         }
 
-        return (float)(car.getTotalMinuteParked()) * (float)((priceTopay /60) + hourPrice);
+        return (float)(car.getTotalMinuteParked()) * (float)((priceTopay /60));
     }
 
     /**
