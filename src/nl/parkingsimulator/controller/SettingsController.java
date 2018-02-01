@@ -106,11 +106,11 @@ public class SettingsController extends AbstractController implements ActionList
 
         weekDayBadParkersLabel = new JLabel("Dubbel geparkeerden door de weeks");
         weekDayBadParkersField = new JTextField();
-        weekDayBadParkersField.setText("10");
+        weekDayBadParkersField.setText("20");
 
         weekendBadParkersLabel = new JLabel("Dubbel geparkeerden weekend");
         weekendBadParkersField = new JTextField();
-        weekendBadParkersField.setText("10");
+        weekendBadParkersField.setText("20");
 
         setPricePerHourLabel = new JLabel("Prijs per uur");         
         setPricePerHourField = new JTextField();

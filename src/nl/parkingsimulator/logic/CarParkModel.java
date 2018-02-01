@@ -159,7 +159,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
         for (int floor = 0; floor < numberOfFloors; floor++) {
             for (int row = 0; row < numberOfRows; row++) {
                 for (int place = 0; place < numberOfPlaces; place++) {
-                    locations[floor][row][place] = new Location(floor, row, place);
+                    Location location = new Location(floor, row, place);
+                    if(row <= 1 && floor == 0) {
+                        location.setReservation(new Reservation(PASS));
+                    }
+                    locations[floor][row][place] = location;
                 }
             }
         }
@@ -842,11 +846,11 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private void addCarsToQueue(CarQueue carQueue, Car car, int index){
 
         if(index < enterSpeed){
-                carQueue.addCar(car);
-
-            }else{
-                missedCarsMinute++;
-            }
+            carQueue.addCar(car);
+        }
+        else {
+            missedCarsMinute++;
+        }
     }
 
     /**

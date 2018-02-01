@@ -31,8 +31,8 @@ public class Settings {
     private int weekendPassArrivals = 5; // average number of arriving cars per hour
     private int weekDayReserved = 25; // average number of arriving cars per hour
     private int weekendReserved = 25; // average number of arriving cars per hour
-    private int weekDayBadParkers = 5; // average number of arriving cars per hour
-    private int weekendBadParkers = 5; // average number of arriving cars per hour
+    private int weekDayBadParkers = 20; // average number of arriving cars per hour
+    private int weekendBadParkers = 20; // average number of arriving cars per hour
 
     private int enterSpeed = 3; // number of cars that can enter per minute
     private int paymentSpeed = 7; // number of cars that can pay per minute
