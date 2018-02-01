@@ -25,8 +25,10 @@ public class MVCMain {
     private GraphLineController graphLineController;
     private SettingsController settingsController;
     private AbstractController reservationController;
+    public MVCScreen newScreen;
 
     public MVCMain() {
+        newScreen = new MVCScreen(); // Testing screen
         settings = new Settings();
         model = new CarParkModel(settings);
         
@@ -110,5 +112,10 @@ public class MVCMain {
         frame.setLocation(location);
 
         return frame;
+    }
+    private JInternalFrame buildInjectableWindow(String title, Color backgroundColor, Dimension dimension, Point location) {
+        JInternalFrame iFrame = new JInternalFrame(title, false, false, false, false);
+        iFrame.setBounds(location.x, location.y, dimension.width, dimension.height);
+        return iFrame;
     }
 }
