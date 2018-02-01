@@ -5,7 +5,8 @@ import nl.parkingsimulator.logic.CarParkModel;
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.text.*;
+import java.util.Locale;
 /**
  * Textview creates labels showing how many cars are missed, which event is happening, 
  * how many money there is earned and how many money you still get.
@@ -62,10 +63,12 @@ public class TextView extends AbstractView {
             missedCars.setText("Missed cars: " + model.getMissedCarsMinute()); // get missed cars
 
             String totalRevenue = formatMoney(model.getRevenue()); // get revenue
-            totalRevenueLabel.setText("Opbrengst vandaag: " + totalRevenue); // show revenue
+            totalRevenueLabel.setText("Opbrengst vandaag: " + NumberFormat.getCurrencyInstance(new Locale("nl", "NL"))
+        .format(Double.parseDouble(totalRevenue))); // show revenue
 
             String revenueNotPayed = formatMoney(model.getRevenueNotPayed()); // get not payed revenue
-            notPayedRevenueLabel.setText("Nog te betalen: " + revenueNotPayed); // show not payed revenue
+            notPayedRevenueLabel.setText("Nog te betalen: " + NumberFormat.getCurrencyInstance(new Locale("nl", "NL"))
+        .format(Double.parseDouble(revenueNotPayed))); // show not payed revenue
 
             currentEvent.setText("Huidige event: " + model.getEventTitle()); // Set current event
         }
