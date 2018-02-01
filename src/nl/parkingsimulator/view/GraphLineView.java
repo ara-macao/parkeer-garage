@@ -247,8 +247,8 @@ public class GraphLineView extends AbstractView {
 				
 			case RESERVED_SPOTS:
 				reservedCarsGraph = !reservedCarsGraph;
-				if(reservedCarsGraph) { graphLine.addSeries("Vertrekkende bezoekers", totalReservedSpotsGraph.get(0), totalReservedSpotsGraph.get(1)); colors[activeCharts] = Color.GREEN; activeCharts++;}
-				else { graphLine.removeSeries("Vertrekkende bezoekers"); activeCharts--; }
+				if(reservedCarsGraph) { graphLine.addSeries("Gereserveerde plekken", totalReservedSpotsGraph.get(0), totalReservedSpotsGraph.get(1)); colors[activeCharts] = Color.GREEN; activeCharts++;}
+				else { graphLine.removeSeries("Gereserveerde plekken"); activeCharts--; }
 				break;
 				
 			case PASS_HOLDERS:

@@ -37,6 +37,8 @@ public class GraphLineController extends AbstractController implements ActionLis
 	private JButton toggleOccupiedPlaces;
 	private JButton toggleTotalWaitingCars;
 	private JButton toggleTotalLeavingCars;
+	private JButton toggleTotalRegularCars;
+	private JButton toggleTotalReservedSpots;
 	private JButton toggleParkedPassHolders;
 	
 	private JButton setTimeStepMin; // 1, 10, 15, 30, 60, 1440
@@ -60,6 +62,8 @@ public class GraphLineController extends AbstractController implements ActionLis
         super(model);
         this.graphLineView = graphLineView;
         this.model = (CarParkModel) model;
+        
+        int scrollSpeed = 16;
  
         JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,6 +79,12 @@ public class GraphLineController extends AbstractController implements ActionLis
         
         toggleTotalLeavingCars = new JButton("Wachtende auto's uitgang");
         toggleTotalLeavingCars.setToolTipText("klik om de grafiek aan of uit te zetten.");
+        
+        toggleTotalRegularCars = new JButton("Reguliere bezoekers");
+        toggleTotalRegularCars.setToolTipText("klik om de grafiek aan of uit te zetten.");
+        
+        toggleTotalReservedSpots = new JButton("Gereserveerde plekken");
+        toggleTotalReservedSpots.setToolTipText("klik om de grafiek aan of uit te zetten.");
         
         toggleParkedPassHolders = new JButton("Geparkeerde pashouders");
         toggleParkedPassHolders.setToolTipText("klik om de grafiek aan of uit te zetten.");
@@ -98,6 +108,8 @@ public class GraphLineController extends AbstractController implements ActionLis
         toggleOccupiedPlaces.addActionListener(this);
         toggleTotalWaitingCars.addActionListener(this);
         toggleTotalLeavingCars.addActionListener(this);
+        toggleTotalRegularCars.addActionListener(this);
+        toggleTotalReservedSpots.addActionListener(this);
         toggleParkedPassHolders.addActionListener(this);
         
         setTimeStepMin.addActionListener(this);
@@ -125,6 +137,10 @@ public class GraphLineController extends AbstractController implements ActionLis
         container.add(toggleTotalWaitingCars);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(toggleTotalLeavingCars);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(toggleTotalRegularCars);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(toggleTotalReservedSpots);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(toggleParkedPassHolders);
         container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
@@ -156,6 +172,8 @@ public class GraphLineController extends AbstractController implements ActionLis
         toggleOccupiedPlaces.setAlignmentX(Component.CENTER_ALIGNMENT);
         toggleTotalWaitingCars.setAlignmentX(Component.CENTER_ALIGNMENT);
         toggleTotalLeavingCars.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toggleTotalRegularCars.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toggleTotalReservedSpots.setAlignmentX(Component.CENTER_ALIGNMENT);
         toggleParkedPassHolders.setAlignmentX(Component.CENTER_ALIGNMENT);
                                 
         setTimeStepMin.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -178,6 +196,8 @@ public class GraphLineController extends AbstractController implements ActionLis
         toggleOccupiedPlaces.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         toggleTotalWaitingCars.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         toggleTotalLeavingCars.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        toggleTotalRegularCars.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        toggleTotalReservedSpots.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         toggleParkedPassHolders.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
         setTimeStepMin.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
@@ -193,8 +213,6 @@ public class GraphLineController extends AbstractController implements ActionLis
         setZoomDay.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setZoomWeek.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setZoomMonth.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
-        
-        int scrollSpeed = 16;
 
         JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(scrollSpeed);
@@ -214,6 +232,8 @@ public class GraphLineController extends AbstractController implements ActionLis
     	if(e.getSource() == toggleOccupiedPlaces) graphLineView.toggleGraph(GraphName.OCCUPIED_PLACES);
     	if(e.getSource() == toggleTotalWaitingCars) graphLineView.toggleGraph(GraphName.TOTAL_WAITING_CARS);
     	if(e.getSource() == toggleTotalLeavingCars) graphLineView.toggleGraph(GraphName.TOTAL_LEAVING_CARS);
+    	if(e.getSource() == toggleTotalRegularCars) graphLineView.toggleGraph(GraphName.REGULAR_CARS);
+    	if(e.getSource() == toggleTotalReservedSpots) graphLineView.toggleGraph(GraphName.RESERVED_SPOTS);
     	if(e.getSource() == toggleParkedPassHolders) graphLineView.toggleGraph(GraphName.PASS_HOLDERS);
     	
     	/**
