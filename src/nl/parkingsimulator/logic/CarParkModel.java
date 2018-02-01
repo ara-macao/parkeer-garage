@@ -538,7 +538,18 @@ public class CarParkModel extends AbstractModel implements Runnable {
                     Location location = locations[floor][row][place];
                     if (getCarAt(location) == null) {
                         if(location.getReservation() == null) {
-                            return location;
+                            if(car.getCarType() == BAD_PARKING) {
+                                if(place < getNumberOfPlaces() -1) {
+                                    Location locationNextToIt = locations[floor][row][place + 1];
+                                    if (getCarAt(locationNextToIt) == null) {
+                                        return location;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                return location;
+                            }
                         }
                         else if(location.getReservation().getCarType() == car.getCarType()){
                             return location;
@@ -560,12 +571,13 @@ public class CarParkModel extends AbstractModel implements Runnable {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
                     Location location = locations[floor][row][place];
                     Car car = getCarAt(location);
-                    if (car != null && car.getMinutesLeft() <= 0 && !car.getIsPaying()) {
+                    if(car != null && car.getMinutesLeft() <= 0 && !car.getIsPaying()) {
                         return car;
                     }
                 }
             }
         }
+
         return null;
     }
 
@@ -672,8 +684,16 @@ public class CarParkModel extends AbstractModel implements Runnable {
     	while (queue.carsInQueue() > 0 && getNumberOfOpenSpots() > 0 && i < enterSpeed) {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(car);
-            setCarAt(freeLocation, car);
-
+            if(freeLocation != null) {
+                setCarAt(freeLocation, car);
+                if (car.getCarType() == BAD_PARKING) {
+                    Car otherCar = new BadParkedCar(BAD_PARKING);
+                    otherCar.setMinutesLeft(car.getMinutesLeft());
+                    otherCar.setIsPaying(false);
+                    Location locationNextToIt = locations[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace() + 1];
+                    setCarAt(locationNextToIt, otherCar);
+                }
+            }
             i++;
         }
     }
@@ -872,7 +892,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * @param car The car that is leaving
      */
     private void carLeavesSpot(Car car){
-    	removeCarAt(car.getLocation());
+        removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
 
