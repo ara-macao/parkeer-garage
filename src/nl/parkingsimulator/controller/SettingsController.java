@@ -75,7 +75,7 @@ public class SettingsController extends AbstractController implements ActionList
         super(model);
         this.model = (CarParkModel) model;
         
-        JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
+        JFrame frame = new JFrame(this.model.getSettings().getSettingsControllerName());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
