@@ -2,6 +2,9 @@ package nl.parkingsimulator.logic;
 
 import java.awt.*;
 
+import static nl.parkingsimulator.logic.CarParkModel.PASS;
+import static nl.parkingsimulator.logic.CarParkModel.RESERVED;
+
 /**
  * Location
  * Holds information about the place
@@ -101,11 +104,11 @@ public class Location {
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
         switch (reservation.getCarType()) {
-            case 0:
+            case PASS:
                 setColor(Color.CYAN);
                 break;
-            case 1:
-                setColor(Color.pink);
+            case RESERVED:
+                setColor(Color.GRAY);
                 break;
         }
     }

@@ -36,7 +36,13 @@ public class SettingsController extends AbstractController implements ActionList
                          
     private JLabel weekendReservedLabel;
     private JTextField weekendReservedField;
-    
+
+    private JLabel weekDayBadParkersLabel;
+    private JTextField weekDayBadParkersField;
+
+    private JLabel weekendBadParkersLabel;
+    private JTextField weekendBadParkersField;
+
     private JLabel setPricePerHourLabel;
     private JTextField setPricePerHourField;
     
@@ -95,6 +101,14 @@ public class SettingsController extends AbstractController implements ActionList
         weekendReservedLabel = new JLabel("Reserveringen weekend");
         weekendReservedField = new JTextField();
         weekendReservedField.setText("35");
+
+        weekDayBadParkersLabel = new JLabel("Dubbel geparkeerden door de weeks");
+        weekDayBadParkersField = new JTextField();
+        weekDayBadParkersField.setText("20");
+
+        weekendBadParkersLabel = new JLabel("Dubbel geparkeerden weekend");
+        weekendBadParkersField = new JTextField();
+        weekendBadParkersField.setText("20");
 
         setPricePerHourLabel = new JLabel("Prijs per uur");         
         setPricePerHourField = new JTextField();
@@ -169,7 +183,17 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(weekendReservedField);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
-        
+
+        container.add(weekDayBadParkersLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekDayBadParkersField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+
+        container.add(weekendBadParkersLabel);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+        container.add(weekendBadParkersField);
+        container.add(Box.createRigidArea(new Dimension(0, offset)));
+
         container.add(setPricePerHourLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(setPricePerHourField);
@@ -216,7 +240,13 @@ public class SettingsController extends AbstractController implements ActionList
         
         weekendReservedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         weekendReservedField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
+        weekDayBadParkersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekDayBadParkersField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        weekendBadParkersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        weekendBadParkersField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         setPricePerHourLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		setPricePerHourField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -254,6 +284,12 @@ public class SettingsController extends AbstractController implements ActionList
                             
         weekendReservedLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         weekendReservedField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+        weekDayBadParkersLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekDayBadParkersField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+        weekendBadParkersLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+        weekendBadParkersField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         
         setPricePerHourLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setPricePerHourField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
@@ -305,6 +341,8 @@ public class SettingsController extends AbstractController implements ActionList
             settings.setWeekendPassArrivals(parseIntValue(weekendPassArrivalsField));
             settings.setWeekDayReserved(parseIntValue(weekDayReservedField));
             settings.setWeekendReserved(parseIntValue(weekendReservedField));
+            settings.setWeekDayBadParkers(parseIntValue(weekDayBadParkersField));
+            settings.setWeekendBadParkers(parseIntValue(weekendBadParkersField));
             settings.setPricePerHour(parseFloatValue(setPricePerHourField));
             settings.setPricePerPassHolder(parseFloatValue(setPricePassHolderField));
             settings.setParkingFloors(parseIntValue(setParkingFloorsField));

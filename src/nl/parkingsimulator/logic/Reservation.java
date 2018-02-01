@@ -13,6 +13,14 @@ public class Reservation {
         System.out.println("Reservation: " + id + " made for carID: " + carType);
     }
 
+    public Reservation(int carType, int startTime, int endTime) {
+        this.carType = carType;
+        this.id = hashCode();
+        System.out.println("Reservation: " + id + " made for carID: " + carType + "Starting: " + startTime + ", Ending:" + endTime);
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public int getCarType() {
         return carType;
     }
