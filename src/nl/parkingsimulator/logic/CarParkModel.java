@@ -12,11 +12,6 @@ import java.util.Random;
  * @author Jeroen Westers (Refactored to mvc)
  */
 public class CarParkModel extends AbstractModel implements Runnable {
-
-    public static void numberOfOpenSpots() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     /*
      * The values of these variables are declared in the settings class.
      */
