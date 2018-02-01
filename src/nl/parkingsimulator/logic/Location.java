@@ -103,13 +103,18 @@ public class Location {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
-        switch (reservation.getCarType()) {
-            case PASS:
-                setColor(Color.CYAN);
-                break;
-            case RESERVED:
-                setColor(Color.GRAY);
-                break;
+        if(reservation != null) {
+            switch (reservation.getCarType()) {
+                case PASS:
+                    setColor(Color.CYAN);
+                    break;
+                case RESERVED:
+                    setColor(Color.GRAY);
+                    break;
+            }
+        }
+        else {
+            setColor(Color.pink);
         }
     }
 }

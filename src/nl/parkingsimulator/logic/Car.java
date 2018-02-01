@@ -19,6 +19,8 @@ public abstract class Car {
     protected int id;
     private int carType;
     private Color color;
+    private int delay;
+    private boolean arrived = true;
 
     /**
      * Constructor for objects of class Car
@@ -67,6 +69,12 @@ public abstract class Car {
 
     public void tick() {
         minutesLeft--;
+        if(delay > 0) {
+            delay--;
+        }
+        else if(!arrived) {
+            arrived = true;
+        }
     }
     
     public Color getColor() {
@@ -83,5 +91,18 @@ public abstract class Car {
 
     public int getCarType(){
         return carType;
+    }
+
+    public void setDelay(int delay) {
+        arrived = false;
+        this.delay = delay;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public boolean getArrived() {
+        return arrived;
     }
 }

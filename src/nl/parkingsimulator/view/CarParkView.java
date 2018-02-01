@@ -100,7 +100,7 @@ public class CarParkView extends AbstractView {
                 for(int place = 0; place < model.getNumberOfPlaces(); place++) {
                     Location location = model.locations[floor][row][place];
                     Car car = model.getCarAt(location);
-                    Color color = car == null ? location.getColor() : car.getColor();
+                    Color color = car == null ? location.getColor() : car.getArrived() ? car.getColor() : location.getColor();
                     drawPlace(graphics, location, color);
                 }
             }
@@ -134,8 +134,8 @@ public class CarParkView extends AbstractView {
         int offsetY = 10;
 
         addToLegend(graphics, Color.red, offsetString, offsetY, colorHeight, offsetColor, "Regulier");
-        offsetString += 100;
-        offsetColor += 100;
+        offsetString += 80;
+        offsetColor += 80;
         addToLegend(graphics, Color.blue, offsetString, offsetY, colorHeight, offsetColor, "Pashouder");
         offsetString += 100;
         offsetColor += 100;
@@ -143,10 +143,11 @@ public class CarParkView extends AbstractView {
         offsetString += 120;
         offsetColor += 120;
         addToLegend(graphics, Color.yellow, offsetString, offsetY, colorHeight, offsetColor, "Fout geparkeerd");
-
-        offsetString += 201;
-        offsetColor += 201;
-
+        offsetString += 130;
+        offsetColor += 130;
+        addToLegend(graphics, Color.gray, offsetString, offsetY, colorHeight, offsetColor, "Reservering");
+        offsetString += 110;
+        offsetColor += 110;
         addToLegend(graphics, Color.cyan, offsetString, offsetY, colorHeight, offsetColor, "Lege pas plek");
         offsetString += 120;
         offsetColor += 120;

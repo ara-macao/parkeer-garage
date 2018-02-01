@@ -112,7 +112,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
 
         dayRevenue = (settings.getPricePerPassHolder() * (settings.getWeekDayPassArrivals() + settings.getWeekendPassArrivals())) / 30.436875; // 30.436875 average number of days in a month.;
         revenueNotPaid = 0;
-        weekRevenue = new HashMap<Integer, Double>();
+        weekRevenue = new HashMap<>();
         missedCarsMinute = 0;
         missedCarsHour = 0;
         missedCarsDay = 0;
@@ -169,11 +169,10 @@ public class CarParkModel extends AbstractModel implements Runnable {
                 for (int place = 0; place < numberOfPlaces; place++) {
                     Location location = new Location(floor, row, place);
                     if(rowsDone < settings.getParkingPassRows()) {
-                        location.setReservation(new Reservation(PASS));
+                        location.setReservation(new Reservation(location, PASS));
                     }
                     locations[floor][row][place] = location;
                 }
-
                 rowsDone++;
             }
         }
@@ -565,8 +564,12 @@ public class CarParkModel extends AbstractModel implements Runnable {
                                 return location;
                             }
                         }
-                        else if(location.getReservation().getCarType() == car.getCarType()){
+                        else if(car.getCarType() == PASS) {
                             return location;
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
                 }
@@ -579,7 +582,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Returns the first car leaving
      * @return The car that want's to leave
      */
-    public Car getFirstLeavingCar() {
+    private Car getFirstLeavingCar() {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
@@ -693,15 +696,23 @@ public class CarParkModel extends AbstractModel implements Runnable {
         // Remove car from the front of the queue and assign to a parking space.
     	while (queue.carsInQueue() > 0 && getNumberOfOpenSpots() > 0 && i < enterSpeed) {
             Car car = queue.removeCar();
+
             Location freeLocation = getFirstFreeLocation(car);
             if(freeLocation != null) {
-                setCarAt(freeLocation, car);
-                if (car.getCarType() == BAD_PARKING) {
+                if(car.getCarType() == RESERVED) {
+                    freeLocation.setReservation(new Reservation(freeLocation, car, car.getMinutesLeft() + 15));
+                    car.setDelay(30);
+                    setCarAt(freeLocation, car);
+                }
+                else if (car.getCarType() == BAD_PARKING) {
                     Car otherCar = new BadParkedCar(BAD_PARKING);
                     otherCar.setMinutesLeft(car.getMinutesLeft());
                     otherCar.setIsPaying(false);
                     Location locationNextToIt = locations[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace() + 1];
                     setCarAt(locationNextToIt, otherCar);
+                }
+                else {
+                    setCarAt(freeLocation, car);
                 }
             }
             i++;
@@ -810,7 +821,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private void carsLeaving(){
         // Let cars leave.
     	int i=0;
-    	while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
+    	while (exitCarQueue.carsInQueue() > 0 && i < exitSpeed){
     	    Car car = exitCarQueue.removeCar();
             removeCarTotal(car.getCarType());
             i++;
@@ -949,6 +960,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         handleEntrance();
 
         tickCars();
+        tickReserves();
     }
 
     /**
@@ -962,6 +974,22 @@ public class CarParkModel extends AbstractModel implements Runnable {
                     Car car = getCarAt(location);
                     if (car != null) {
                         car.tick();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Main logic loop for the cars, updates every data
+     */
+    public void tickReserves() {
+        for (int floor = 0; floor < getNumberOfFloors(); floor++) {
+            for (int row = 0; row < getNumberOfRows(); row++) {
+                for (int place = 0; place < getNumberOfPlaces(); place++) {
+                    Location location = locations[floor][row][place];
+                    if (location.getReservation() != null) {
+                        location.getReservation().tick();
                     }
                 }
             }

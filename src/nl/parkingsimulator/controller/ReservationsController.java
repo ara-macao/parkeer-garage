@@ -31,8 +31,6 @@ public class ReservationsController extends AbstractController implements Action
 
         reservations = new ArrayList<>();
 
-        addReservation();
-
         reservationLabel = new JLabel("Reserveringen");
         addReservationButton = new JButton("Voeg toe");
         removeReservationButton = new JButton("Verwijder");
@@ -59,11 +57,7 @@ public class ReservationsController extends AbstractController implements Action
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addReservationButton) {
-            Reservation reservation = new Reservation(reservations.size());
-            reservations.add(reservation);
-            if(parkModel != null) {
-                parkModel.setReservationAt(0,0,0, reservation);
-            }
+
         }
         else if(e.getSource() == removeReservationButton) {
             if(reservations.size() > 0) {
@@ -72,9 +66,8 @@ public class ReservationsController extends AbstractController implements Action
         }
     }
 
-    private void addReservation() {
+    private void addReservation(Reservation reservation) {
         if(parkModel != null) {
-            Reservation reservation = new Reservation(0);
             reservations.add(reservation);
         }
     }
