@@ -12,6 +12,7 @@ import java.awt.*;
  */
 public class TimeView extends AbstractView {
 
+    JLabel progressLabel;
     JProgressBar progressBar;
     JLabel dayLabel;
     JLabel timeLabel;
@@ -31,11 +32,17 @@ public class TimeView extends AbstractView {
         int offset = 22;
         int textHeight = 15;
         int textWidth = 300;
+
+        int progressTextWidth = 80;
+        int progressTextHeight = 15;
         int barHeight = 15;
         int barWidth = 300;
 
+
         // Create components
-        progressBar = (JProgressBar)addComponent(new JProgressBar(), borderLeft, borderTop, barWidth, barHeight);
+        progressLabel = (JLabel)addComponent(new JLabel(), borderLeft, borderTop, progressTextWidth, progressTextHeight);
+        progressLabel.setText("Voortgang:");
+        progressBar = (JProgressBar)addComponent(new JProgressBar(), borderLeft + progressTextWidth + offset, borderTop, barWidth, barHeight);
         progressBar.setMinimum(0);
 
         dayLabel = (JLabel)addComponent(new JLabel(), borderLeft, borderTop + offset, textWidth, textHeight);
