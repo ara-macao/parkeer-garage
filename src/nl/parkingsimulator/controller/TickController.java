@@ -29,7 +29,6 @@ public class TickController extends AbstractController implements ActionListener
 //    private JLabel minuteLabel;
 //    private JRadioButton week;
 
-
     private JButton pauseButton;
     private JButton resumeButton;
 
@@ -49,7 +48,6 @@ public class TickController extends AbstractController implements ActionListener
         super(model);
         setSize(750, 200);
         //setBackground(Color.green);
-
 
         tickAmountField = new JTextField();
         tickAmountField.setText("1");  // 10080 = week,    1440 = dag
@@ -73,7 +71,6 @@ public class TickController extends AbstractController implements ActionListener
         resumeButton.setToolTipText("Hervat de simulatie");
         pauseButton = new JButton("Pauzeer");
         pauseButton.setToolTipText("Pauzeert de simulatie");
-
 
         tickLabel = new JLabel("Simulatie snelheid:");
         tickRateSlider = new JSlider(JSlider.HORIZONTAL,-maxiumTick, -miniumTick, -Math.round(maxiumTick/2));
@@ -182,9 +179,6 @@ public class TickController extends AbstractController implements ActionListener
                 parkModel.resetSimulation();
             }
         }
-
-
-
     }
 
     /**
@@ -218,11 +212,11 @@ public class TickController extends AbstractController implements ActionListener
             }
 
             if(dayRadio.isSelected()){
-                tickAmount *= 1440;
+                tickAmount *= 1440 - 1; // -1 to see the revenue of the previous day.
             }
 
             if(weekRadio.isSelected()){
-                tickAmount *= 10080;
+                tickAmount *= 10080 - 1; // -1 to see the revenue of the previous day.
             }
 
             // Check if the tickamount is bigger then 0
