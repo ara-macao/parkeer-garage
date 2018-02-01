@@ -73,7 +73,7 @@ public class TextView extends AbstractView {
         .format(model.getRevenue())); // show revenue
 
             notPayedRevenueLabel.setText("Nog te betalen: " + NumberFormat.getCurrencyInstance(new Locale("nl", "NL"))
-        .format(model.getRevenueNotPayed())); // show not payed revenue
+        .format(model.getRevenueNotPaid())); // show not payed revenue
 
             currentEvent.setText("Huidige event: " + model.getEventTitle()); // Set current event
         }

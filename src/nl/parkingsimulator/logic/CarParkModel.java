@@ -60,7 +60,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
     private double hourPrice = 0;
     private double pricePerPassHolder = 0;
     private double dayRevenue = 0;
-    private double revenueNotPayed = 0;
+    private double revenueNotPaid = 0;
 
     private HashMap<Integer, Double> weekRevenue = new HashMap<Integer, Double>();
     private int missedCarsMinute = 0;
@@ -107,7 +107,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
         currentTick = 0;
 
         dayRevenue = (settings.getPricePerPassHolder() * (settings.getWeekDayPassArrivals() + settings.getWeekendPassArrivals())) / 30.436875; // 30.436875 average number of days in a month.;
-        revenueNotPayed = 0;
+        revenueNotPaid = 0;
         weekRevenue = new HashMap<Integer, Double>();
         missedCarsMinute = 0;
         missedCarsHour = 0;
@@ -759,7 +759,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Calculate how many revenue not have been payed yet
      */
     private void calculateRevenueNotPayed() {
-        revenueNotPayed = 0;
+        revenueNotPaid = 0;
 
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
@@ -768,7 +768,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
                     Car car = getCarAt(location);
                     if (car != null) {
                         if(car.getHasToPay()){
-                            revenueNotPayed += calculatePrice(car);
+                            revenueNotPaid += calculatePrice(car);
                         }
                     }
                 }
@@ -972,8 +972,8 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * Returns revenue for a day that isn't payed yet
      * @return the total revenue for a day not payed
      */
-    public double getRevenueNotPayed(){
-        return revenueNotPayed;
+    public double getRevenueNotPaid(){
+        return revenueNotPaid;
     }
 
     /**
