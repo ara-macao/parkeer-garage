@@ -549,7 +549,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
                             if(car.getCarType() == BAD_PARKING) {
                                 if(place < getNumberOfPlaces() -1) {
                                     Location locationNextToIt = locations[floor][row][place + 1];
-                                    if (getCarAt(locationNextToIt) == null) {
+                                    if (getCarAt(locationNextToIt) == null && locationNextToIt.getReservation() == null) {
                                         return location;
                                     }
                                 }
@@ -561,10 +561,6 @@ public class CarParkModel extends AbstractModel implements Runnable {
                         }
                         else if(car.getCarType() == PASS) {
                             return location;
-                        }
-                        else
-                        {
-                            continue;
                         }
                     }
                 }
@@ -705,6 +701,7 @@ public class CarParkModel extends AbstractModel implements Runnable {
                     otherCar.setIsPaying(false);
                     Location locationNextToIt = locations[freeLocation.getFloor()][freeLocation.getRow()][freeLocation.getPlace() + 1];
                     setCarAt(locationNextToIt, otherCar);
+                    setCarAt(freeLocation, car);
                 }
                 else {
                     setCarAt(freeLocation, car);

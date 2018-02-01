@@ -16,7 +16,6 @@ public class MVCMain {
     private AbstractView carParkView;
     private AbstractView textView;
     private AbstractView timeView;
-    private AbstractView reservationView;
     private AbstractView graphLineView;
     private PieChartView pieChartView;
 
@@ -47,7 +46,6 @@ public class MVCMain {
         carParkView = new CarParkView(model, settings.getCarParkViewDimensions());
         textView = new TextView(model);
         timeView = new TimeView(model, settings.getTimeViewDimensions());
-        reservationView = new ReservationView(model);
         graphLineView = new GraphLineView(model);
         pieChartView = new PieChartView(model);
         
