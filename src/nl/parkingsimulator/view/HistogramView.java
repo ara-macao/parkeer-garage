@@ -19,7 +19,7 @@ public class HistogramView extends AbstractView {
     private int passQueue;
     private int exitQueue;
     private int paymentQueue;
-    private double maxHeight = 1000.0;
+    private double maxHeight = 100.0;
        
     private CategoryChart histogram;
     private SwingWrapper<CategoryChart> swingWrapper;
