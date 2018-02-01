@@ -58,6 +58,9 @@ public class SettingsController extends AbstractController implements ActionList
     private JLabel setParkingPlacesPerRowLabel;
     private JTextField setParkingPlacesPerRowField;
 
+    private JLabel setAmountPassRowsLabel;
+    private JTextField setAmountPassRowsField;
+
     private JButton updateButton;
 
     private CarParkModel model;
@@ -134,10 +137,11 @@ public class SettingsController extends AbstractController implements ActionList
             setParkingPlacesPerRowLabel = new JLabel("Aantal plek per rij:");
             setParkingPlacesPerRowField = new JTextField();
             setParkingPlacesPerRowField.setText(String.valueOf(settings.getParkingPlacesPerRow()));
+
+            setAmountPassRowsLabel  = new JLabel("Aantal rijen pas plekken:");
+            setAmountPassRowsField = new JTextField();
+            setAmountPassRowsField.setText(String.valueOf(settings.getParkingPassRows()));
         }
-
-
-
 
 
         
@@ -219,6 +223,12 @@ public class SettingsController extends AbstractController implements ActionList
             container.add(Box.createRigidArea(new Dimension(0, offset)));
             container.add(setParkingPlacesPerRowField);
             container.add(Box.createRigidArea(new Dimension(0, offset)));
+
+            container.add(setAmountPassRowsLabel);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+            container.add(setAmountPassRowsField);
+            container.add(Box.createRigidArea(new Dimension(0, offset)));
+
         }
 
         container.add(updateButton);
@@ -262,6 +272,9 @@ public class SettingsController extends AbstractController implements ActionList
         setParkingPlacesPerRowLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         setParkingPlacesPerRowField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        setAmountPassRowsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setAmountPassRowsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         updateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         int maxButtonWidth = Short.MAX_VALUE;
@@ -297,7 +310,6 @@ public class SettingsController extends AbstractController implements ActionList
         setPricePassHolderLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setPricePassHolderField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
-
         if(parkModel != null){
             setParkingFloorsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
             setParkingFloorsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
@@ -307,6 +319,9 @@ public class SettingsController extends AbstractController implements ActionList
 
             setParkingPlacesPerRowLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
             setParkingPlacesPerRowField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+
+            setAmountPassRowsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
+            setAmountPassRowsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         }
 
 
@@ -348,6 +363,7 @@ public class SettingsController extends AbstractController implements ActionList
             settings.setParkingFloors(parseIntValue(setParkingFloorsField));
             settings.setParkingRows(parseIntValue(setParkingRowsField));
             settings.setParkingPlacesPerRow(parseIntValue(setParkingPlacesPerRowField));
+            settings.setParkingPassRows(parseIntValue(setAmountPassRowsField));
             parkModel.setSettings(settings);
             parkModel.resetSimulation();
         }

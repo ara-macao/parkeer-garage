@@ -21,6 +21,7 @@ public class Settings {
     private int parkingFloors = 3;
     private int parkingRows = 6;
     private int parkingPlacesPerRow = 30;
+    private int parkingPassRows = 2;
     
     private int tickPause = 100;
     private int amountOfTicks = 1000;
@@ -96,7 +97,8 @@ public class Settings {
     public int getParkingFloors() { return parkingFloors; }
     public int getParkingRows() { return parkingRows; }
     public int getParkingPlacesPerRow() { return parkingPlacesPerRow; }
-    
+    public int getParkingPassRows() {return  parkingPassRows; }
+
     public int getTickPause() { return tickPause; }
     public int getAmountOfTicks() { return amountOfTicks; }
     
@@ -185,5 +187,6 @@ public class Settings {
     public void setParkingFloors(int parkingFloors) { this.parkingFloors = parkingFloors; }
     public void setParkingRows(int parkingRows) { this.parkingRows = parkingRows; }
     public void setParkingPlacesPerRow(int parkingPlacesPerRow) { this.parkingPlacesPerRow = parkingPlacesPerRow; }
+    public void setParkingPassRows(int parkingPassRows){this.parkingPassRows = parkingPassRows; }
 }
 

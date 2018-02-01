@@ -156,15 +156,19 @@ public class CarParkModel extends AbstractModel implements Runnable {
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         locations = new Location[numberOfFloors][numberOfRows][numberOfPlaces];
 
+        int rowsDone = 0;
+
         for (int floor = 0; floor < numberOfFloors; floor++) {
             for (int row = 0; row < numberOfRows; row++) {
                 for (int place = 0; place < numberOfPlaces; place++) {
                     Location location = new Location(floor, row, place);
-                    if(row <= 1 && floor == 0) {
+                    if(rowsDone < settings.getParkingPassRows()) {
                         location.setReservation(new Reservation(PASS));
                     }
                     locations[floor][row][place] = location;
                 }
+
+                rowsDone++;
             }
         }
     }
