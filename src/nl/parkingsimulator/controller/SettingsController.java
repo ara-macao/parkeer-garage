@@ -23,11 +23,12 @@ import nl.parkingsimulator.logic.CarParkModel;
 import nl.parkingsimulator.logic.Settings;
 
 /**
- * 
+ * In this class a JFrame is made with several input fields to update
+ * settings of the simulation.
  * 
  * @author Thom van Dijk
  */
-public class SettingsController extends AbstractController implements ActionListener, ChangeListener {
+public class SettingsController extends AbstractController implements ActionListener {
 	private JLabel weekDayArrivalsLabel;
 	private JTextField weekDayArrivalsField;
 	
@@ -75,21 +76,33 @@ public class SettingsController extends AbstractController implements ActionList
     private CarParkModel model;
     
     /**
-     * Constructor 
+     * Inside the constructor a JFrame is made witch contains all the buttons and text fields.
      * 
-     * @param model 		The model where to data comes from.
-     * @param dimensions 	The Dimension how big the JFrame should be.
+     * @param model 		The CarParkModel used to get the settings and given to AbstractController.
+     * @param dimensions 	The dimensions to be assigned to the JFrame.
+     * @param position		The position to be assigned to the JFrame.
      */
     public SettingsController(AbstractModel model, Dimension dimensions, Point position) {
         super(model);
         this.model = (CarParkModel)model;
         
+        /**
+         * Since we will probably never change this setting it is not implemented in the Settings class.
+         */
+        int scrollSpeed = 16;
+        
+        /**
+         * Here we create the JFrame witch holds everything.
+         */
         JFrame frame = new JFrame(this.model.getSettings().getSettingsControllerName());
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
         frame.setResizable(true);
 
+        /**
+         * Create the labels, text fields and buttons.
+         */
         weekDayArrivalsLabel = new JLabel("Doordeweekse bezoekers");
         weekDayArrivalsField = new JTextField();
         weekDayArrivalsField.setText("100");
@@ -149,12 +162,16 @@ public class SettingsController extends AbstractController implements ActionList
             setAmountPassRowsField.setText(String.valueOf(settings.getParkingPassRows()));
         }
  
+        /**
+         * Finally create the update button witch will update all settings from the input fields.
+         */
         updateButton = new JButton("Update");
         updateButton.addActionListener(this);
         updateButton.setToolTipText("klik om de waardes door te voeren.");
-
-        this.setLayout(null);
         
+        /**
+         * Create a JPanel container where we add all elements.
+         */
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -162,6 +179,9 @@ public class SettingsController extends AbstractController implements ActionList
         int offset = 5;
         int groupOffset = 20;
 
+        /**
+         * Add vertical spacing between the elements with: Box.createRigidArea(new Dimension(0, offset))
+         */
         container.add(weekDayArrivalsLabel);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(weekDayArrivalsField);
@@ -236,6 +256,9 @@ public class SettingsController extends AbstractController implements ActionList
 
         container.add(updateButton);
         
+        /**
+         * This will center all elements nicely. Also it prevents some overflow.
+         */
         weekDayArrivalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         weekDayArrivalsField.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -280,6 +303,9 @@ public class SettingsController extends AbstractController implements ActionList
 
         updateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        /**
+         * Here we make all elements as big as possible so when the screen scales they scale with it.
+         */
         int maxButtonWidth = Short.MAX_VALUE;
         int maxButtonHeight = Short.MAX_VALUE;
 
@@ -328,30 +354,33 @@ public class SettingsController extends AbstractController implements ActionList
         }
 
         updateButton.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
-        
-        int scrollSpeed = 16;
 
+        /**
+         * Add the container to a scroll pane.
+         */
         JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(scrollSpeed);
         
+        /**
+         * Add the scrollPane to the JFrame.
+         */
         frame.getContentPane().add(scrollPane);
         frame.pack();
         frame.setVisible(true);
     }
 
     /**
-     * Handles the actions from the button
+     * An actionlistener function, triggered when a button is hit.
+     * Here we change some graph related values inside the GraphLineView class.
+     * 
      * @param e The event that has been fired
      */
-    @Override
     public void actionPerformed(ActionEvent e) {
-    	CarParkModel parkModel = (CarParkModel)model;
-    	
     	/**
     	 * Update the values in settings.
     	 */
     	if(e.getSource() == updateButton) {
-    	    Settings settings = parkModel.getSettings();
+    	    Settings settings = this.model.getSettings();
             settings.setWeekDayArrivals(parseIntValue(weekDayArrivalsField));
             settings.setWeekendArrivals(parseIntValue(weekendArrivalsField));
             settings.setWeekDayPassArrivals(parseIntValue(weekDayPassArrivalsField));
@@ -366,33 +395,28 @@ public class SettingsController extends AbstractController implements ActionList
             settings.setParkingRows(parseIntValue(setParkingRowsField));
             settings.setParkingPlacesPerRow(parseIntValue(setParkingPlacesPerRowField));
             settings.setParkingPassRows(parseIntValue(setAmountPassRowsField));
-            parkModel.setSettings(settings);
-            parkModel.resetSimulation();
+            this.model.setSettings(settings);
+            this.model.resetSimulation();
         }
     }
-    
-    /**
-     * @Override
-     */
-	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
-	}
 
     /**
-     * Parses the value of an input field to an int
-     * @param input The input field we need to reed our integers from
+     * Parses the value of an input field to an integer.
+     * 
+     * @param input The input field we need to read our integers from.
      */
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());
     }
     
     /**
-     * Parses the value of an input field to an int
-     * @param input The input field we need to reed our integers from
+     * Parses the value of an input field to a float.
+     * 
+     * @param input The input field we need to read our float values from.
      */
     private float parseFloatValue(JTextField input) throws NumberFormatException {
-    	String str = input.getText().replace(',', '.');
-    	
+    	// Because we use a comma in The Netherlands for money values it needs to be replaced.
+    	String str = input.getText().replace(',', '.'); 
         return Float.parseFloat(str);
     }
 }

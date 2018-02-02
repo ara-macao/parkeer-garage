@@ -257,6 +257,8 @@ public class GraphLineController extends AbstractController implements ActionLis
     /**
      * An actionlistener function, triggered when a button is hit.
      * Here we change some graph related values inside the GraphLineView class.
+     * 
+     * @param e The event that has been fired
      */
     public void actionPerformed(ActionEvent e) {
     	/**
