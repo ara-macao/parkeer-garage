@@ -1,12 +1,20 @@
 package nl.parkingsimulator.controller;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -15,7 +23,7 @@ import nl.parkingsimulator.logic.CarParkModel;
 import nl.parkingsimulator.logic.Settings;
 
 /**
- * This class controls all the global settings used in the simulation.
+ * 
  * 
  * @author Thom van Dijk
  */
@@ -74,10 +82,10 @@ public class SettingsController extends AbstractController implements ActionList
      */
     public SettingsController(AbstractModel model, Dimension dimensions, Point position) {
         super(model);
-        this.model = (CarParkModel) model;
+        this.model = (CarParkModel)model;
         
         JFrame frame = new JFrame(this.model.getSettings().getSettingsControllerName());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
         frame.setResizable(true);
@@ -122,9 +130,8 @@ public class SettingsController extends AbstractController implements ActionList
 		setPricePassHolderField = new JTextField();
 		setPricePassHolderField.setText("60,00");
 
-        CarParkModel parkModel = (CarParkModel)model;
-        if(parkModel != null) {
-            Settings settings = parkModel.getSettings();
+        if(this.model != null) {
+            Settings settings = this.model.getSettings();
             setParkingFloorsLabel= new JLabel("Aantal verdiepingen");
             setParkingFloorsField = new JTextField();
             setParkingFloorsField.setText(String.valueOf(settings.getParkingFloors()));
@@ -205,7 +212,7 @@ public class SettingsController extends AbstractController implements ActionList
         container.add(setPricePassHolderField);
         container.add(Box.createRigidArea(new Dimension(0, groupOffset)));
 
-        if(parkModel != null) {
+        if(this.model != null) {
             container.add(setParkingFloorsLabel);
             container.add(Box.createRigidArea(new Dimension(0, offset)));
             container.add(setParkingFloorsField);
@@ -306,7 +313,7 @@ public class SettingsController extends AbstractController implements ActionList
         setPricePassHolderLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setPricePassHolderField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
-        if(parkModel != null) {
+        if(this.model != null) {
             setParkingFloorsLabel.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
             setParkingFloorsField.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 

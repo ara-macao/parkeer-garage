@@ -48,7 +48,6 @@ public class MVCMain {
         pieChartView = new PieChartView(model);
         
         tickController = new TickController(model);
-        pieChartController = new PieChartController(model);
         graphLineController = new GraphLineController(model, settings.getGraphLineControllerDimensions(), settings.getGraphLineControllerPosition(), (GraphLineView) graphLineView);
         settingsController = new SettingsController(model, settings.getSettingsControllerDimensions(), settings.getSettingsControllerPosition());
 
@@ -96,7 +95,7 @@ public class MVCMain {
         JFrame.setDefaultLookAndFeelDecorated(settings.getDefaultLookAndFeel());
         JFrame frame = new JFrame(title);
         
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setBackground(Color.GRAY);
         frame.setSize(dimension);
         frame.setVisible(true);

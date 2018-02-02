@@ -83,7 +83,7 @@ public class PieChartView extends AbstractView {
         // Generate the Jframe data
         swingWrapper = new SwingWrapper<PieChart>(pieChart);
         JFrame frame = swingWrapper.displayChart();
-        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getPieChartPosition().x, this.model.getSettings().getPieChartPosition().y, this.model.getSettings().getPieChartDimensions().width, this.model.getSettings().getPieChartDimensions().height));  
     }
     

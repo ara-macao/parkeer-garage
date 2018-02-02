@@ -74,7 +74,7 @@ public class GraphLineController extends AbstractController implements ActionLis
          * Here we create the JFrame witch holds everything.
          */
         JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
         frame.setResizable(true);

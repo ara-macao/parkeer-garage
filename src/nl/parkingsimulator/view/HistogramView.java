@@ -52,7 +52,7 @@ public class HistogramView extends AbstractView {
         
         swingWrapper = new SwingWrapper<CategoryChart>(histogram);
         JFrame frame = swingWrapper.displayChart();
-        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+        javax.swing.SwingUtilities.invokeLater(()->frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE));
         javax.swing.SwingUtilities.invokeLater(()->frame.setBounds(this.model.getSettings().getHistogramPosition().x, this.model.getSettings().getHistogramPosition().y, this.model.getSettings().getHistogramDimensions().width, this.model.getSettings().getHistogramDimensions().height));
     }
     
