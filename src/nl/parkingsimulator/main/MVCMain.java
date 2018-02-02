@@ -24,8 +24,6 @@ public class MVCMain {
     private GraphLineController graphLineController;
     private SettingsController settingsController;
     private AbstractController reservationController;
-    
-    public MVCScreen newScreen;
 
     public MVCMain() {
         settings = new Settings();

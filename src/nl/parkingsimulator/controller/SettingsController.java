@@ -67,7 +67,7 @@ public class SettingsController extends AbstractController implements ActionList
     private CarParkModel model;
     
     /**
-     * Constructor for objects of class CarPark
+     * Constructor 
      * 
      * @param model 		The model where to data comes from.
      * @param dimensions 	The Dimension how big the JFrame should be.
