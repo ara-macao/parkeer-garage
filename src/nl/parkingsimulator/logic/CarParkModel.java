@@ -879,12 +879,12 @@ public class CarParkModel extends AbstractModel implements Runnable {
      * @param index Check if we haven't added too many cars
      */
     private void addCarsToQueue(CarQueue carQueue, Car car, int index){
-
-        if(index < enterSpeed){
-            carQueue.addCar(car);
-        }
-        else {
-            missedCarsMinute++;
+        if(carQueue.carsInQueue() < 50) {
+            if (index < enterSpeed) {
+                carQueue.addCar(car);
+            } else {
+                missedCarsMinute++;
+            }
         }
     }
 
