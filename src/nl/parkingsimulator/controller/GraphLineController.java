@@ -1,13 +1,8 @@
 package nl.parkingsimulator.controller;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.text.Position;
 
 import nl.parkingsimulator.logic.AbstractModel;
 import nl.parkingsimulator.logic.CarParkModel;
@@ -30,6 +23,7 @@ import nl.parkingsimulator.view.GraphLineView.ZoomLevel;
 
 /**
  * This class controls the graphs of the GraphLineView class.
+ * Also in this class a separate JFrame is created where all buttons and text fields are hold.
  * 
  * @author Thom van Dijk
  */
@@ -58,19 +52,36 @@ public class GraphLineController extends AbstractController implements ActionLis
     private GraphLineView graphLineView;
     private CarParkModel model;
     
+    /**
+     * Inside the constructor a JFrame is made witch contains all the buttons and text fields.
+     * 
+     * @param model			The CarParkModel used to get the settings and given to AbstractController.
+     * @param dimensions	The dimensions to be assigned to the JFrame.
+     * @param position		The position to be assigned to the JFrame.
+     * @param graphLineView A reference to the GraphLineView class so we can access its functions.
+     */
     public GraphLineController(AbstractModel model, Dimension dimensions, Point position, GraphLineView graphLineView) {    
         super(model);
         this.graphLineView = graphLineView;
         this.model = (CarParkModel) model;
         
+        /**
+         * Since we will probably never change this setting it is not implemented in the Settings class.
+         */
         int scrollSpeed = 16;
  
+        /**
+         * Here we create the JFrame witch holds everything.
+         */
         JFrame frame = new JFrame(this.model.getSettings().getGraphLineControllerName());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(dimensions);
         frame.setLocation(position);
         frame.setResizable(true);
         
+        /**
+         * Create the buttons.
+         */
         toggleOccupiedPlaces = new JButton("Bezette plekken");
         toggleOccupiedPlaces.setToolTipText("klik om de grafiek aan of uit te zetten.");
 
@@ -105,6 +116,9 @@ public class GraphLineController extends AbstractController implements ActionLis
         setZoomWeek = new JButton("Week weergave"); 
         setZoomMonth = new JButton("Maand weergave");
 
+        /**
+         * Add action listeners so we know when they are pressed.
+         */
         toggleOccupiedPlaces.addActionListener(this);
         toggleTotalWaitingCars.addActionListener(this);
         toggleTotalLeavingCars.addActionListener(this);
@@ -125,13 +139,19 @@ public class GraphLineController extends AbstractController implements ActionLis
         setZoomWeek.addActionListener(this);
         setZoomMonth.addActionListener(this);
         
+        /**
+         * Create a JPanel where we add all buttons and fields.
+         */
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         int offset = 5;
         int groupOffset = 20;
-
+        
+        /**
+         * Add vertical spacing between the elements with: Box.createRigidArea(new Dimension(0, offset))
+         */
         container.add(toggleOccupiedPlaces);
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(toggleTotalWaitingCars);
@@ -169,6 +189,9 @@ public class GraphLineController extends AbstractController implements ActionLis
         container.add(Box.createRigidArea(new Dimension(0, offset)));
         container.add(setZoomMonth);
         
+        /**
+         * This will center all elements nicely.
+         */
         toggleOccupiedPlaces.setAlignmentX(Component.CENTER_ALIGNMENT);
         toggleTotalWaitingCars.setAlignmentX(Component.CENTER_ALIGNMENT);
         toggleTotalLeavingCars.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -190,6 +213,9 @@ public class GraphLineController extends AbstractController implements ActionLis
         setZoomWeek.setAlignmentX(Component.CENTER_ALIGNMENT);
         setZoomMonth.setAlignmentX(Component.CENTER_ALIGNMENT);
         
+        /**
+         * Here we make all elements as big as possible so when the screen scales they scale with it.
+         */
         int maxButtonWidth = Short.MAX_VALUE;
         int maxButtonHeight = Short.MAX_VALUE;
 
@@ -214,16 +240,23 @@ public class GraphLineController extends AbstractController implements ActionLis
         setZoomWeek.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
         setZoomMonth.setMaximumSize(new Dimension(maxButtonWidth, maxButtonHeight));
 
+        /**
+         * Add the container to a scroll pane.
+         */
         JScrollPane scrollPane = new JScrollPane(container, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(scrollSpeed);
         
+        /**
+         * Add the scrollPane to the JFrame.
+         */
         frame.getContentPane().add(scrollPane);
         frame.pack();
         frame.setVisible(true);
     }
 
     /**
-     * @Override
+     * An actionlistener function, triggered when a button is hit.
+     * Here we change some graph related values inside the GraphLineView class.
      */
     public void actionPerformed(ActionEvent e) {
     	/**
@@ -237,7 +270,7 @@ public class GraphLineController extends AbstractController implements ActionLis
     	if(e.getSource() == toggleParkedPassHolders) graphLineView.toggleGraph(GraphName.PASS_HOLDERS);
     	
     	/**
-    	 * Set the time for the horizontal line.
+    	 * Set the time stem for the horizontal line.
     	 */
     	if(e.getSource() == setTimeStepMin) graphLineView.setHorizontalStep(1);
     	if(e.getSource() == setTimeStep10Min) graphLineView.setHorizontalStep(10);
@@ -254,8 +287,9 @@ public class GraphLineController extends AbstractController implements ActionLis
     }
     
     /**
-     * Parses the value of an input field to an int
-     * @param input The input field we need to reed our integers from
+     * Parses the value of an input field to an integer.
+     * 
+     * @param input The input field we need to read our integers from.
      */
     private int parseIntValue(JTextField input) throws NumberFormatException {
         return Integer.parseInt(input.getText());
